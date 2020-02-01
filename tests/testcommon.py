@@ -27,18 +27,36 @@ df = pd.read_csv(
 RESULTS = {}
 
 
-def run_indicators(main=False, **kwargs):
+def run_indicators(metatests, main=False):
     pargs = parse_args(None if main else [], main=main)
 
     loginfo('')
     loginfo('[+] From main        : {}'.format(main))
     if pargs.list_names:
-        loginfo(', '.join(kwargs))
+        loginfo(', '.join(metatests))
         return 0  # success
 
-    for name, testdata in kwargs.items():
-        if name != (pargs.name or name):
-            continue
+    if pargs.name:  # requested specific indicators
+        mtests = {k: v for k, v in metatests.items() if k in pargs.name}
+    else:
+        mtests = metatests
+
+    if pargs.ad_hoc:
+        for name in pargs.name:
+            if name in mtests:
+                continue
+
+            mtests[name] = {}
+
+    posttest = {}
+    for name, testdata in mtests.items():
+        if isinstance(testdata, str):  # delay test referred to other tests
+            posttest[name] = testdata
+
+        RESULTS[name] = run_indicator(pargs, name, testdata, main=main)
+
+    # run delayed string tests
+    for name, testdata in posttest.items():
         RESULTS[name] = run_indicator(pargs, name, testdata, main=main)
 
     all_good = all(RESULTS.values())
@@ -220,8 +238,11 @@ def parse_args(pargs, main=False):
         )
     )
 
-    parser.add_argument('--name', default='',
+    parser.add_argument('--name', default=[], action='append',
                         help='Select specific test name')
+
+    parser.add_argument('--ad-hoc', action='store_true',
+                        help='Create ad-hoc test if not already defined')
 
     parser.add_argument('--list-names', action='store_true',
                         help='List all test names and exit')
