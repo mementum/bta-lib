@@ -26,6 +26,11 @@ metatests = dict(
         decimals=6,
         swapouts={0: 1},  # ta-lib order top/mid/bot, swap outputs 0:1 to match
     ),
+    cci=dict(
+        btkwargs=dict(_talib=True),
+        minperiods=[14],
+        decimals=9,
+    ),
     dema=dict(
         minperiods=[59],
         decimals=9,
