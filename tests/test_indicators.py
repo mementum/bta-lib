@@ -12,54 +12,48 @@ import test_series_fetcher
 
 
 def test_run(main=False):
-    return testcommon.run_indicators(main=main, **metatests)
+    return testcommon.run_indicators(metatests, main=main)
 
 
 metatests = dict(
-    atr=dict(
-        minperiods=[15],
-        decimals=11,  # round limit for equality
+    # Price Transform
+    avgprice=dict(
+        minperiods=[1],
+        decimals=12,
     ),
-    bbands=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[5],
-        decimals=6,
-        swapouts={0: 1},  # ta-lib order top/mid/bot, swap outputs 0:1 to match
+    medprice=dict(
+        minperiods=[1],
+        decimals=12,
     ),
-    cci=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[14],
-        decimals=8,  # only 1 value forces the cut at 8 instead of 9
+    typprice=dict(
+        minperiods=[1],
+        decimals=12,
     ),
-    dema=dict(
-        minperiods=[59],
-        decimals=9,
+    wclprice=dict(
+        minperiods=[1],
+        decimals=12,
     ),
-    ema=dict(
-        minperiods=[30],
-        decimals=9,
-    ),
-    macd=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[26, 34, 34],
-        decimals=9,  # round limit for equality
-    ),
-    midpoint=dict(
-        minperiods=[14],
-    ),
+
+    # Math Operators
     max=dict(
         minperiods=[30],
     ),
     min=dict(
         minperiods=[30],
     ),
-    midprice=dict(
-        inputs=('high', 'low'),
-        minperiods=[14],
+    sum=dict(
+        minperiods=[30],
     ),
-    rsi=dict(
-        minperiods=[15],
-        decimals=11,
+
+    # Math Transform
+    acos=dict(
+        minperiods=[1],
+    ),
+    asin=dict(
+        minperiods=[1],
+    ),
+    atan=dict(
+        minperiods=[1],
     ),
     cos=dict(
         minperiods=[1],
@@ -70,7 +64,6 @@ metatests = dict(
     sin=dict(
         minperiods=[1],
     ),
-
     sinh=dict(
         minperiods=[1],
     ),
@@ -80,38 +73,32 @@ metatests = dict(
     tanh=dict(
         minperiods=[1],
     ),
-    asin=dict(
-        minperiods=[1],
-    ),
-    acos=dict(
-        minperiods=[1],
-    ),
-    atan=dict(
-        minperiods=[1],
-    ),
 
-    smma='rsi',  # tested by RSI, no direct comparison with ta-lib possible
-
-    sma=dict(
-        minperiods=[30],
-    ),
+    # Statistic Functions
     mad='cci',  # mean sbsolute deviation is tested by cci, not in ta-lib
     stddev=dict(
         btkwargs=dict(_talib=True),
         minperiods=[5],
         decimals=6,
     ),
-    stochastic=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[16, 18],
-        decimals=11,  # round limit for equality
+
+    # Overlap
+    sma=dict(
+        minperiods=[30],
     ),
+    smma='rsi',  # tested by RSI, no direct comparison with ta-lib possible
+    ema=dict(
+        minperiods=[30],
+        decimals=9,
+    ),
+    dema=dict(
+        minperiods=[59],
+        decimals=9,
+    ),
+    gdema='t3',  # tested with T3
     t3=dict(
         minperiods=[25],
     ),
-
-    gdema='t3',  # tested with T3
-
     tema=dict(
         minperiods=[88],
         decimals=10,
@@ -120,12 +107,52 @@ metatests = dict(
         minperiods=[89],
         decimals=12,
     ),
+    bbands=dict(
+        btkwargs=dict(_talib=True),
+        minperiods=[5],
+        decimals=6,
+        swapouts={0: 1},  # ta-lib order top/mid/bot, swap outputs 0:1 to match
+    ),
+    midpoint=dict(
+        minperiods=[14],
+    ),
+    midprice=dict(
+        inputs=('high', 'low'),
+        minperiods=[14],
+    ),
+
+    # Momentum
+    cci=dict(
+        btkwargs=dict(_talib=True),
+        minperiods=[14],
+        decimals=8,  # only 1 value forces the cut at 8 instead of 9
+    ),
+    macd=dict(
+        btkwargs=dict(_talib=True),
+        minperiods=[26, 34, 34],
+        decimals=9,  # round limit for equality
+    ),
+    rsi=dict(
+        minperiods=[15],
+        decimals=11,
+    ),
+    stochastic=dict(
+        btkwargs=dict(_talib=True),
+        minperiods=[16, 18],
+        decimals=11,  # round limit for equality
+    ),
+
+    # Volatility
     truerange=dict(
         btind='truerange',
         minperiods=[2],
     ),
+    atr=dict(
+        minperiods=[15],
+        decimals=11,  # round limit for equality
+    ),
 
-    # OTHER TESTS
+    # OTHER TESTS - Internal functionality
     series_fetcher=test_series_fetcher.run,
     linesholder=test_linesholder.run,
     outputs=test_outputs.run,
