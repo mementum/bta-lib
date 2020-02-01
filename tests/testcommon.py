@@ -165,9 +165,8 @@ def run_indicator(pargs, name, testdata, main=False):
         equality = btseries.eq(tseries)  # calculate equality of series
         allequal = equality.all()
         if not allequal:  # make a nancheck
-            na_bt, na_ta = btseries.isna(), tseries.isna()
-            equality = na_bt.eq(na_ta)  # calculate equality of series
-            allequal = equality.all()
+            if btseries.isna().all() and tseries.isna().all():
+                allequal = True  # both deliver only nans ... are equal
 
         equal = equal and allequal  # check if result still equal True
 
