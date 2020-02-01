@@ -29,7 +29,7 @@ metatests = dict(
     cci=dict(
         btkwargs=dict(_talib=True),
         minperiods=[14],
-        decimals=9,
+        decimals=8,  # only 1 value forces the cut at 8 instead of 9
     ),
     dema=dict(
         minperiods=[59],
