@@ -95,6 +95,7 @@ metatests = dict(
     sma=dict(
         minperiods=[30],
     ),
+    mad='cci',  # mean sbsolute deviation is tested by cci, not in ta-lib
     stddev=dict(
         btkwargs=dict(_talib=True),
         minperiods=[5],
