@@ -9,6 +9,7 @@ import logging
 from logging import info as loginfo, error as logerror, debug as logdebug
 import os.path
 import sys
+import traceback
 
 import pandas as pd
 import talib  # noqa: F401
