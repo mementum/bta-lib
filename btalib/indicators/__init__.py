@@ -41,6 +41,7 @@ from .cci import *  # noqa: F401 F403
 from .macd import *  # noqa: F401 F403
 from .rsi import *  # noqa: F401 F403
 from .stochastic import *  # noqa: F401 F403
+from .stochrsi import *  # noqa: F401 F403
 
 # Volatility
 from .atr import *  # noqa: F401 F403
