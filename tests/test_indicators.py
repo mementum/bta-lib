@@ -141,7 +141,11 @@ metatests = dict(
         minperiods=[16, 18],
         decimals=11,  # round limit for equality
     ),
-
+    stochf=dict(
+        btkwargs=dict(_talib=True),
+        minperiods=[5, 7],
+        decimals=11,  # round limit for equality
+    ),
     # Volatility
     truerange=dict(
         btind='truerange',
