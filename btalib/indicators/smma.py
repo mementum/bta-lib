@@ -36,4 +36,5 @@ class smma(_exp_smoothing):
     )
 
     def __init__(self):  # use data prepared by base class
-        self.o.smma = self.o[0].ewm(com=self.p.period - 1).mean()
+        period, _last = self.p.period, self.p._last
+        self.o.smma = self.i0._ewm(com=period - 1, _last=_last).mean()
