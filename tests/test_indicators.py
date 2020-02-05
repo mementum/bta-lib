@@ -155,6 +155,11 @@ metatests = dict(
         minperiods=[19, 21],
         decimals=9,  # round limit for equality
     ),
+    williamsr=dict(
+        btkwargs=dict(_talib=True),
+        minperiods=[14],
+        decimals=12,  # round limit for equality
+    ),
     # Volatility
     truerange=dict(
         btind='truerange',
