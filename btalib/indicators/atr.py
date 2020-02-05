@@ -33,6 +33,32 @@ class truehigh(Indicator):
         self.o.truehi = self.i.close(-self.p._period).clip(lower=self.i.high)
 
 
+class truelow(Indicator):
+    '''
+    Defined by J. Welles Wilder, Jr. in 1978 in his book *"New Concepts in
+    Technical Trading Systems"* for the ATR
+
+    Records the "true low" which is the minimum of today's low and
+    yesterday's close
+
+    Formula:
+      - truelow = min(low, close_prev)
+
+    See:
+      - http://en.wikipedia.org/wiki/Average_true_range
+    '''
+    group = 'volatility'
+    alias = 'TR', 'TrueRange', 'trange', 'TRANGE'
+    inputs = 'low', 'close'
+    outputs = 'truelo'
+    params = (
+        ('_period', 1, 'Period to consider'),
+    )
+
+    def __init__(self):
+        self.o.truelo = self.i.close(-self.p._period).clip(upper=self.i.low)
+
+
 class truerange(Indicator):
     '''
     Defined by J. Welles Wilder, Jr. in 1978 in his book New Concepts in
