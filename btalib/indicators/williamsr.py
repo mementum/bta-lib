@@ -24,7 +24,7 @@ class williamsr(Indicator):
       - https://school.stockcharts.com/doku.php?id=technical_indicators:williams_r
     '''
     group = 'momentum'
-    alias = 'WilliamsR', 'WILLIAMSR', 'WILLR'
+    alias = 'willr', 'WilliamsR', 'WILLIAMSR', 'WILLR'
     inputs = 'high', 'low', 'close'
     outputs = 'r'
     params = (
