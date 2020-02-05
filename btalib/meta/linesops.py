@@ -155,7 +155,8 @@ _MULTIFUNCOPS = dict(
 
     # provide a set of oprations
     expanding=dict(),
-    ewm=dict(ewm=True),
+    ewm=dict(),
+    _ewm=dict(),
     rolling=dict(period_arg='window'),
 
     # accessors
