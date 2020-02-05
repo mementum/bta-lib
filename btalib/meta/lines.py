@@ -90,11 +90,28 @@ def _generate(cls, bases, dct, name='', klass=None, **kwargs):
 
 def binary_op(name):
     def real_binary_op(self, other, *args, **kwargs):
-        binop = getattr(self._series, name)  # get operation from real series
-        opother = getattr(other, '_series', other)  # get real other operand
-        minperiod = max(self._minperiod, getattr(other, '_minperiod', 1))
+        # Executes a binary operation where self is guaranteed to have a
+        # _series attribute but other isn't. Example > or +
+        # The minimum period is taken into account to only apply the operation
+        # to the proper range and store in the result in that range. The rest
+        # is a bunch of leading 'NaN'
 
-        return self._clone(binop(opother, *args, **kwargs), minperiod)
+        # See if other has a minperiod, else default to 1
+        minperiod = max(self._minperiod, getattr(other, '_minperiod', 1))
+        minidx = minperiod - 1  # minperiod is 1-based, easier for location
+
+        # Prepare a result filled with 'Nan'
+        result = pd.Series(np.nan, index=self._series.index)
+
+        # Get and prepare the other operand
+        other = getattr(other, '_series', other)  # get real other operand
+        other = other[minidx:] if isinstance(other, pd.Series) else other
+
+        # Get the operation, exec and store
+        binop = getattr(self._series[minidx:], name)  # get op from series
+        result[minidx:] = binop(other, *args, **kwargs)  # exec / store
+
+        return self._clone(result, minperiod)  # return new obj with minperiod
 
     linesops.install_cls(name=name, attr=real_binary_op)
 
