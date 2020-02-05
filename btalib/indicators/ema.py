@@ -4,7 +4,7 @@
 # Copyright (C) 2020 Daniel Rodriguez
 # Use of this source code is governed by the MIT License
 ###############################################################################
-from . import Indicator, NaN
+from . import Indicator
 
 
 # _exp_smoothing acts as a ase class for exponential smoothing averages (ema,
@@ -32,13 +32,9 @@ from . import Indicator, NaN
 #   - p2 = p1 + self.p.period
 
 class _exp_smoothing(Indicator):
-    def __init__(self, poffset=0):
-        p2 = self._minperiod - 1 + (poffset or self.p.period)
-        p1 = p2 - self.p.period
-
-        edata = self.i0[:p2](val=NaN)  # nan'ed array of length 0:p2
-        edata[-1] = self.i0[p1:p2].mean()  # p1:p2 mean => last pos of seed
-        self.outputs[0] = edata.append(self.i0[p2:])  # seed array + rest
+    params = (
+        ('_last', False, 'Use last value as seed instead of arithmetic mean'),
+    )
 
 
 # "Actual" ema implementation
@@ -65,4 +61,5 @@ class ema(_exp_smoothing):
     )
 
     def __init__(self, poffset=0):  # see above for poffset
-        self.o.ema = self.o.ema.ewm(span=self.p.period).mean()  # use prep data
+        span, _last, poff = self.p.period, self.p._last, poffset
+        self.o.ema = self.i0._ewm(span=span, _last=_last, poffset=poff).mean()
