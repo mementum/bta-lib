@@ -22,7 +22,6 @@ class ultimateoscillator(Indicator):
       - uo = 100 * (4*av7 + 2*av14 + av18) / (4 + 2 + 1)
 
     See:
-
       - https://en.wikipedia.org/wiki/Ultimate_oscillator
       - http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:ultimate_oscillator
     '''
@@ -31,12 +30,12 @@ class ultimateoscillator(Indicator):
     inputs = 'high', 'low', 'close'
     outputs = 'uo'
     params = (
-        ('period1', 7),
-        ('period2', 14),
-        ('period3', 28),
-        ('weight1', 4.0),
-        ('weight2', 2.0),
-        ('weight3', 1.0),
+        ('period1', 7, 'Faster oscillating period'),
+        ('period2', 14, 'Medium oscillating period'),
+        ('period3', 28, 'Slower oscillating period'),
+        ('factor1', 4.0, 'Factor weight for the faster oscillation'),
+        ('factor2', 2.0, 'Factor weight for the medium oscillation'),
+        ('factor3', 1.0, 'Factor weight for the slower oscillation'),
     )
 
     def __init__(self):
@@ -47,9 +46,9 @@ class ultimateoscillator(Indicator):
         av2 = SumN(bp, period=self.p.period2) / SumN(tr, period=self.p.period2)
         av3 = SumN(bp, period=self.p.period3) / SumN(tr, period=self.p.period3)
 
-        factor = 100.0 / (self.p.weight1 + self.p.weight2 + self.p.weight3)
-        uo1 = (self.p.weight1 * factor) * av1
-        uo2 = (self.p.weight2 * factor) * av2
-        uo3 = (self.p.weight3 * factor) * av3
+        factor = 100.0 / (self.p.factor1 + self.p.factor2 + self.p.factor3)
+        uo1 = (self.p.factor1 * factor) * av1
+        uo2 = (self.p.factor2 * factor) * av2
+        uo3 = (self.p.factor3 * factor) * av3
 
         self.o.uo = uo1 + uo2 + uo3
