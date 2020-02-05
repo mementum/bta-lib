@@ -77,7 +77,7 @@ def run_indicator(pargs, name, testdata, main=False):
     if isinstance(testdata, str):
         rother = RESULTS.get(testdata, False)
         loginfo('[+] Test completed with : {}'.format(testdata))
-        loginfo('[+] Test result         : {}'.format(rother))
+        loginfo('[+] Test Result     : {} ({})'.format(rother, name))
         return rother
 
     elif callable(testdata):
@@ -94,7 +94,7 @@ def run_indicator(pargs, name, testdata, main=False):
                 filename, line, text,
             ))
 
-        loginfo('[+] Test completed with : {}'.format(ret))
+        loginfo('[+] Test Result     : {} ({})'.format(ret, name))
         return ret
 
     # bta-lib indicator calculation
@@ -190,7 +190,7 @@ def run_indicator(pargs, name, testdata, main=False):
 
         equal = equal and allequal  # check if result still equal True
 
-    logging.info('[+] Result: {}'.format(equal))
+    logging.info('[+] Test Result     : {} ({})'.format(equal, name))
 
     if pargs.verbose:  # if verbosity is requested
         # General Information
