@@ -146,49 +146,74 @@ def reduction_op(name, sargs=False, *args, **kwargs):
     linesops.install_cls(name=name, attr=real_reduction_op)
 
 
-def multifunc_op(name, period_arg=None, overlap=1, ewm=False,
-                 propertize=False):
+def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
 
     class _MultiFunc_Op:
         def __init__(self, line, *args, **kwargs):
             # get/pop period related parameter ... as needed
-            if ewm:
+            lsname = name.lstrip('_')  # left stripped name (lsname)
+            if lsname == 'ewm':
                 if 'com' in kwargs:
-                    self.pval = kwargs.get('com') + 1
+                    self._pval = kwargs.get('com') + 1
                 elif 'span' in kwargs:
                     # must be, period cannot be infered from alpha/halflife
-                    self.pval = kwargs.get('span')
+                    self._pval = kwargs.get('span')
                 elif 'alpha' in kwargs or 'halflife' in kwargs:
                     # period cannot be recovered, force the user to specify it
-                    self.pval = kwargs.pop('period')
+                    self._pval = kwargs.pop('_span')  # exception if not there
 
                 # exp smoothing in tech analysis uses 'adjust=False'
                 kwargs.setdefault('adjust', False)  # set if not given
-            else:
-                self.pval = kwargs.get(period_arg)
 
-            self.multifunc = getattr(line._series, name)(*args, **kwargs)
-            self.line = line
-            self.seeded = False
+                self._poffset = kwargs.pop('poffset', 0)
+                self._last = kwargs.pop('_last', False)
+
+            else:
+                self._pval = kwargs.get(period_arg)
+
+            self._seeded = False
+            self._line = line
+            self._series = line._series
+            self._minperiod = line._minperiod
+
+            if name == '_ewm':  # not name and lsname
+                p2 = self._minperiod - 1 + (self._poffset or self._pval)
+                p1 = p2 - self._pval
+                self._minidx = pidx = p2 - 1
+
+                seed = pd.Series(np.nan, index=self._series.index[pidx:p2])
+                if self._last:
+                    seed[-1] = self._series[pidx]
+                else:
+                    seed[-1] = self._series[p1:p2].mean()
+
+                trailer = seed.append(self._series[p2:])
+            else:
+                self._minidx = self._minperiod - 1
+                trailer = self._series[self._minidx:]
+
+            self._multifunc = getattr(trailer, lsname)(*args, **kwargs)
 
         def __getattr__(self, attr):
-            op = getattr(self.multifunc, attr)  # let exception propagate
+            if self._pval is not None and not self._seeded:
+                self._minperiod += self._pval - overlap
 
-            def call_op(*args, **kwargs):
-                line = self.line._clone(op(*args, **kwargs))
-                if self.pval is not None and not self.seeded:
-                    line._minperiod += self.pval - overlap
+            op = getattr(self._multifunc, attr)  # get real op/let exp propag
+            result = pd.Series(np.nan, index=self._series.index)  # prep
 
-                return line
+            def call_op(*args, **kwargs):  # actual op executor
+                res = op(*args, **kwargs)  # run/store
+                result[self._minidx:] = res
+                return self._line._clone(result, self._minperiod)  # retval
 
             return call_op
 
         def __getitem__(self, item):
-            return self.line._clone(self.line._series.iloc[item])
+            return self._line._clone(self._series.iloc[item])
 
         @property
         def _seed(self):
-            self.seeded = True  # call if applied after a seed
+            self._seeded = True  # call if applied after a seed
             return self
 
     def real_multifunc_op(self, *args, **kwargs):
