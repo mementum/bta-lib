@@ -39,6 +39,7 @@ from .midpoint import *  # noqa: F401 F403
 # Momentum
 from .cci import *  # noqa: F401 F403
 from .macd import *  # noqa: F401 F403
+from .mfi import *  # noqa: F401 F403
 from .rsi import *  # noqa: F401 F403
 from .stochastic import *  # noqa: F401 F403
 from .stochrsi import *  # noqa: F401 F403

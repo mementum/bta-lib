@@ -132,6 +132,10 @@ metatests = dict(
         minperiods=[26, 34, 34],
         decimals=9,  # round limit for equality
     ),
+    mfi=dict(
+        minperiods=[15],
+        decimals=11,
+    ),
     rsi=dict(
         minperiods=[15],
         decimals=11,
