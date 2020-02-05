@@ -86,7 +86,7 @@ class truerange(Indicator):
     )
 
     def __init__(self):
-        close1 = self.i.close.shift(periods=1)
+        close1 = self.i.close(-self.p._period)
         truehi = close1.clip(lower=self.i.high)  # max of close(-1) and hi
         truelo = close1.clip(upper=self.i.low)  # min of close(-1) and low
         self.o.tr = truehi - truelo
