@@ -159,6 +159,10 @@ metatests = dict(
         minperiods=[14],
         decimals=12,  # round limit for equality
     ),
+    ultimateoscillator=dict(
+        minperiods=[29],
+        decimals=11,  # round limit for equality
+    ),
     # Volatility
     truerange=dict(
         minperiods=[2],
