@@ -11,7 +11,6 @@ class max(Indicator):
     '''
     Formula:
       - highest = max(data, period)
-
     '''
     group = 'mathop'
     alias = 'highest', 'Highest', 'maxn', 'MaxN', 'MAX'
@@ -28,7 +27,6 @@ class min(Indicator):
     '''
     Formula:
       - lowest = min(data, period)
-
     '''
     group = 'mathop'
     alias = 'lowest', 'Lowest', 'minn', 'MinN', 'MIN'
@@ -45,7 +43,6 @@ class sum(Indicator):
     '''
     Formula:
       - sum = sum(data, period)
-
     '''
     group = 'mathop'
     alias = 'sumn', 'Sum', 'SumN', 'SUM'
