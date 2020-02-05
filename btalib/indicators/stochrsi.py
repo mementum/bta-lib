@@ -30,7 +30,7 @@ class stochrsi(Indicator):
     See
       - https://school.stockcharts.com/doku.php?id=technical_indicators:stochrsi
     '''
-
+    group = 'momentum'
     alias = 'StochRsi', 'STOCHRSI'
     outputs = 'stochrsi'
     params = (
