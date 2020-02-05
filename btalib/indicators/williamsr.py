@@ -15,9 +15,9 @@ class williamsr(Indicator):
     Known as Williams %R (but % is not allowed in Python identifiers)
 
     Formula:
-      - num = highest_period - close
-      - den = highestg_period - lowest_period
-      - percR = (num / den) * -100.0
+      - num = highest(high, period) - close
+      - den = highest(high, period) - lowest(low, period)
+      -  %R = -100.0 * (num / den)
 
     See:
       - http://en.wikipedia.org/wiki/Williams_%25R
