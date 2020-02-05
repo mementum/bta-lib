@@ -4,6 +4,7 @@
 # Copyright (C) 2020 Daniel Rodriguez
 # Use of this source code is governed by the MIT License
 ###############################################################################
+import numpy as np
 import pandas as pd
 
 from . import config
