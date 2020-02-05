@@ -165,6 +165,7 @@ metatests = dict(
         btind='truerange',
         minperiods=[2],
     ),
+    truehigh='truerange',
     atr=dict(
         minperiods=[15],
         decimals=11,  # round limit for equality

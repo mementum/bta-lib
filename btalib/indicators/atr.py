@@ -7,6 +7,32 @@
 from . import Indicator, smma
 
 
+class truehigh(Indicator):
+    '''
+    Defined by J. Welles Wilder, Jr. in 1978 in his book *"New Concepts in
+    Technical Trading Systems"* for the ATR
+
+    Records the "true high" which is the maximum of today's high and
+    yesterday's close
+
+    Formula:
+      - truehigh = max(high, close_prev)
+
+    See:
+      - http://en.wikipedia.org/wiki/Average_true_range
+    '''
+    group = 'volatility'
+    alias = 'TR', 'TrueRange', 'trange', 'TRANGE'
+    inputs = 'low', 'close'
+    outputs = 'truehi'
+    params = (
+        ('_period', 1, 'Period to consider'),
+    )
+
+    def __init__(self):
+        self.o.truehi = self.i.close(-self.p._period).clip(lower=self.i.high)
+
+
 class truerange(Indicator):
     '''
     Defined by J. Welles Wilder, Jr. in 1978 in his book New Concepts in
