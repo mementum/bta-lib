@@ -117,7 +117,6 @@ metatests = dict(
         minperiods=[14],
     ),
     midprice=dict(
-        inputs=('high', 'low'),
         minperiods=[14],
     ),
 
