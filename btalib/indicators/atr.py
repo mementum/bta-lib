@@ -110,7 +110,7 @@ class atr(truerange, outputs_override=True):
     group = 'volatility'
     alias = 'ATR', 'AverageTrueRange'
     # outputs = {'atr': 'tr'}  # define atr / alias tr to it for the base class
-    outputs = 'atr'  # notice outputs_override, adds autoalias to output tr
+    outputs = 'atr'  # outputs_override in class def, autoalias tr => atr added
     params = (
         ('_ma', smma, 'Moving average to use'),
     )
