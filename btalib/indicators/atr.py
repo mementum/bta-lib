@@ -82,7 +82,7 @@ class truerange(Indicator):
     inputs = 'high', 'low', 'close'
     outputs = 'tr'
     params = (
-        ('_period', 1, 'Period to consider'),
+        ('_period', 1, 'Period for high/low vs close for truerange calc'),
     )
 
     def __init__(self):
