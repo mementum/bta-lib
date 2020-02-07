@@ -112,6 +112,7 @@ class atr(truerange, outputs_override=True):
     # outputs = {'atr': 'tr'}  # define atr / alias tr to it for the base class
     outputs = 'atr'  # outputs_override in class def, autoalias tr => atr added
     params = (
+        ('period', 14, 'Period to consider'),
         ('_ma', smma, 'Moving average to use'),
     )
 
