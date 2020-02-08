@@ -33,6 +33,8 @@ from .tema import *  # noqa: F401 F403
 from .trix import *  # noqa: F401 F403
 from .t3 import *  # noqa: F401 F403
 
+from .kama import *  # noqa: F401 F403
+
 from .bbands import *  # noqa: F401 F403
 from .midpoint import *  # noqa: F401 F403
 

@@ -96,6 +96,10 @@ metatests = dict(
         decimals=9,
     ),
     gdema='t3',  # tested with T3
+    kama=dict(
+        btkwargs=dict(_talib=True),
+        minperiods=[31],
+    ),
     t3=dict(
         minperiods=[25],
     ),
