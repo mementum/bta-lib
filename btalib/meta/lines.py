@@ -309,6 +309,9 @@ class Line(metaclass=MetaLine):
 
         return self._clone(val, index=self._series.index, *args, **kwargs)
 
+    def __iter__(self):
+        return iter(self._series)
+
     def __len__(self):
         return len(self._series)
 
