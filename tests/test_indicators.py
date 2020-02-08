@@ -125,6 +125,11 @@ metatests = dict(
     ),
 
     # Momentum
+    apo=dict(
+        btkwargs=dict(_talib=True),
+        minperiods=[26],
+        decimals=9,  # round limit for equality
+    ),
     cci=dict(
         btkwargs=dict(_talib=True),
         minperiods=[14],
@@ -139,6 +144,12 @@ metatests = dict(
         minperiods=[15],
         decimals=11,
     ),
+    ppo=dict(
+        btkwargs=dict(_talib=True),
+        minperiods=[26, 34],
+        decimals=10,  # round limit for equality
+    ),
+    ppofast='ppo',
     rsi=dict(
         minperiods=[15],
         decimals=11,
