@@ -62,4 +62,4 @@ class ema(_exp_smoothing):
 
     def __init__(self, poffset=0):  # see above for poffset
         span, _last, poff = self.p.period, self.p._last, poffset
-        self.o.ema = self.i0._ewm(span=span, _last=_last, poffset=poff).mean()
+        self.o.ema = self.i0._ewm(span=span, _last=_last, _poffset=poff).mean()
