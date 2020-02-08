@@ -150,6 +150,23 @@ metatests = dict(
         decimals=10,  # round limit for equality
     ),
     ppofast='ppo',
+    roc=dict(
+        btkwargs=dict(_talib=True),
+        minperiods=[11],
+    ),
+    rocp=dict(
+        btkwargs=dict(_talib=True),
+        minperiods=[11],
+        decimals=14,  # round limit for equality
+    ),
+    rocr=dict(
+        btkwargs=dict(_talib=True),
+        minperiods=[11],
+    ),
+    rocr100=dict(
+        btkwargs=dict(_talib=True),
+        minperiods=[11],
+    ),
     rsi=dict(
         minperiods=[15],
         decimals=11,
