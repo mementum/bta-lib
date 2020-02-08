@@ -150,53 +150,110 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
 
     class _MultiFunc_Op:
         def __init__(self, line, *args, **kwargs):
-            # get/pop period related parameter ... as needed
+            # plethora of vals needed later in __getattr__/__getitem__
+            self._seeded = False
+            self._line = line
+            self._series = series = line._series
+            self._minperiod = line._minperiod
+
+            # if the end user passes alpha=None, it means that the alpha
+            # calculation for an ewm will be done directy by the caller using
+            # apply. This can only be achieved if instead of delivering ewm,
+            # rolling(window=2) is returned (the end user should not do that,
+            # because the minperiod calculations would be off)
+            self._alpha_ = None
+
             lsname = name.lstrip('_')  # left stripped name (lsname)
+            # get/pop period related parameter ... as needed for multi-ewm
             if lsname == 'ewm':
-                if 'com' in kwargs:
-                    self._pval = kwargs.get('com') + 1
+                if 'alpha' in kwargs:  # all bets are on 'alpha'
+                    # period cannot be recovered, force the user to specify it
+                    self._pval = kwargs.pop('span')  # exception if not there
+                    alpha = kwargs['alpha']  # it is there ...
+                    if isinstance(alpha, (int, float)):
+                        pass  # regular behavior
+                    else:  # dynamic alpha which can be calc'ed by _mean_
+                        self._alpha_ = alpha
+                        kwargs['alpha'] = 1.0
+                elif 'halflife' in kwargs:
+                    # period cannot be recovered, force the user to specify it
+                    self._pval = kwargs.pop('span')  # exception if not there
+                elif 'com' in kwargs:
+                    self._pval = kwargs.get('com') + 1  # alpha = 1 / (com + 1)
                 elif 'span' in kwargs:
                     # must be, period cannot be infered from alpha/halflife
-                    self._pval = kwargs.get('span')
-                elif 'alpha' in kwargs or 'halflife' in kwargs:
-                    # period cannot be recovered, force the user to specify it
-                    self._pval = kwargs.pop('_span')  # exception if not there
-
-                # exp smoothing in tech analysis uses 'adjust=False'
-                kwargs.setdefault('adjust', False)  # set if not given
-
-                self._poffset = kwargs.pop('poffset', 0)
-                self._last = kwargs.pop('_last', False)
-
+                    self._pval = kwargs.get('span')  # alpha = 2 / (alpha + 1)
             else:
                 self._pval = kwargs.get(period_arg)
 
-            self._seeded = False
-            self._line = line
-            self._series = line._series
-            self._minperiod = line._minperiod
+            # set alphaperiod which is needed in the future
+            self._alpha_p = getattr(self._alpha_, '_minperiod', 1)
 
-            if name == '_ewm':  # not name and lsname
-                p2 = self._minperiod - 1 + (self._poffset or self._pval)
-                p1 = p2 - self._pval
-                self._minidx = pidx = p2 - 1
+            # Extra processing if special _ewm
+            if name == '_ewm':  # specific behavior for custom _ewm
+                # exp smoothing in tech analysis uses 'adjust=False'
+                kwargs.setdefault('adjust', False)  # set if not given
 
-                seed = pd.Series(np.nan, index=self._series.index[pidx:p2])
-                if self._last:
-                    seed[-1] = self._series[pidx]
-                else:
-                    seed[-1] = self._series[p1:p2].mean()
+                # collect special parameters
+                self._poffset = kwargs.pop('_poffset', 0)
+                self._last = kwargs.pop('_last', False)
 
-                trailer = seed.append(self._series[p2:])
+                # Determine where the actual calculation is offset to. _poffset
+                # is there to support the failure made by ta-lib when offseting
+                # the fast ema in the macd. _pofffset > _pval
+                poffset = self._poffset or self._pval
+
+                # For a dynamic alpha like in KAMA, the period of the dynamic
+                # alpha can exceed that of the calculated offset. But ta-lib
+                # makes a mistake an calculates that without taking that period
+                # into account if _last is activated
+
+                # poffset = max(poffset, self._alpha_period)  # - self._last)
+                if self._alpha_p > poffset:
+                    poffset += self._alpha_p - poffset - 1
+
+                p2 = self._minperiod - 1 + poffset  # end of seed calculation
+                p1 = p2 - self._pval  # beginning of seed calculation
+                # beginning of result calculation. Includes the calculated seed
+                # value which is the 1st value to be returned. Except in KAMA,
+                # where ta-lib uses the value before that as seed for the
+                # exponential smoothing calculation
+                self._minidx = pidx = p2 - 1  # beginning of result calculation
+
+                seed = pd.Series(np.nan, index=series.index[pidx:p2])
+                # if _last is set, the last known value of the input is
+                # used. If not, the seed is the arithmetic mean of the
+                # calculated p1-p2 range
+                seed[-1] = series[pidx] if self._last else series[p1:p2].mean()
+
+                # this is the trailer part of the result. the initial is nans
+                trailer = seed.append(series[p2:])  # join seed series and rest
             else:
                 self._minidx = self._minperiod - 1
-                trailer = self._series[self._minidx:]
+                trailer = series[self._minidx:]
 
             self._multifunc = getattr(trailer, lsname)(*args, **kwargs)
+
+        def _mean(self):  # meant for ewm with dynamic alpha
+            def _dynalpha(vals):
+                # reuse vals: not the original series, it's the trailer abvoe
+                alphas = self._alpha_[self._alpha_p - 1:]  # -1: get array idx
+
+                prev = vals[0]  # seed value, which isn't part of the result
+                vals[0] = np.nan  # made 1 tick longer to carry seed, nan it
+                for i, alphai in enumerate(alphas, 1):  # tight-loop-calc
+                    vals[i] = prev = prev + alphai * (vals[i] - prev)
+
+                return vals  # can return vals, made Series via __getattr__
+
+            return self._apply(_dynalpha)  # triggers __getattr__ for _pply
 
         def __getattr__(self, attr):
             if self._pval is not None and not self._seeded:
                 self._minperiod += self._pval - overlap
+
+                # for a dynamic alpha, the period of the alpha can exceed minp
+                self._minperiod = max(self._minperiod, self._alpha_p)
 
             op = getattr(self._multifunc, attr)  # get real op/let exp propag
             result = pd.Series(np.nan, index=self._series.index)  # prep
