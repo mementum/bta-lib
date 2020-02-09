@@ -107,6 +107,10 @@ metatests = dict(
         minperiods=[88],
         decimals=10,
     ),
+    trima=dict(
+        minperiods=[30],
+        decimals=10,
+    ),
     trix=dict(
         minperiods=[89],
         decimals=12,
