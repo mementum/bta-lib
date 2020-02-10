@@ -217,6 +217,12 @@ metatests = dict(
     series_fetcher=test_series_fetcher.run,
     linesholder=test_linesholder.run,
     outputs=test_outputs.run,
+
+    # Volume
+    obv=dict(
+        btkwargs=dict(_talib=True),
+        minperiods=[1],
+    ),
 )
 
 if __name__ == '__main__':
