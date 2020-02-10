@@ -124,8 +124,14 @@ class MetaIndicator(meta.linesholder.LinesHolder.__class__):
         # All boilerplate is done, to into execution mode
         metadata.callstack.append(self)  # let ind know hwere in the stack
 
-        if cls._autosuper:
-            super(cls, self).__init__(*args, **kwargs)  # auto-run bases
+        # Auto-call base classes
+        bases, bcls = [], cls
+        while(bcls.__name__ != 'Indicator'):
+            bases.append(super(bcls, self))
+            bcls = bcls.__bases__[0]  # use always the leftmost base
+
+        for b in reversed(bases):
+            b.__init__(*args, **kwargs)
 
         self.__init__(*args, **kwargs)  # initialize the instance
 
