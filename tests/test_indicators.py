@@ -91,6 +91,7 @@ metatests = dict(
         minperiods=[30],
         decimals=9,
     ),
+    ewm='adosc',
     dema=dict(
         minperiods=[59],
         decimals=9,

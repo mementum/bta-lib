@@ -63,3 +63,31 @@ class ema(_exp_smoothing):
     def __init__(self, poffset=0):  # see above for poffset
         span, _last, poff = self.p.period, self.p._last, poffset
         self.o.ema = self.i0._ewm(span=span, _last=_last, _poffset=poff).mean()
+
+
+class ewma(Indicator):
+    '''
+    This is **NOT** the `ema` or `ExponentialMovingAverage`. This is a wrap
+    around pandas.Series.ewm where `ewm` stands for `ExponentialWeigthedMoving`
+    ... to which later a function like `mean` is applied
+
+    Applying `mean` doesn't make it the `ExponentialMovingAverage` because
+    `ewm` in `pandas.Series` or `pandas.DataFrames` does not support using a
+    seed like the first n periods of an `ewm` of `span=n`
+
+    The purpose of this, is to be able to use this in place of the real `ema`
+    with parameters like `period` and `_last` for compatibility.
+    '''
+
+    group = 'overlap'
+    alias = 'EWMA'
+    outputs = 'ewma'
+    params = (
+        ('period', 30, 'Default Period for the ewm calculation'),
+        ('adjust', False, 'Default calc individual terms like in `ema`'),
+        ('_last', False, '(nop) for compatibility with `ema`'),
+    )
+
+    def __init__(self, **kwargs):
+        kwargs.setdefault('span', self.p.period)  # translate period to span
+        self.o.ewma = self.i0.ewm(adjust=self.p.adjust, **kwargs).mean()
