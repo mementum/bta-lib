@@ -224,6 +224,13 @@ metatests = dict(
         btkwargs=dict(_talib=True),
         minperiods=[1],
     ),
+    ad=dict(
+        minperiods=[1],
+    ),
+    adosc=dict(
+        btkwargs=dict(_talib=True),
+        minperiods=[10],
+    ),
 )
 
 if __name__ == '__main__':

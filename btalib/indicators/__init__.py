@@ -54,4 +54,5 @@ from .williamsr import *  # noqa: F401 F403
 from .ultimateoscillator import *  # noqa: F401 F403
 
 # Volume
+from .ad import *  # noqa: F401 F403
 from .obv import *  # noqa: F401 F403
