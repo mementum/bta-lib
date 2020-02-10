@@ -118,3 +118,22 @@ class atr(truerange, outputs_override=True):
 
     def __init__(self):
         self.o.atr = self.p._ma(self.o.tr, period=self.p.period)
+
+
+class natr(atr, outputs_override=True):
+    '''
+    Offers a normalized (against the `close`) version of the `atr`, which can
+    provide better values for comparison against different price ranges.
+
+    Formula:
+      - natr = 100.0 * atr / close
+
+    See:
+      - http://en.wikipedia.org/wiki/Average_true_range
+    '''
+    group = 'volatility'
+    alias = 'NATR', 'NormalizedAverageTrueRange'
+    outputs = 'natr'  # outputs_override above, autoalias atr => natr added
+
+    def __init__(self):
+        self.o.natr = 100.0 * self.o.atr / self.i.close

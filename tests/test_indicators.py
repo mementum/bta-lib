@@ -208,6 +208,10 @@ metatests = dict(
         minperiods=[15],
         decimals=11,  # round limit for equality
     ),
+    natr=dict(
+        minperiods=[15],
+        decimals=13,  # round limit for equality
+    ),
 
     # OTHER TESTS - Internal functionality
     series_fetcher=test_series_fetcher.run,
