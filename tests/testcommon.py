@@ -144,6 +144,8 @@ def run_indicator(pargs, name, testdata, main=False):
     else:
         eqperiods = -1
 
+    logging.info('[+] Periods Test Result : {} ({})'.format(eqperiods, name))
+
     # Now, determine the actual indicators. The name is the name from the
     # bta-lib indicator. Find the corresponding ta indicator
     # Either specified or capitalize the given name
@@ -213,6 +215,8 @@ def run_indicator(pargs, name, testdata, main=False):
 
         equal = equal and allequal  # check if result still equal True
 
+    logging.info('[+] Output Test Result : {} ({})'.format(equal, name))
+
     serequal = equal
     if eqperiods != -1:
         equal = equal and eqperiods
@@ -223,6 +227,7 @@ def run_indicator(pargs, name, testdata, main=False):
         # General Information
         logdebug('-' * 78)
         logdebug('Result         : {}'.format(equal))
+        logdebug('Series Result  : {}'.format(serequal))
         logdebug('Chk Minperiods : {} {}'.format(
             eqperiods,
             '(-1 if no check done)',
