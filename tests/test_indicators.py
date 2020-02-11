@@ -86,11 +86,12 @@ metatests = dict(
     ultimateoscillator=dict(minperiod=29, decimals=11),
 
     # Volatility
+    atr=dict(minperiod=15, decimals=11),
+    natr=dict(minperiod=15, decimals=13),
     truerange=dict(minperiod=2),
     truehigh='truerange',
     truelow='truerange',
-    atr=dict(minperiod=15, decimals=11),
-    natr=dict(minperiod=15, decimals=13),
+
     # Volume
     ad=dict(minperiod=1),
     adosc=dict(minperiod=10, _talib=True),
