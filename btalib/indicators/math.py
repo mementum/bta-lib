@@ -174,3 +174,118 @@ class atan(_mathrad):
     outputs = 'atan'
 
     _func = np.arctan
+
+
+# Non-trigonometric math transforms
+
+class ceil(Indicator):
+    '''
+    Calculates the `ceil` function which maps the input to the least integer
+    greater than or equal to the input
+
+    Formula:
+      - ceil = ceil(data)
+
+    See also:
+      - https://en.wikipedia.org/wiki/Floor_and_ceiling_functions
+    '''
+    group = 'math'
+    alias = 'CEIL'
+    outputs = 'ceil'
+
+    def __init__(self):
+        self.o.ceil = np.ceil(self.i0.series)
+
+
+class exp(Indicator):
+    '''
+    Calculates the natural logarithm of the input, i.e.: the logarithm with
+    base `e`
+
+    Formula:
+      - exp = exp(data)
+
+    See also:
+      - https://en.wikipedia.org/wiki/Exponential_function
+    '''
+    group = 'math'
+    alias = 'EXP'
+    outputs = 'exp'
+
+    def __init__(self):
+        self.o.exp = np.exp(self.i0.series)
+
+
+class floor(Indicator):
+    '''
+    Calculates the `floor` function which maps the input to the greatest
+    integer least than or equal to the input
+
+    Formula:
+      - floor = floor(data)
+
+    See also:
+      - https://en.wikipedia.org/wiki/Floor_and_ceiling_functions
+    '''
+    group = 'math'
+    alias = 'FLOOR'
+    outputs = 'floor'
+
+    def __init__(self):
+        self.o.floor = np.floor(self.i0.series)
+
+
+class ln(Indicator):
+    '''
+    Calculates the natural logarithm of the input, i.e.: the logarithm with
+    base `e`
+
+    Formula:
+      - ln = ln(data)
+
+    See also:
+      - https://en.wikipedia.org/wiki/Natural_logarithm
+    '''
+    group = 'math'
+    alias = 'LN', 'log', 'LOG'
+    outputs = 'ln'
+
+    def __init__(self):
+        self.o.ln = np.log(self.i0.series)
+
+
+class log10(Indicator):
+    '''
+    Calculates the common logarithm, i.e.: the logarithm with base 10, of the
+    input
+
+    Formula:
+      - log10 = log10(data)
+
+    See also:
+      - https://en.wikipedia.org/wiki/Common_logarithm
+    '''
+    group = 'math'
+    alias = 'LOG10'
+    outputs = 'log10'
+
+    def __init__(self):
+        self.o.log10 = np.log10(self.i0.series)
+
+
+class sqrt(Indicator):
+    '''
+    Calculates the square root of the input
+
+    Formula:
+      - sqrt = sqrt(data)
+
+    See also:
+      - https://en.wikipedia.org/wiki/Square_root
+    '''
+    group = 'math'
+    alias = 'SQRT'
+    outputs = 'sqrt'
+
+    def __init__(self):
+        self.o.sqrt = self.i0.pow(0.5)
