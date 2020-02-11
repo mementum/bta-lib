@@ -50,6 +50,9 @@ def run_indicators(metatests, main=False):
 
     posttest = {}
     for name, testdata in mtests.items():
+        if testdata is None:  # skip
+            continue
+
         if isinstance(testdata, str):  # delay test referred to other tests
             posttest[name] = testdata
             continue  # skip for later
