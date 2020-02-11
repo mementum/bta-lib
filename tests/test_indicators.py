@@ -17,202 +17,79 @@ def test_run(main=False):
 
 metatests = dict(
     # Price Transform
-    avgprice=dict(
-        minperiods=[1],
-        decimals=12,
-    ),
-    medprice=dict(
-        minperiods=[1],
-        decimals=12,
-    ),
-    typprice=dict(
-        minperiods=[1],
-        decimals=12,
-    ),
-    wclprice=dict(
-        minperiods=[1],
-        decimals=12,
-    ),
+    avgprice=dict(minperiod=1, decimals=12),
+    medprice=dict(minperiod=1, decimals=12),
+    typprice=dict(minperiod=1, decimals=12),
+    wclprice=dict(minperiod=1, decimals=12),
 
     # Math Operators
-    max=dict(
-        minperiods=[30],
-    ),
-    min=dict(
-        minperiods=[30],
-    ),
-    sum=dict(
-        minperiods=[30],
-    ),
+    max=dict(minperiod=30),
+    min=dict(minperiod=30),
+    sum=dict(minperiod=30),
 
     # Math Transform
-    acos=dict(
-        minperiods=[1],
-    ),
-    asin=dict(
-        minperiods=[1],
-    ),
-    atan=dict(
-        minperiods=[1],
-    ),
-    cos=dict(
-        minperiods=[1],
-    ),
-    cosh=dict(
-        minperiods=[1],
-    ),
-    sin=dict(
-        minperiods=[1],
-    ),
-    sinh=dict(
-        minperiods=[1],
-    ),
-    tan=dict(
-        minperiods=[1],
-    ),
-    tanh=dict(
-        minperiods=[1],
-    ),
+    acos=dict(minperiod=1, inputop=lambda *a: [x / 4000.0 for x in a]),
+    asin=dict(minperiod=1, inputop=lambda *a: [x / 4000.0 for x in a]),
+    atan=dict(minperiod=1),
+    cos=dict(minperiod=1),
+    cosh=dict(minperiod=1, inputop=lambda *a: [x / 4000.0 for x in a]),
+    sin=dict(minperiod=1),
+    sinh=dict(minperiod=1, inputop=lambda *a: [x / 4000.0 for x in a]),
+    tan=dict(minperiod=1),
+    tanh=dict(minperiod=1),
+    ceil=dict(minperiod=1),
+    floor=dict(minperiod=1),
+    log10=dict(minperiod=1),
+    ln=dict(minperiod=1),
+    exp=dict(minperiod=1, inputop=lambda *a: [x / 1000.0 for x in a]),
+    sqrt=dict(minperiod=1),
 
     # Statistic Functions
-    mad='cci',  # mean sbsolute deviation is tested by cci, not in ta-lib
-    stddev=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[5],
-        decimals=6,
-    ),
+    mad='cci',  # mean asbsolute deviation is tested by cci, not in ta-lib
+    stddev=dict(minperiod=5, decimals=6, _talib=True),
 
     # Overlap
-    sma=dict(
-        minperiods=[30],
-    ),
+    sma=dict(minperiod=30),
     smma='rsi',  # tested by RSI, no direct comparison with ta-lib possible
-    ema=dict(
-        minperiods=[30],
-        decimals=9,
-    ),
+    wma=dict(minperiod=30, decimals=9),
+    ema=dict(minperiod=30, decimals=9),
     ewm='adosc',
-    dema=dict(
-        minperiods=[59],
-        decimals=9,
-    ),
+    dema=dict(minperiod=59, decimals=9),
     gdema='t3',  # tested with T3
-    kama=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[31],
-    ),
-    t3=dict(
-        minperiods=[25],
-    ),
-    tema=dict(
-        minperiods=[88],
-        decimals=10,
-    ),
-    trima=dict(
-        minperiods=[30],
-        decimals=10,
-    ),
-    trix=dict(
-        minperiods=[89],
-        decimals=12,
-    ),
-    bbands=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[5],
-        decimals=6,
-        swapouts={0: 1},  # ta-lib order top/mid/bot, swap outputs 0:1 to match
-    ),
-    midpoint=dict(
-        minperiods=[14],
-    ),
-    midprice=dict(
-        minperiods=[14],
-    ),
+    kama=dict(minperiod=31, _talib=True),
+    t3=dict(minperiod=25),
+    tema=dict(minperiod=88, decimals=10),
+    trima=dict(minperiod=30, decimals=10),
+    trix=dict(minperiod=89, decimals=12),
+    # ta-lib order top/mid/bot, swap outputs 0:1 to match
+    bbands=dict(minperiod=5, decimals=6, _talib=True, swapouts={0: 1}),
+    midpoint=dict(minperiod=14),
+    midprice=dict(minperiod=14),
 
     # Momentum
-    apo=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[26],
-        decimals=9,  # round limit for equality
-    ),
-    cci=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[14],
-        decimals=8,  # only 1 value forces the cut at 8 instead of 9
-    ),
-    macd=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[26, 34, 34],
-        decimals=9,  # round limit for equality
-    ),
-    mfi=dict(
-        minperiods=[15],
-        decimals=11,
-    ),
-    ppo=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[26, 34],
-        decimals=10,  # round limit for equality
-    ),
+    apo=dict(minperiod=26, decimals=9, _talib=True),
+    cci=dict(minperiod=14, decimals=8, _talib=True),
+    macd=dict(minperiods=[26, 34, 34], decimals=9, _talib=True),
+    mfi=dict(minperiod=15, decimals=11),
+    ppo=dict(minperiods=[26, 34], decimals=10, _talib=True),
     ppofast='ppo',
-    roc=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[11],
-    ),
-    rocp=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[11],
-        decimals=14,  # round limit for equality
-    ),
-    rocr=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[11],
-    ),
-    rocr100=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[11],
-    ),
-    rsi=dict(
-        minperiods=[15],
-        decimals=11,
-    ),
-    stochastic=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[16, 18],
-        decimals=11,  # round limit for equality
-    ),
-    stochf=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[5, 7],
-        decimals=11,  # round limit for equality
-    ),
-    stochrsi=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[19, 21],
-        decimals=9,  # round limit for equality
-    ),
-    williamsr=dict(
-        minperiods=[14],
-        decimals=12,  # round limit for equality
-    ),
-    ultimateoscillator=dict(
-        minperiods=[29],
-        decimals=11,  # round limit for equality
-    ),
+    roc=dict(minperiod=11, _talib=True),
+    rocp=dict(minperiod=11, decimals=14, _talib=True),
+    rocr=dict(minperiod=11, _talib=True),
+    rocr100=dict(minperiod=11, _talib=True),
+    rsi=dict(minperiod=15, decimals=11),
+    stoch=dict(minperiods=[16, 18], decimals=11, _talib=True),
+    stochf=dict(minperiods=[5, 7], decimals=11, _talib=True),
+    stochrsi=dict(minperiods=[19, 21], decimals=9, _talib=True),
+    williamsr=dict(minperiod=14, decimals=12),
+    ultimateoscillator=dict(minperiod=29, decimals=11),
+
     # Volatility
-    truerange=dict(
-        minperiods=[2],
-    ),
+    truerange=dict(minperiod=2),
     truehigh='truerange',
     truelow='truerange',
-    atr=dict(
-        minperiods=[15],
-        decimals=11,  # round limit for equality
-    ),
-    natr=dict(
-        minperiods=[15],
-        decimals=13,  # round limit for equality
-    ),
+    atr=dict(minperiod=15, decimals=11),
+    natr=dict(minperiod=15, decimals=13),
 
     # OTHER TESTS - Internal functionality
     series_fetcher=test_series_fetcher.run,
@@ -220,17 +97,9 @@ metatests = dict(
     outputs=test_outputs.run,
 
     # Volume
-    obv=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[1],
-    ),
-    ad=dict(
-        minperiods=[1],
-    ),
-    adosc=dict(
-        btkwargs=dict(_talib=True),
-        minperiods=[10],
-    ),
+    obv=dict(minperiod=1, _talib=True),
+    ad=dict(minperiod=1),
+    adosc=dict(minperiod=10, _talib=True)
 )
 
 if __name__ == '__main__':
