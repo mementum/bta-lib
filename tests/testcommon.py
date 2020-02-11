@@ -115,8 +115,12 @@ def run_indicator(pargs, name, testdata, main=False):
     if 'inputop' in testdata:
         inputs = testdata['inputop'](*inputs)
 
+    tacompat = testdata.get('_talib', False)
 
     btkwargs = testdata.get('btkwargs', {})
+    if tacompat:
+        btkwargs.setdefault('_talib', tacompat)
+
     if pargs.bt_overargs:
         btkwargs = eval('dict(' + pargs.bt_overargs + ')')
     elif pargs.bt_kwargs:
