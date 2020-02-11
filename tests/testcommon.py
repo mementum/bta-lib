@@ -112,6 +112,9 @@ def run_indicator(pargs, name, testdata, main=False):
 
     # The inputs are either specified in the testdata or the default from ind
     inputs = [df[x] for x in testdata.get('inputs', btind.inputs)]
+    if 'inputop' in testdata:
+        inputs = testdata['inputop'](*inputs)
+
 
     btkwargs = testdata.get('btkwargs', {})
     if pargs.bt_overargs:
