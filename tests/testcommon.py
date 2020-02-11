@@ -115,7 +115,7 @@ def run_indicator(pargs, name, testdata, main=False):
     if 'inputop' in testdata:
         inputs = testdata['inputop'](*inputs)
 
-    tacompat = testdata.get('_talib', False)
+    tacompat = testdata.get('talib', False)
 
     btkwargs = testdata.get('btkwargs', {})
     if tacompat:
