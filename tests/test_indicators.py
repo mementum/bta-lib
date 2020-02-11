@@ -72,7 +72,7 @@ metatests = dict(
     cci=dict(minperiod=14, decimals=8, _talib=True),
     macd=dict(minperiods=[26, 34, 34], decimals=9, _talib=True),
     mfi=dict(minperiod=15, decimals=11),
-    ppo=dict(minperiods=[26, 34], decimals=10, _talib=True),
+    ppo=dict(minperiods=[26, 34, 34], decimals=10, _talib=True),
     ppofast='ppo',
     roc=dict(minperiod=11, _talib=True),
     rocp=dict(minperiod=11, decimals=14, _talib=True),
