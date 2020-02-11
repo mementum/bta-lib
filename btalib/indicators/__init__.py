@@ -27,6 +27,7 @@ from .stddev import *  # noqa: F401 F403
 from .sma import *  # noqa: F401 F403
 from .ema import *  # noqa: F401 F403
 from .smma import *  # noqa: F401 F403
+from .wma import *  # noqa: F401 F403
 
 from .dema import *  # noqa: F401 F403
 from .kama import *  # noqa: F401 F403
