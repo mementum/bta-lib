@@ -56,6 +56,9 @@ def run_indicators(metatests, main=False):
         if not testdata:  # empty - create empty data
             testdata = {}
 
+        if isinstance(testdata, int):  # only minperiods specified
+            testdata = dict(minperiods=testdata)
+
         if isinstance(testdata, str):  # delay test referred to other tests
             posttest[name] = testdata
             continue  # skip for later
