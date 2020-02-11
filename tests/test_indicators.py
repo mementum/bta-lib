@@ -91,16 +91,15 @@ metatests = dict(
     truelow='truerange',
     atr=dict(minperiod=15, decimals=11),
     natr=dict(minperiod=15, decimals=13),
+    # Volume
+    ad=dict(minperiod=1),
+    adosc=dict(minperiod=10, _talib=True),
+    obv=dict(minperiod=1, _talib=True),
 
     # OTHER TESTS - Internal functionality
     series_fetcher=test_series_fetcher.run,
     linesholder=test_linesholder.run,
     outputs=test_outputs.run,
-
-    # Volume
-    obv=dict(minperiod=1, _talib=True),
-    ad=dict(minperiod=1),
-    adosc=dict(minperiod=10, _talib=True)
 )
 
 if __name__ == '__main__':
