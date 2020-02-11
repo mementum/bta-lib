@@ -47,7 +47,7 @@ metatests = dict(
 
     # Statistic Functions
     mad='cci',  # mean asbsolute deviation is tested by cci, not in ta-lib
-    stddev=dict(minperiod=5, decimals=6, _talib=True),
+    stddev=dict(minperiod=5, decimals=6, talib=True),
 
     # Overlap
     sma=dict(minperiod=30),
@@ -57,34 +57,31 @@ metatests = dict(
     ewm='adosc',
     dema=dict(minperiod=59, decimals=9),
     gdema='t3',  # tested with T3
-    kama=dict(minperiod=31, _talib=True),
+    kama=dict(minperiod=31, talib=True),
     t3=dict(minperiod=25),
     tema=dict(minperiod=88, decimals=10),
     trima=dict(minperiod=30, decimals=10),
     trix=dict(minperiod=89, decimals=12),
     # ta-lib order top/mid/bot, swap outputs 0:1 to match
-    bbands=dict(
-        minperiods=[5, 5, 5], decimals=6, _talib=True,
-        swapouts={0: 1}
-    ),
+    bbands=dict(minperiods=[5, 5, 5], decimals=6, talib=True, swapouts={0: 1}),
     midpoint=dict(minperiod=14),
     midprice=dict(minperiod=14),
 
     # Momentum
-    apo=dict(minperiod=26, decimals=9, _talib=True),
-    cci=dict(minperiod=14, decimals=8, _talib=True),
-    macd=dict(minperiods=[26, 34, 34], decimals=9, _talib=True),
+    apo=dict(minperiod=26, decimals=9, talib=True),
+    cci=dict(minperiod=14, decimals=8, talib=True),
+    macd=dict(minperiods=[26, 34, 34], decimals=9, talib=True),
     mfi=dict(minperiod=15, decimals=11),
-    ppo=dict(minperiods=[26, 34, 34], decimals=10, _talib=True),
+    ppo=dict(minperiods=[26, 34, 34], decimals=10, talib=True),
     ppofast='ppo',
-    roc=dict(minperiod=11, _talib=True),
-    rocp=dict(minperiod=11, decimals=14, _talib=True),
-    rocr=dict(minperiod=11, _talib=True),
-    rocr100=dict(minperiod=11, _talib=True),
+    roc=dict(minperiod=11, talib=True),
+    rocp=dict(minperiod=11, decimals=14, talib=True),
+    rocr=dict(minperiod=11, talib=True),
+    rocr100=dict(minperiod=11, talib=True),
     rsi=dict(minperiod=15, decimals=11),
-    stoch=dict(minperiods=[7, 9], decimals=11, _talib=True),
-    stochf=dict(minperiods=[5, 7], decimals=11, _talib=True),
-    stochrsi=dict(minperiods=[19, 21], decimals=9, _talib=True),
+    stoch=dict(minperiods=[7, 9], decimals=11, talib=True),
+    stochf=dict(minperiods=[5, 7], decimals=11, talib=True),
+    stochrsi=dict(minperiods=[19, 21], decimals=9, talib=True),
     williamsr=dict(minperiod=14, decimals=12),
     ultimateoscillator=dict(minperiod=29, decimals=11),
 
@@ -97,8 +94,8 @@ metatests = dict(
 
     # Volume
     ad=dict(minperiod=1),
-    adosc=dict(minperiod=10, _talib=True),
-    obv=dict(minperiod=1, _talib=True),
+    adosc=dict(minperiod=10, talib=True),
+    obv=dict(minperiod=1, talib=True),
 
     # OTHER TESTS - Internal functionality
     series_fetcher=test_series_fetcher.run,
