@@ -7,6 +7,70 @@
 from . import Indicator
 
 
+# ## over the entire series
+
+class add(Indicator, inputs_override=True):
+    '''
+    Calculates the summation of the two inputs
+
+    Formula:
+      - add = data0 + data1
+    '''
+    group = 'mathop'
+    alias = 'ADD'
+    inputs = 'input1', 'input2'
+    outputs = 'add'
+
+    def __init__(self):
+        self.o.add = self.i.input1 + self.i.input2
+
+
+class div(Indicator, inputs_override=True):
+    '''
+    Calculates the division of the two inputs
+
+    Formula:
+      - div = data0 / data1
+    '''
+    group = 'mathop'
+    alias = 'DIV'
+    inputs = 'input1', 'input2'
+    outputs = 'div'
+
+    def __init__(self):
+        self.o.div = self.i.input1 / self.i.input2
+
+
+class mult(Indicator, inputs_override=True):
+    '''
+    Calculates the multiplication of the two inputs
+
+    Formula:
+      - mult = data0 * data1
+    '''
+    group = 'mathop'
+    alias = 'MULT'
+    inputs = 'input1', 'input2'
+    outputs = 'mult'
+
+    def __init__(self):
+        self.o.mult = self.i.input1 * self.i.input2
+
+
+class sub(Indicator, inputs_override=True):
+    '''
+    Calculates the subtraction of the two inputs
+
+    Formula:
+      - sub = data0 - data1
+    '''
+    group = 'mathop'
+    alias = 'SUB'
+    inputs = 'input1', 'input2'
+    outputs = 'sub'
+
+    def __init__(self):
+        self.o.sub = self.i.input1 - self.i.input2
 
 
 # ## over a period

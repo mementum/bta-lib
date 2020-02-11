@@ -23,6 +23,13 @@ metatests = dict(
     wclprice=dict(minperiod=1, decimals=12),
 
     # Math Operators
+    # ## over the entire series
+    add=dict(inputs=['high', 'low']),
+    div=dict(inputs=['high', 'low']),
+    mult=dict(inputs=['high', 'low']),
+    sub=dict(inputs=['high', 'low']),
+
+    # ## over a period
     max=dict(minperiod=30),
     min=dict(minperiod=30),
     sum=dict(minperiod=30),
