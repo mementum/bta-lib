@@ -7,8 +7,14 @@
 from . import Indicator
 
 
+
+
+# ## over a period
+
 class max(Indicator):
     '''
+    Rolling maximum over `period` of the input
+
     Formula:
       - highest = max(data, period)
     '''
@@ -25,6 +31,8 @@ class max(Indicator):
 
 class min(Indicator):
     '''
+    Rolling minimum over `period` of the input
+
     Formula:
       - lowest = min(data, period)
     '''
@@ -41,6 +49,8 @@ class min(Indicator):
 
 class sum(Indicator):
     '''
+    Rolling sum over `period` of the input
+
     Formula:
       - sum = sum(data, period)
     '''
