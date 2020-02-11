@@ -63,7 +63,10 @@ metatests = dict(
     trima=dict(minperiod=30, decimals=10),
     trix=dict(minperiod=89, decimals=12),
     # ta-lib order top/mid/bot, swap outputs 0:1 to match
-    bbands=dict(minperiod=5, decimals=6, _talib=True, swapouts={0: 1}),
+    bbands=dict(
+        minperiods=[5, 5, 5], decimals=6, _talib=True,
+        swapouts={0: 1}
+    ),
     midpoint=dict(minperiod=14),
     midprice=dict(minperiod=14),
 
