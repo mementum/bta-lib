@@ -111,7 +111,9 @@ def run_indicator(pargs, name, testdata, main=False):
     btind = getattr(btalib, testdata.get('btind', name))
 
     # The inputs are either specified in the testdata or the default from ind
-    inputs = [df[x] for x in testdata.get('inputs', btind.inputs)]
+    inames = testdata.get('inputs', btind.inputs)
+    logging.info('Gathering inputs {}'.format(inames))
+    inputs = [df[x] for x in inames]
     if 'inputop' in testdata:
         inputs = testdata['inputop'](*inputs)
 
