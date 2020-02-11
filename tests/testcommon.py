@@ -131,7 +131,11 @@ def run_indicator(pargs, name, testdata, main=False):
     for a, b in testdata.get('swapouts', {}).items():
         btouts[a], btouts[b] = btouts[b], btouts[a]
 
-    checkminperiods = testdata.get('minperiods', [])
+    if 'minperiod' in testdata:
+        checkminperiods = testdata['minperiod']
+    else:
+        checkminperiods = testdata.get('minperiods', [1])
+
     if checkminperiods:
         eqperiods = btresult._minperiods == checkminperiods
     else:
