@@ -37,11 +37,12 @@ metatests = dict(
     sinh=dict(minperiod=1, inputop=lambda *a: [x / 4000.0 for x in a]),
     tan=dict(minperiod=1),
     tanh=dict(minperiod=1),
+
     ceil=dict(minperiod=1),
-    floor=dict(minperiod=1),
-    log10=dict(minperiod=1),
-    ln=dict(minperiod=1),
     exp=dict(minperiod=1, inputop=lambda *a: [x / 1000.0 for x in a]),
+    floor=dict(minperiod=1),
+    ln=dict(minperiod=1),
+    log10=dict(minperiod=1),
     sqrt=dict(minperiod=1),
 
     # Statistic Functions
