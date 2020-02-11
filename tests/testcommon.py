@@ -213,6 +213,10 @@ def run_indicator(pargs, name, testdata, main=False):
 
         equal = equal and allequal  # check if result still equal True
 
+    serequal = equal
+    if eqperiods != -1:
+        equal = equal and eqperiods
+
     logging.info('[+] Test Result     : {} ({})'.format(equal, name))
 
     if pargs.verbose:  # if verbosity is requested
