@@ -79,7 +79,7 @@ metatests = dict(
     rocr=dict(minperiod=11, _talib=True),
     rocr100=dict(minperiod=11, _talib=True),
     rsi=dict(minperiod=15, decimals=11),
-    stoch=dict(minperiods=[16, 18], decimals=11, _talib=True),
+    stoch=dict(minperiods=[7, 9], decimals=11, _talib=True),
     stochf=dict(minperiods=[5, 7], decimals=11, _talib=True),
     stochrsi=dict(minperiods=[19, 21], decimals=9, _talib=True),
     williamsr=dict(minperiod=14, decimals=12),
