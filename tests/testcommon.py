@@ -136,6 +136,9 @@ def run_indicator(pargs, name, testdata, main=False):
     else:
         checkminperiods = testdata.get('minperiods', [1])
 
+    if isinstance(checkminperiods, int):
+        checkminperiods = [checkminperiods]
+
     if checkminperiods:
         eqperiods = btresult._minperiods == checkminperiods
     else:
