@@ -112,12 +112,12 @@ def run_indicator(pargs, name, testdata, main=False):
 
     # The inputs are either specified in the testdata or the default from ind
     inames = testdata.get('inputs', btind.inputs)
-    logging.info('Gathering inputs {}'.format(inames))
+    logging.info('[+] Gathering inputs {}'.format(inames))
     inputs = [df[x] for x in inames]
     if 'inputop' in testdata:
         inputs = testdata['inputop'](*inputs)
 
-    tacompat = testdata.get('talib', False)
+    tacompat = testdata.get('talib', False) or pargs.talib
 
     btkwargs = testdata.get('btkwargs', {})
     if tacompat:
@@ -139,7 +139,7 @@ def run_indicator(pargs, name, testdata, main=False):
         checkminperiods = testdata.get('minperiods', [1])
 
     if isinstance(checkminperiods, int):
-        checkminperiods = [checkminperiods]
+        checkminperiods = [checkminperiods] * len(btouts)
 
     if checkminperiods:
         eqperiods = btresult._minperiods == checkminperiods
@@ -287,6 +287,9 @@ def parse_args(pargs, main=False):
 
     parser.add_argument('--minperiod', '-mp', type=int,
                         help='Minperiod chk: -1: No, 0: per-ind, 1: per-line')
+
+    parser.add_argument('--talib', '-talib', action='store_true',
+                        help='Activate talib compatibility for the indicators')
 
     parser.add_argument('--bt-kwargs', '-btk', default='', metavar='kwargs',
                         help='kwargs in key=value format (update)')
