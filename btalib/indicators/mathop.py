@@ -6,6 +6,10 @@
 ###############################################################################
 from . import Indicator
 
+import itertools
+
+import numpy as np
+
 
 # ## over the entire series
 
@@ -80,17 +84,17 @@ class max(Indicator):
     Rolling maximum over `period` of the input
 
     Formula:
-      - highest = max(data, period)
+      - max = max(data, period)
     '''
     group = 'mathop'
     alias = 'highest', 'Highest', 'maxn', 'MaxN', 'MAX'
-    outputs = 'highest'
+    outputs = 'max'
     params = (
         ('period', 30, 'Period to consider'),
     )
 
     def __init__(self):
-        self.o.highest = self.i0.rolling(window=self.p.period).max()
+        self.o.max = self.i0.rolling(window=self.p.period).max()
 
 
 class min(Indicator):
@@ -98,17 +102,135 @@ class min(Indicator):
     Rolling minimum over `period` of the input
 
     Formula:
-      - lowest = min(data, period)
+      - min = min(data, period)
     '''
     group = 'mathop'
     alias = 'lowest', 'Lowest', 'minn', 'MinN', 'MIN'
-    outputs = 'lowest'
+    outputs = 'min'
     params = (
         ('period', 30, 'Period to consider'),
     )
 
     def __init__(self):
-        self.o.lowest = self.i0.rolling(window=self.p.period).min()
+        self.o.min = self.i0.rolling(window=self.p.period).min()
+
+
+class minmax(Indicator):
+    '''
+    Rolling the minimum and maximo over `period` of the input
+
+    Formula:
+      - min = min(data, period)
+      - min = max(data, period)
+    '''
+    group = 'mathop'
+    alias = 'MINMAX'
+    outputs = 'min', 'max'
+    params = (
+        ('period', 30, 'Period to consider'),
+    )
+
+    def __init__(self):
+        self.o.min = min(self.i0, period=self.p.period)
+        self.o.max = max(self.i0, period=self.p.period)
+
+
+class maxindex(Indicator):
+    '''
+    Rolling index of the max value over a period
+
+    Formula:
+      - maxindex = data.index(max(data, period))
+    '''
+    group = 'mathop'
+    alias = 'MAXINDEX'
+    outputs = 'maxindex'
+    params = (
+        ('period', 30, 'Period to consider'),
+        ('_absidx', False, 'Return maxindex over the entire period'),
+    )
+
+    def _mi(self, x):
+        return np.argmax(x) + (next(self._count) * self.p._absidx)
+
+    def __init__(self):
+        self._count = itertools.count()
+        self.o.maxindex = self.i0.rolling(window=self.p.period).apply(self._mi)
+
+        if self._talib_:  # also resets minperiod to 1 as the talib result
+            self.o.maxindex = self.o.maxindex.series.fillna(0)
+
+    _talib_ = False
+
+    def _talib(self, kwdict):
+        '''ta-lib returns 0 as index during the warm-up period and then returns the
+        absolute index over the entire series and not over the window period
+        '''
+        kwdict.setdefault('_absidx', True)
+        self._talib_ = True
+
+
+class minindex(Indicator):
+    '''
+    Rolling index of the max value over a period
+
+    Formula:
+      - maxindex = data.index(max(data, period))
+    '''
+    group = 'mathop'
+    alias = 'MININDEX'
+    outputs = 'minindex'
+    params = (
+        ('period', 30, 'Period to consider'),
+        ('_absidx', False, 'Return maxindex over the entire period'),
+    )
+
+    def _mi(self, x):
+        return np.argmin(x) + (next(self._count) * self.p._absidx)
+
+    def __init__(self):
+        self._count = itertools.count()
+        self.o.minindex = self.i0.rolling(window=self.p.period).apply(self._mi)
+
+        if self._talib_:  # also resets minperiod to 1 as the talib result
+            self.o.minindex = self.o.minindex.series.fillna(0)
+
+    _talib_ = False
+
+    def _talib(self, kwdict):
+        '''ta-lib returns 0 as index during the warm-up period and then returns the
+        absolute index over the entire series and not over the window period
+        '''
+        kwdict.setdefault('_absidx', True)
+        self._talib_ = True
+
+
+class minmaxindex(Indicator):
+    '''
+    Rolling index of the max value over a period
+
+    Formula:
+      - maxindex = data.index(max(data, period))
+    '''
+    group = 'mathop'
+    alias = 'MINMAXINDEX'
+    outputs = 'minindex', 'maxindex'
+    params = (
+        ('period', 30, 'Period to consider'),
+        ('_absidx', False, 'Return maxindex over the entire period'),
+    )
+
+    def __init__(self, **kwargs):
+        kwargs.update(**self.params)
+        self.o.minindex = minindex(self.i0, **kwargs)
+        self.o.maxindex = maxindex(self.i0, **kwargs)
+
+    def _talib(self, kwdict):
+        '''ta-lib returns 0 as index during the warm-up period and then returns the
+        absolute index over the entire series and not over the window period
+        '''
+        kwdict.setdefault('_absidx', True)
+        kwdict.setdefault('_talib', True)  # re-set the value for sub-indicators
 
 
 class sum(Indicator):

@@ -32,6 +32,10 @@ metatests = dict(
     # ## over a period
     max=dict(minperiod=30),
     min=dict(minperiod=30),
+    minmax=dict(minperiod=30),
+    maxindex=dict(minperiod=1, talib=True),
+    minindex=dict(minperiod=1, talib=True),
+    minmaxindex=dict(minperiod=1, talib=True),
     sum=dict(minperiod=30),
 
     # Math Transform
