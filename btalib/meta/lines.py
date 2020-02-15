@@ -195,6 +195,7 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
                 kwargs.setdefault('adjust', False)  # set if not given
 
                 # collect special parameters
+                self._pearly = _pearly = kwargs.pop('_pearly', 0)
                 self._poffset = kwargs.pop('_poffset', 0)
                 self._last = kwargs.pop('_last', False)
 
@@ -212,7 +213,7 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
                 if self._alpha_p > poffset:
                     poffset += self._alpha_p - poffset - 1
 
-                p2 = self._minperiod - 1 + poffset  # end of seed calculation
+                p2 = self._minperiod - 1 + poffset - _pearly  # seed end calc
                 p1 = p2 - self._pval  # beginning of seed calculation
                 # beginning of result calculation. Includes the calculated seed
                 # value which is the 1st value to be returned. Except in KAMA,
@@ -256,7 +257,7 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
 
         def __getattr__(self, attr):
             if self._pval is not None and not self._seeded:
-                self._minperiod += self._pval - overlap
+                self._minperiod += self._pval - overlap - self._pearly
 
                 # for a dynamic alpha, the period of the alpha can exceed minp
                 self._minperiod = max(self._minperiod, self._alpha_p)
