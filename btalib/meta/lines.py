@@ -241,6 +241,15 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
 
             self._multifunc = getattr(trailer, lsname)(*args, **kwargs)
 
+        def _mean_exp(self, alpha, beta):  # recurisive definition
+            # alpha => new data, beta => old data (similar to 1-alpha)
+            def _sm_acc(x):
+                for i in range(1, len(x)):
+                    x[i] = beta * x[i - 1] + alpha * x[i]
+
+                return x
+
+            return self._apply(_sm_acc)  # trigger __getattr__ for _apply
         def _mean(self):  # meant for ewm with dynamic alpha
             def _dynalpha(vals):
                 # reuse vals: not the original series, it's the trailer abvoe
