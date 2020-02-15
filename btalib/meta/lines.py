@@ -253,7 +253,7 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
 
                 return vals  # can return vals, made Series via __getattr__
 
-            return self._apply(_dynalpha)  # triggers __getattr__ for _pply
+            return self._apply(_dynalpha)  # triggers __getattr__ for _apply
 
         def __getattr__(self, attr):
             if self._pval is not None and not self._seeded:
