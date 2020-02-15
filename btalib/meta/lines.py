@@ -5,6 +5,7 @@
 # Use of this source code is governed by the MIT License
 ###############################################################################
 import numpy as np
+import scipy.signal
 import pandas as pd
 
 from . import config
@@ -250,6 +251,23 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
                 return x
 
             return self._apply(_sm_acc)  # trigger __getattr__ for _apply
+
+        def _lfilter(self, alpha, beta=None):  # recurisive definition
+            # alpha => new data, beta => old data (similar to 1-alpha)
+            if not beta:
+                beta = 1.0 - alpha
+
+            def _sp_lfilter(x):
+                # Initial conditions "ic" can be used for the calculation, the
+                # next two lines detail that. A simple scaling of x[0] achieves
+                # the same in the 1-d case
+                # zi = lfiltic([alpha], [1.0, -beta], y=[x[0]])
+                # x[1:], _ = lfilter([alpha], [1.0, -beta], x[1:], zi=zi)
+                x[0] /= alpha  # scale start val, descaled in 1st op by alpha
+                return scipy.signal.lfilter([alpha], [1.0, -beta], x)
+
+            return self._apply(_sp_lfilter)  # trigger __getattr__ for _apply
+
         def _mean(self):  # meant for ewm with dynamic alpha
             def _dynalpha(vals):
                 # reuse vals: not the original series, it's the trailer abvoe
