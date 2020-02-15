@@ -224,7 +224,13 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
                 # if _last is set, the last known value of the input is
                 # used. If not, the seed is the arithmetic mean of the
                 # calculated p1-p2 range
-                seed[-1] = series[pidx] if self._last else series[p1:p2].mean()
+                _last = int(self._last)
+                if not _last:
+                    seed[-1] = series[p1:p2].mean()
+                elif _last == 1:
+                    seed[-1] = series[pidx]
+                elif _last == 2:
+                    seed[-1] = series[p1:p2].sum()
 
                 # this is the trailer part of the result. the initial is nans
                 trailer = seed.append(series[p2:])  # join seed series and rest
