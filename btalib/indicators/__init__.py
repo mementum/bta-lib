@@ -39,6 +39,8 @@ from .t3 import *  # noqa: F401 F403
 from .bbands import *  # noqa: F401 F403
 from .midpoint import *  # noqa: F401 F403
 
+from .ewma import *  # noqa: F401 F403
+
 # Volatility
 from .atr import *  # noqa: F401 F403
 
