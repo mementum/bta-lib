@@ -110,12 +110,21 @@ class MetaIndicator(meta.linesholder.LinesHolder.__class__):
         self._minperiods = [_in._minperiod for _in in self.inputs]
         self._minperiod = max(self._minperiods)
 
+        # Determine base classes for auto-calling
+        bases, bcls = [], cls
+        while(bcls.__name__ != 'Indicator'):
+            bases.append(super(bcls, self))
+            bcls = bcls.__bases__[0]  # use always the leftmost base
+
         # Check if ta-lib compatibility is requested. If so and the indicator
         # defines a _talib function, give it the **ACTUAL** kwargs and use the
         # modified version. Don't let a '_talib' parameter make it to the
         # indicator (hence pop)
         if config.get_talib_compat() or kwargs.pop('_talib', False):
-            getattr(self, '_talib')(kwargs)  # actual kwargs passed
+            for b in reversed(bases):
+                b._talib(kwargs)  # actual kwargs passed allowing in-place mod
+
+            self._talib(kwargs)  # actual kwargs passed
 
         # Get params instance and remaining kwargs
         self.params, kwargs = meta.params._from_kwargs(cls, **kwargs)
@@ -125,11 +134,6 @@ class MetaIndicator(meta.linesholder.LinesHolder.__class__):
         metadata.callstack.append(self)  # let ind know hwere in the stack
 
         # Auto-call base classes
-        bases, bcls = [], cls
-        while(bcls.__name__ != 'Indicator'):
-            bases.append(super(bcls, self))
-            bcls = bcls.__bases__[0]  # use always the leftmost base
-
         for b in reversed(bases):
             b.__init__(*args, **kwargs)
 
