@@ -4,10 +4,11 @@
 # Copyright (C) 2020 Daniel Rodriguez
 # Use of this source code is governed by the MIT License
 ###############################################################################
-from .ema import _exp_smoothing
+from . import Indicator
+from . import SEED_AVG
 
 
-class smma(_exp_smoothing):
+class smma(Indicator):
     '''
     Smoothed Moving Average used by Wilder in his 1978 book `New Concepts in
     Technical Trading`
@@ -33,8 +34,9 @@ class smma(_exp_smoothing):
     outputs = 'smma'
     params = (
         ('period', 30, 'Period for the moving average calculation'),
+        ('_seed', SEED_AVG, 'Default to use average of periods as seed'),
     )
 
     def __init__(self):  # use data prepared by base class
-        period, _last = self.p.period, self.p._last
-        self.o.smma = self.i0._ewm(com=period - 1, _last=_last).mean()
+        period, seed = self.p.period, self.p._seed
+        self.o.smma = self.i0._ewm(com=period - 1, _seed=seed).mean()
