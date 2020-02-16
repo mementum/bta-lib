@@ -34,7 +34,7 @@ def run_indicators(metatests, main=False):
     loginfo('[+] From main        : {}'.format(main))
     if pargs.list_names:
         loginfo(', '.join(metatests))
-        return 0  # success
+        sys.exit(0)
 
     if pargs.name:  # requested specific indicators
         mtests = {k: v for k, v in metatests.items() if k in pargs.name}
