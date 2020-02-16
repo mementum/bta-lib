@@ -5,6 +5,7 @@
 # Use of this source code is governed by the MIT License
 ###############################################################################
 from . import Indicator, SumN
+from . import SEED_AVG, SEED_LAST
 
 
 class kama(Indicator):
@@ -37,8 +38,9 @@ class kama(Indicator):
     exponentially weighted moving average uses a value which changes for each
     step of the calculation.
 
-    The standard see is the simple moving average, use _last=True to apply the
-    "last" known value of the input as the seed
+    The standard seed is the simple moving average, use _seed=btalib.SEED_LAST
+    to apply the "last" known value of the input as the seed (for compatibility
+    this can be simply `True` or `1`)
 
     Because the dynamic smoothing constant has a larger period (+1) than the
     actual moving average, this average has alrady a seed value when the
@@ -59,7 +61,7 @@ class kama(Indicator):
         ('period', 30, 'Period to consider'),
         ('fast', 2, 'Fast exponential smoothing factor'),
         ('slow', 30, 'Slow exponential smoothing factor'),
-        ('_last', False, 'Use last input value instead of mean as seed'),
+        ('_seed', SEED_AVG, 'Default to use average of n periods as seed'),
         ('_pvol', 1, 'Lookback period for volatility calculation'),
     )
 
@@ -80,8 +82,8 @@ class kama(Indicator):
 
         # Get the _ewm window function and calculate the dynamic mean on it
         self.o.kama = self.i0._ewm(
-            span=self.p.period, alpha=sc, _last=self.p._last)._mean()
+            span=self.p.period, alpha=sc, _seed=self.p._seed)._mean()
 
     def _talib(self, kwdict):
-        '''Apply value at "peiod" as seed, instead of mean of period  values'''
-        kwdict.setdefault('_last', True)
+        '''Apply las value as seed, instead of average of period values'''
+        kwdict.setdefault('_seed', SEED_LAST)
