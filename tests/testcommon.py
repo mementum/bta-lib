@@ -273,8 +273,7 @@ def parse_args(pargs, main=False):
         )
     )
 
-    parser.add_argument('--name', default=[], action='append',
-                        help='Select specific test name')
+    parser.add_argument('name', nargs='*', help='Specific indicators to test')
 
     parser.add_argument('--ad-hoc', action='store_true',
                         help='Create ad-hoc test if not already defined')
