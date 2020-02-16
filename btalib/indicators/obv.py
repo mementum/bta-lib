@@ -4,7 +4,7 @@
 # Copyright (C) 2020 Daniel Rodriguez
 # Use of this source code is governed by the MIT License
 ###############################################################################
-from . import Indicator
+from . import Indicator, _DECPERIOD, _MINIDX
 
 import numpy as np
 
@@ -43,8 +43,8 @@ class obv(Indicator):
         close1 = self.i.close.diff(periods=self.p._period)
 
         if self._talib_:  # ## black voodoo to overcome ta-lib errors
-            close1._minperiod -= 1  # force period reduction to propagate use
-            close1[close1._minperiod - 1] = 1.0  # force use 1st value POSITIVE
+            _DECPERIOD(close1)  # force period reduction to propagate use
+            close1[_MINIDX(close1)] = 1.0  # force use 1st value POSITIVE
 
         self.o.obv = (self.i.volume * close1.apply(np.sign)).cumsum()
 
