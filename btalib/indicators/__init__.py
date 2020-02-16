@@ -5,7 +5,10 @@
 # Use of this source code is governed by the MIT License
 ###############################################################################
 from numpy import nan as NaN  # noqa: F401
+
+# Internal objects to work in INdicator development
 from .. import Indicator  # noqa: F401
+from ..utils import *  # noqa: F401 F403
 
 # Price Transform
 from .price import *  # noqa: F401 F403
