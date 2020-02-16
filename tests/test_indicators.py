@@ -84,6 +84,7 @@ metatests = dict(
     cmo=dict(minperiod=15, decimals=11, talib=True),
     macd=dict(minperiods=[26, 34, 34], decimals=9, talib=True),
     mfi=dict(minperiod=15, decimals=11),
+    mom=dict(minperiod=11),
     ppo=dict(minperiods=[26, 34, 34], decimals=10, talib=True),
     ppofast='ppo',
     roc=dict(minperiod=11, talib=True),

@@ -52,6 +52,7 @@ from .cci import *  # noqa: F401 F403
 from .cmo import *  # noqa: F401 F403
 from .macd import *  # noqa: F401 F403
 from .mfi import *  # noqa: F401 F403
+from .mom import *  # noqa: F401 F403
 from .ppo import *  # noqa: F401 F403
 from .roc import *  # noqa: F401 F403
 from .rsi import *  # noqa: F401 F403
