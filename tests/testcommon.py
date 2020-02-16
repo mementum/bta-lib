@@ -48,6 +48,13 @@ def run_indicators(metatests, main=False):
 
             mtests[name] = {}
 
+    if not mtests:  # empty test set ...
+        logerror('[-] No tests could be found')
+        if pargs.name:
+            logerror('[-] Wanted Indicators: {}'.format(','.join(pargs.name)))
+
+        sys.exit(0)
+
     posttest = {}
     for name, testdata in mtests.items():
         if testdata is None:  # skip
