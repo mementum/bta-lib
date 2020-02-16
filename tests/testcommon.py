@@ -72,9 +72,20 @@ def run_indicators(metatests, main=False):
 
         RESULTS[name] = run_indicator(pargs, name, testdata, main=main)
 
-    # run delayed string tests
-    for name, testdata in posttest.items():
-        RESULTS[name] = run_indicator(pargs, name, testdata, main=main)
+    # pseudo-run delayed string tests
+    for name, othername in posttest.items():
+        loginfo('[+]' + '-' * 74)
+        loginfo('[+] Test def is string: "{}"'.format(othername))
+        if othername not in RESULTS:
+            logerror('[-] Test "{}" not run'.format(othername))
+            rother = False
+        else:
+            loginfo('[+] Test completed with : {}'.format(othername))
+            rother = RESULTS[othername]
+
+        RESULTS[name] = rother
+
+        loginfo('[+] Test Result     : {} ({})'.format(rother, name))
 
     all_good = all(RESULTS.values())
 
@@ -90,13 +101,7 @@ def run_indicator(pargs, name, testdata, main=False):
     loginfo('[+] Testdata is      : {}'.format(testdata))
 
     # If a string has been passed, check and return the result
-    if isinstance(testdata, str):
-        rother = RESULTS.get(testdata, False)
-        loginfo('[+] Test completed with : {}'.format(testdata))
-        loginfo('[+] Test Result     : {} ({})'.format(rother, name))
-        return rother
-
-    elif callable(testdata):
+    if callable(testdata):
         loginfo('[+] Calling tesdata')
         try:
             ret = testdata(main=main)
