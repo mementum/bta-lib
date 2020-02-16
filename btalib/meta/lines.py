@@ -12,6 +12,7 @@ from . import config
 from .metadata import metadata
 from . import linesholder
 from . import linesops
+from .. import SEED_AVG, SEED_LAST, SEED_SUM
 
 
 __all__ = ['Line', 'Lines']
@@ -152,7 +153,7 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
     class _MultiFunc_Op:
         def __init__(self, line, *args, **kwargs):
             # plethora of vals needed later in __getattr__/__getitem__
-            self._seeded = False
+            self._is_seeded = False
             self._line = line
             self._series = series = line._series
             self._minperiod = line._minperiod
@@ -198,7 +199,7 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
                 # collect special parameters
                 self._pearly = _pearly = kwargs.pop('_pearly', 0)
                 self._poffset = kwargs.pop('_poffset', 0)
-                self._last = kwargs.pop('_last', False)
+                self._seed = _seed = kwargs.pop('_seed', False)
 
                 # Determine where the actual calculation is offset to. _poffset
                 # is there to support the failure made by ta-lib when offseting
@@ -208,9 +209,8 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
                 # For a dynamic alpha like in KAMA, the period of the dynamic
                 # alpha can exceed that of the calculated offset. But ta-lib
                 # makes a mistake an calculates that without taking that period
-                # into account if _last is activated
+                # into account if _seed is activated
 
-                # poffset = max(poffset, self._alpha_period)  # - self._last)
                 if self._alpha_p > poffset:
                     poffset += self._alpha_p - poffset - 1
 
@@ -222,20 +222,17 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
                 # exponential smoothing calculation
                 self._minidx = pidx = p2 - 1  # beginning of result calculation
 
-                seed = pd.Series(np.nan, index=series.index[pidx:p2])
-                # if _last is set, the last known value of the input is
-                # used. If not, the seed is the arithmetic mean of the
-                # calculated p1-p2 range
-                _last = int(self._last)
-                if not _last:
-                    seed[-1] = series[p1:p2].mean()
-                elif _last == 1:
-                    seed[-1] = series[pidx]
-                elif _last == 2:
-                    seed[-1] = series[p1:p2].sum()
+                trailprefix = pd.Series(np.nan, index=series.index[pidx:p2])
+                # Determine the actul seed value to use
+                if _seed == SEED_AVG:
+                    trailprefix[-1] = series[p1:p2].mean()
+                elif _seed == SEED_LAST:
+                    trailprefix[-1] = series[pidx]
+                elif _seed == SEED_SUM:
+                    trailprefix[-1] = series[p1:p2].sum()
 
-                # this is the trailer part of the result. the initial is nans
-                trailer = seed.append(series[p2:])  # join seed series and rest
+                # complete trailer: prefix (seed at end) + series vals to calc
+                trailer = trailprefix.append(series[p2:])
             else:
                 self._pearly = 0  # it will be checked in getattr
                 self._minidx = self._minperiod - 1
@@ -284,7 +281,7 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
             return self._apply(_dynalpha)  # triggers __getattr__ for _apply
 
         def __getattr__(self, attr):
-            if self._pval is not None and not self._seeded:
+            if self._pval is not None and not self._is_seeded:
                 self._minperiod += self._pval - overlap - self._pearly
 
                 # for a dynamic alpha, the period of the alpha can exceed minp
@@ -304,8 +301,8 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
             return self._line._clone(self._series.iloc[item])
 
         @property
-        def _seed(self):
-            self._seeded = True  # call if applied after a seed
+        def _seeded(self):
+            self._is_seeded = True  # call if applied after a seed
             return self
 
     def real_multifunc_op(self, *args, **kwargs):
