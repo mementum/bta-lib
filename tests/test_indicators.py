@@ -81,6 +81,7 @@ metatests = dict(
     # Momentum
     apo=dict(minperiod=26, decimals=9, talib=True),
     cci=dict(minperiod=14, decimals=8, talib=True),
+    cmo=dict(minperiod=15, decimals=11, talib=True),
     macd=dict(minperiods=[26, 34, 34], decimals=9, talib=True),
     mfi=dict(minperiod=15, decimals=11),
     ppo=dict(minperiods=[26, 34, 34], decimals=10, talib=True),
