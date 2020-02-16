@@ -12,7 +12,7 @@ import test_series_fetcher
 
 
 def test_run(main=False):
-    return testcommon.run_indicators(metatests, main=main)
+    testcommon.run_indicators(metatests, main=main)
 
 
 metatests = dict(
@@ -130,6 +130,7 @@ metatests = dict(
     linesholder=test_linesholder.run,
     outputs=test_outputs.run,
 )
+
 
 if __name__ == '__main__':
     test_run(main=True)
