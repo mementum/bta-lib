@@ -6,8 +6,9 @@
 ###############################################################################
 from .version import *  # noqa: F401 F403
 
-from .meta import *  # noqa: F401 F403
 from .utils import *  # noqa: F401 F403
+
+from .meta import *  # noqa: F401 F403
 
 from .indicator import *  # noqa: F401 F403
 
