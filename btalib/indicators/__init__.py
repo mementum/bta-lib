@@ -50,6 +50,7 @@ from .atr import *  # noqa: F401 F403
 # Momentum
 from .cci import *  # noqa: F401 F403
 from .cmo import *  # noqa: F401 F403
+from .directionalmove import *  # noqa: F401 F403
 from .macd import *  # noqa: F401 F403
 from .mfi import *  # noqa: F401 F403
 from .mom import *  # noqa: F401 F403

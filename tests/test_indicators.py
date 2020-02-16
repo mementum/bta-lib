@@ -78,6 +78,9 @@ metatests = dict(
     midpoint=dict(minperiod=14),
     midprice=dict(minperiod=14),
 
+    # ## acumulation (also inside the overlap group)
+    smacc='plus_dm',  # tested with the directoinal movement indicators
+
     # Momentum
     apo=dict(minperiod=26, decimals=9, talib=True),
     cci=dict(minperiod=14, decimals=8, talib=True),
@@ -97,6 +100,18 @@ metatests = dict(
     stochrsi=dict(minperiods=[19, 21], decimals=9, talib=True),
     williamsr=dict(minperiod=14, decimals=12),
     ultimateoscillator=dict(minperiod=29, decimals=11),
+
+    # ## also momentum: Directional Movement/Indicators/Index from Wilders
+    # ## In the order in which they are defined due to the dependencies
+    plus_dm=dict(minperiods=14, decimals=10, talib=True),
+    minus_dm=dict(minperiods=14, decimals=11, talib=True),
+    dm='plus_dm',
+    plus_di=dict(minperiods=15, decimals=11, talib=True),
+    minus_di=dict(minperiods=15, decimals=11, talib=True),
+    di='plus_di',
+    dx=dict(minperiods=15, decimals=11, talib=True),
+    adx=dict(minperiods=28, decimals=11, talib=True),
+    adxr=dict(minperiods=41, decimals=11, talib=True),
 
     # Volatility
     atr=dict(minperiod=15, decimals=11),
