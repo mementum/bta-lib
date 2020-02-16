@@ -5,6 +5,7 @@
 # Use of this source code is governed by the MIT License
 ###############################################################################
 from . import Indicator
+from . import SEED_AVG
 
 
 # _exp_smoothing acts as a ase class for exponential smoothing averages (ema,
@@ -31,15 +32,8 @@ from . import Indicator
 #   - p1 = self._minperiod - 1
 #   - p2 = p1 + self.p.period
 
-class _exp_smoothing(Indicator):
-    params = (
-        ('_last', False, 'Use last value as seed instead of arithmetic mean'),
-    )
 
-
-# "Actual" ema implementation
-
-class ema(_exp_smoothing):
+class ema(Indicator):
     '''
     A Moving Average that smoothes data exponentially over time.
 
@@ -58,8 +52,9 @@ class ema(_exp_smoothing):
     outputs = 'ema'
     params = (
         ('period', 30, 'Period for the moving average calculation'),
+        ('_seed', SEED_AVG, 'Default to use average of periods as seed'),
     )
 
     def __init__(self, poffset=0):  # see above for poffset
-        span, _last, poff = self.p.period, self.p._last, poffset
-        self.o.ema = self.i0._ewm(span=span, _last=_last, _poffset=poff).mean()
+        span, seed, poff = self.p.period, self.p._seed, poffset
+        self.o.ema = self.i0._ewm(span=span, _seed=seed, _poffset=poff).mean()
