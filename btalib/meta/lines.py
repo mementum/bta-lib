@@ -237,6 +237,7 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
                 # this is the trailer part of the result. the initial is nans
                 trailer = seed.append(series[p2:])  # join seed series and rest
             else:
+                self._pearly = 0  # it will be checked in getattr
                 self._minidx = self._minperiod - 1
                 trailer = series[self._minidx:]
 
