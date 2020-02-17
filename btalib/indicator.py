@@ -111,20 +111,19 @@ class MetaIndicator(meta.linesholder.LinesHolder.__class__):
         self._minperiod = max(self._minperiods)
 
         # Determine base classes for auto-calling
+        # Non-overridden functions will be filtered with list(dict.fromkeys),
+        # which removes duplicates and retains order
         bases, bcls = [], cls
-        while(bcls.__name__ != 'Indicator'):
-            bases.append(super(bcls, self))
-            bcls = bcls.__bases__[0]  # use always the leftmost base
+        while(bcls != Indicator):
+            bcls = bases.append(bcls) or bcls.__bases__[0]  # append rets None
 
         # Check if ta-lib compatibility is requested. If so and the indicator
         # defines a _talib function, give it the **ACTUAL** kwargs and use the
         # modified version. Don't let a '_talib' parameter make it to the
         # indicator (hence pop)
-        if config.get_talib_compat() or kwargs.pop('_talib', False):
-            for b in reversed(bases):
-                b._talib(kwargs)  # actual kwargs passed allowing in-place mod
-
-            self._talib(kwargs)  # actual kwargs passed
+        if kwargs.pop('_talib', False) or config.get_talib_compat():
+            for b_ta in reversed(list(dict.fromkeys(b._talib for b in bases))):
+                b_ta(self, kwargs)
 
         # Get params instance and remaining kwargs
         self.params, kwargs = meta.params._from_kwargs(cls, **kwargs)
@@ -134,10 +133,8 @@ class MetaIndicator(meta.linesholder.LinesHolder.__class__):
         metadata.callstack.append(self)  # let ind know hwere in the stack
 
         # Auto-call base classes
-        for b in reversed(bases):
-            b.__init__(*args, **kwargs)
-
-        self.__init__(*args, **kwargs)  # initialize the instance
+        for b_init in reversed(list(dict.fromkeys(b.__init__ for b in bases))):
+            b_init(self, *args, **kwargs)
 
         # delete old aliases only meant for operational purposes
         for oalias in ('l', 'lines', 'data', 'd', 'datas'):
@@ -172,8 +169,6 @@ class MetaIndicator(meta.linesholder.LinesHolder.__class__):
 class Indicator(meta.linesholder.LinesHolder, metaclass=MetaIndicator):
     # Base class for any indicator. The heavy lifting to ensure consistency is
     # done by the metaclass.
-
-    _autosuper = True
 
     _minperiod = 1
     _minperiods = [1]
