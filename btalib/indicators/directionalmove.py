@@ -494,8 +494,12 @@ class adxr(adx, outputs_override=True):
     alias = 'ADXR', 'AverageDirectionalIndexRating'
     outputs = 'adxr'
 
+    params = (
+        ('_prating', None, 'Use as rating period instead of default period'),
+    )
+
     def __init__(self):
-        period = self.p.period - self._talib_  # _talib_ defined/set by bases
+        period = (self.p._prating or self.p.period) - self._talib_  # from base
         self.o.adxr = (self.o.adx + self.o.adx(-period)) / 2.0
 
     def _talib(self, kwdict):
