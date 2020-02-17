@@ -16,8 +16,9 @@ class cmo(Indicator):
 
       - cmo = 100 * (sum_updays - sum_downdays) / (sum_updays + sum_downdays)
 
-    See:
-      - http://en.wikipedia.org/wiki/Momentum_(technical_analysis)
+    See also:
+      - https://www.investopedia.com/terms/c/chandemomentumoscillator.asp
+      - https://www.tradingtechnologies.com/xtrader-help/x-study/technical-indicator-definitions/chande-momentum-oscillator-cmo/
     '''
     groups = 'momentum'
     alias = 'CMO', 'ChandeMomentumOscillator'
@@ -37,7 +38,7 @@ class cmo(Indicator):
     def _talib(self, kwdict):
         '''Against what the book by Chande states, ta-lib smooths the values before
         performing the RSI like calculation using the `smma`, whereas Chande
-        claims that the advantage of his oscillator is the fact that unsmoothed
-        values are being used
+        clearly states that the advantage of his oscillator is the fact that
+        unsmoothed values are being used
         '''
         kwdict.setdefault('_sum', smma)
