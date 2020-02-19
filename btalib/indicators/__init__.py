@@ -48,6 +48,7 @@ from .ewma import *  # noqa: F401 F403
 from .atr import *  # noqa: F401 F403
 
 # Momentum
+from .aroon import *  # noqa: F401 F403
 from .bop import *  # noqa: F401 F403
 from .cci import *  # noqa: F401 F403
 from .cmo import *  # noqa: F401 F403

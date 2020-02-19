@@ -83,6 +83,8 @@ metatests = dict(
 
     # Momentum
     apo=dict(minperiod=26, decimals=9, talib=True),
+    aroon=dict(minperiod=15, decimals=13),
+    aroonosc=dict(minperiod=15, decimals=12),
     bop=dict(minperiod=1),
     cci=dict(minperiod=14, decimals=8, talib=True),
     cmo=dict(minperiod=15, decimals=11, talib=True),
