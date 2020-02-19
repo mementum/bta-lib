@@ -59,6 +59,7 @@ metatests = dict(
     # Statistic Functions
     mad='cci',  # mean asbsolute deviation is tested by cci, not in ta-lib
     stddev=dict(minperiod=5, decimals=6, talib=True),
+    var=dict(minperiod=5, decimals=7),
 
     # Overlap
     sma=dict(minperiod=30),

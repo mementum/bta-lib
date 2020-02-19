@@ -25,6 +25,7 @@ from .crossover import *  # noqa: F401 F403
 # Statistics
 from .madev import *  # noqa: F401 F403
 from .stddev import *  # noqa: F401 F403
+from .var import *  # noqa: F401 F403
 
 # Overlap
 from .sma import *  # noqa: F401 F403
