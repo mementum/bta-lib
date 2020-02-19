@@ -67,7 +67,7 @@ metatests = dict(
     smma='rsi',  # tested by RSI, no direct comparison with ta-lib possible
     wma=dict(minperiod=30, decimals=9),
     ema=dict(minperiod=30, decimals=9),
-    ewm='adosc',
+    ewma='adosc',
     dema=dict(minperiod=59, decimals=9),
     gdema='t3',  # tested with T3
     kama=dict(minperiod=31, talib=True),
