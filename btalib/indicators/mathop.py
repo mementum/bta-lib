@@ -160,14 +160,11 @@ class maxindex(Indicator):
         if self._talib_:  # also resets minperiod to 1 as the talib result
             self.o.maxindex = self.o.maxindex.series.fillna(0)
 
-    _talib_ = False
-
     def _talib(self, kwdict):
         '''ta-lib returns 0 as index during the warm-up period and then returns the
         absolute index over the entire series and not over the window period
         '''
         kwdict.setdefault('_absidx', True)
-        self._talib_ = True
 
 
 class minindex(Indicator):
@@ -195,14 +192,11 @@ class minindex(Indicator):
         if self._talib_:  # also resets minperiod to 1 as the talib result
             self.o.minindex = self.o.minindex.series.fillna(0)
 
-    _talib_ = False
-
     def _talib(self, kwdict):
         '''ta-lib returns 0 as index during the warm-up period and then returns the
         absolute index over the entire series and not over the window period
         '''
         kwdict.setdefault('_absidx', True)
-        self._talib_ = True
 
 
 class minmaxindex(Indicator):

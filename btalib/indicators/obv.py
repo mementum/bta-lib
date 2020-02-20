@@ -51,8 +51,5 @@ class obv(Indicator):
         # non-numpy alternative also one-line vectorized formulation
         # self.o.obv = (self.i.volume * (close1 / close1.abs())).cumsum()
 
-    _talib_ = False
-
     def _talib(self, kwdict):
         '''Use first day volume as *positive* seed value'''
-        self._talib_ = True

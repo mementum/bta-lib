@@ -117,6 +117,8 @@ class MetaIndicator(meta.linesholder.LinesHolder.__class__):
         while(bcls != Indicator):
             bcls = bases.append(bcls) or bcls.__bases__[0]  # append rets None
 
+        bases.append(bcls)  # append Indicator which defines neutral methods
+
         # Check if ta-lib compatibility is requested. If so and the indicator
         # defines a _talib function, give it the **ACTUAL** kwargs and use the
         # modified version. Don't let a '_talib' parameter make it to the
@@ -181,4 +183,4 @@ class Indicator(meta.linesholder.LinesHolder, metaclass=MetaIndicator):
         pass
 
     def _talib(self, *args, **kwargs):
-        pass
+        self._talib_ = True  # for subclasses to use if needed

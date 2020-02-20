@@ -260,12 +260,9 @@ class _di(_dm):
         if self._minus:
             self._mdi = 100.0 * self._mdm / trp
 
-    _talib_ = False
-
     def _talib(self, kwdict):
         '''Increase period by 1, but keep 1-period early calculation from dm
         intact'''
-        self._talib_ = True
 
 
 class plus_di(_di):
