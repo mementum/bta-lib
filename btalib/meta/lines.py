@@ -19,9 +19,20 @@ __all__ = ['Line', 'Lines']
 
 
 def _generate(cls, bases, dct, name='', klass=None, **kwargs):
+    # If "name" is defined (inputs, outputs) it overrides any previous
+    # definition from the base clases.
+    # An extension can be done by using "name_extend" (inputs_extend) in which
+    # case the definition will be appended to that of the base classes
+    # In case of a redefinition, automatic mappings to the existing definitions
+    # (by index) will be done to ensure "instances" do still work in base
+    # classes when going the super route
+    # Manual mappings can also be defined if a definition is a dictionary like
+    # in:
+    #   outputs = {'atr': 'tr'}
+    # In this case 'atr' is the new output and the base class had a 'tr' output
+    # and now whenenver 'tr' is referenced it will point to 'atr'
+
     # Get actual lines definition and that of the bases
-    lbases = (getattr(base, name, ()) for base in bases)
-    lbdefs = tuple(ldef for lbase in lbases for ldef in lbase)
     clsdefs = dct.get(name, ())  # new defs
 
     # support remapping lines in subclasses
@@ -48,19 +59,25 @@ def _generate(cls, bases, dct, name='', klass=None, **kwargs):
         else:  # assume str or else detect and raise exception if not
             cdefs.append(clsdef)
 
-    # clsdefs = tuple(x for x in cdefs if x not in remapped)
+    # After having parsed mappings in dict form, create the actual definition
     clsdefs = tuple(cdefs)
 
-    # if the class is defined with "name_override", for example
-    # inputs_override, the new inputs do simply override the previous
-    # ones. This could break base classes, so a remapping following order (if a
-    # remapping not in place already, must be done)
-    if kwargs.get(name + '_override', False):
+    # Gather base definitions - needed here to do mappings
+    lbases = (getattr(base, name, ()) for base in bases)
+    lbdefs = tuple(ldef for lbase in lbases for ldef in lbase)
+
+    if clsdefs:  # a new definition was made
         final_defs = clsdefs
 
         for clsdef, lbdef in zip(clsdefs, lbdefs):  # create automappings
+            if lbdef in clsdefs:  # cannot remap if exists in current defs
+                continue
             defmappings.setdefault(clsdef, lbdef)
     else:
+        # no new definition, see if _extend has been put in place
+        clsdefs = dct.get(name + '_extend', ())  # new defs
+        if isinstance(clsdefs, str):
+            clsdefs = (clsdefs,)  # unpacked below
         final_defs = lbdefs + clsdefs
 
     # removed remapped lines from definitions
