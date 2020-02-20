@@ -291,7 +291,14 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
             result = pd.Series(np.nan, index=self._series.index)  # prep
 
             def call_op(*args, **kwargs):  # actual op executor
-                res = op(*args, **kwargs)  # run/store
+                sargs = []  # cov takes an "other" parameter for example
+                for arg in args:
+                    if isinstance(arg, Line):
+                        arg = arg._series[self._minidx:]
+
+                    sargs.append(arg)
+
+                res = op(*sargs, **kwargs)  # run/store
                 result[self._minidx:] = res
                 return self._line._clone(result, self._minperiod)  # retval
 
