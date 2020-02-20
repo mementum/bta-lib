@@ -32,13 +32,17 @@ class beta(Indicator, inputs_override=True):
     params = (
         ('period', 5, 'Period to consider'),
         ('_prets', 1, 'Lookback period to calculate the returns'),
+        ('_rets', True, 'Calculate beta on returns'),
     )
 
     def __init__(self):
         p, prets = self.p.period, self.p._prets
 
-        x = self.i.asset.pct_change(periods=prets)  # stock returns
-        y = self.i.market.pct_change(periods=prets)  # market returns
+        if self.p._rets:
+            x = self.i.asset.pct_change(periods=prets)  # stock returns
+            y = self.i.market.pct_change(periods=prets)  # market returns
+        else:
+            x, y = self.i.asset, self.i.market
 
         s_x = x.rolling(window=p).sum()
         s_y = y.rolling(window=p).sum()
