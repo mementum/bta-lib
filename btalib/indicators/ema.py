@@ -6,30 +6,10 @@
 ###############################################################################
 from . import Indicator, SEED_AVG
 
-
-# _exp_smoothing acts as a ase class for exponential smoothing averages (ema,
-# smma, ...), to prepare the data by
-#
-#   - Calculating the p1:p2 range which will be used to calculate the
-#     single seed value with an arithmetic average (i.e.: "mean")
-#     The following are true for p1 and p2
-#       - p1 >= 0
-#       - p2 >= (p1 + self.p.preiod)
-
-#   - Creating a [0:p2] long seed array filled with NaN
-#   - Calculating the mean of input[p1:p2] and putting it a p2
-#   - Concatenating seed array + rest data and  storing it at outputs[0],
-#     (output name is unknown but: subclasses will have an output)
-
-# The parameter "poffset" allows to start the calulation at an offset. This
-# is used to replicate the internal ta-lib behavior with ema when
-# calculating the fast ema of the macd, where the start of the delivery of
-# data is offset to the period of the slow ema.
-
-# For regular usage, poffset is always 0 and plays no role. If poffset
-# didn't exist, the calculation of p1 and p2 would simpler
-#   - p1 = self._minperiod - 1
-#   - p2 = p1 + self.p.period
+# named argument poffset in __init__ below is for compatibility with ta-lib
+# broken MACD. When poffset > period, the delivery of the 1st valid value
+# happens at poffset instead of at period
+# The start of the calculation is accordingly delayed: poffset - period
 
 
 class ema(Indicator):
