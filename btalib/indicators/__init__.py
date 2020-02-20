@@ -22,13 +22,9 @@ from .math import *  # noqa: F401 F403
 # Utils
 from .crossover import *  # noqa: F401 F403
 
-# Statistics
-from .madev import *  # noqa: F401 F403
-from .stddev import *  # noqa: F401 F403
-from .var import *  # noqa: F401 F403
-from .beta import *  # noqa: F401 F403
-
 # Overlap
+from .ewma import *  # noqa: F401 F403
+
 from .sma import *  # noqa: F401 F403
 from .ema import *  # noqa: F401 F403
 from .smma import *  # noqa: F401 F403
@@ -41,10 +37,17 @@ from .trima import *  # noqa: F401 F403
 from .trix import *  # noqa: F401 F403
 from .t3 import *  # noqa: F401 F403
 
-from .bbands import *  # noqa: F401 F403
+# ## overlap non-ma
 from .midpoint import *  # noqa: F401 F403
 
-from .ewma import *  # noqa: F401 F403
+# Statistics
+from .beta import *  # noqa: F401 F403
+from .madev import *  # noqa: F401 F403
+from .stddev import *  # noqa: F401 F403
+from .var import *  # noqa: F401 F403
+
+# ## Overlap - depends on stddev
+from .bbands import *  # noqa: F401 F403
 
 # Volatility
 from .atr import *  # noqa: F401 F403
