@@ -92,7 +92,7 @@ class truerange(Indicator):
         self.o.tr = truehi - truelo
 
 
-class atr(truerange, outputs_override=True):
+class atr(truerange):
     '''
     Defined by J. Welles Wilder, Jr. in 1978 in his book *"New Concepts in
     Technical Trading Systems"*.
@@ -109,7 +109,6 @@ class atr(truerange, outputs_override=True):
     '''
     group = 'volatility'
     alias = 'ATR', 'AverageTrueRange'
-    # outputs = {'atr': 'tr'}  # define atr / alias tr to it for the base class
     outputs = 'atr'  # outputs_override in class def, autoalias tr => atr added
     params = (
         ('period', 14, 'Period to consider'),
@@ -120,7 +119,7 @@ class atr(truerange, outputs_override=True):
         self.o.atr = self.p._ma(self.o.tr, period=self.p.period)
 
 
-class natr(atr, outputs_override=True):
+class natr(atr):
     '''
     Offers a normalized (against the `close`) version of the `atr`, which can
     provide better values for comparison against different price ranges.

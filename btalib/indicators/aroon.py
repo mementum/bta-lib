@@ -17,7 +17,7 @@ def _first_idx_lowest(x):
     return np.argmin(x[::-1])
 
 
-class _aroon(Indicator, inputs_override=True):
+class _aroon(Indicator):
     '''
     Base class for `aroon` and `aroonosc`. The up and down components are
     calculated and the subclasses can presente them individually or after an

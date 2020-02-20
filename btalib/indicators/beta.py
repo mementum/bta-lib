@@ -7,7 +7,7 @@
 from . import Indicator
 
 
-class beta(Indicator, inputs_override=True):
+class beta(Indicator):
     '''
     The description of the algorithm has been adapted from `ta-lib`
 
@@ -27,7 +27,7 @@ class beta(Indicator, inputs_override=True):
     '''
     group = 'statistic'
     alias = 'BETA', 'Beta'
-    inputs = 'asset', 'market'  #
+    inputs = 'asset', 'market'
     outputs = 'beta'
     params = (
         ('period', 5, 'Period to consider'),

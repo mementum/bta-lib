@@ -13,7 +13,7 @@ import numpy as np
 
 # ## over the entire series
 
-class add(Indicator, inputs_override=True):
+class add(Indicator):
     '''
     Calculates the summation of the two inputs
 
@@ -29,7 +29,7 @@ class add(Indicator, inputs_override=True):
         self.o.add = self.i.input1 + self.i.input2
 
 
-class div(Indicator, inputs_override=True):
+class div(Indicator):
     '''
     Calculates the division of the two inputs
 
@@ -45,7 +45,7 @@ class div(Indicator, inputs_override=True):
         self.o.div = self.i.input1 / self.i.input2
 
 
-class mult(Indicator, inputs_override=True):
+class mult(Indicator):
     '''
     Calculates the multiplication of the two inputs
 
@@ -61,7 +61,7 @@ class mult(Indicator, inputs_override=True):
         self.o.mult = self.i.input1 * self.i.input2
 
 
-class sub(Indicator, inputs_override=True):
+class sub(Indicator):
     '''
     Calculates the subtraction of the two inputs
 
@@ -226,11 +226,12 @@ class minmaxindex(Indicator):
         self.o.maxindex = maxindex(self.i0, **kwargs)
 
     def _talib(self, kwdict):
-        '''ta-lib returns 0 as index during the warm-up period and then returns the
-        absolute index over the entire series and not over the window period
+        '''ta-lib returns 0 as index during the warm-up period and then returns
+        the absolute index over the entire series and not over the window
+        period
         '''
         kwdict.setdefault('_absidx', True)
-        kwdict.setdefault('_talib', True)  # re-set the value for sub-indicators
+        kwdict.setdefault('_talib', True)  # re-set value for sub-indicators
 
 
 class sum(Indicator):

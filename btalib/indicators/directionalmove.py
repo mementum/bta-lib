@@ -57,7 +57,7 @@ class smacc(Indicator):
         kwdict.setdefault('_pearly', True)
 
 
-class _dm(Indicator, inputs_override=True):
+class _dm(Indicator):
     '''
     This class serves as the root base class for all "Directional Movement
     System" related indicators, given that the calculations are first common
@@ -243,7 +243,7 @@ class _di(_dm):
     left for subclases of this class using the class attributes `_plus` and
     `_minus`
     '''
-    inputs = 'close'  # add extra input, needed for truerange
+    inputs_extend = 'close'  # high and low from bas, add close for truerange
 
     _plus = False  # reset to false, let +di/-di/di decide what to calc
     _minus = False  # reset to false, let +di/-di/di decide what to calc
@@ -404,7 +404,7 @@ class dx(_di):
         self.o.dx = 100.0 * abs(self._pdi - self._mdi)/(self._pdi + self._mdi)
 
 
-class adx(dx, outputs_override=True):
+class adx(dx):
     '''
     Defined by J. Welles Wilder, Jr. in 1978 in his book *"New Concepts in
     Technical Trading Systems"*.
@@ -441,44 +441,7 @@ class adx(dx, outputs_override=True):
         self.o.adx = self.p._ma(self.o.dx, period=self.p.period)
 
 
-class adx(dx, outputs_override=True):
-    '''
-    Defined by J. Welles Wilder, Jr. in 1978 in his book *"New Concepts in
-    Technical Trading Systems"*.
-
-    Intended to measure trend strength and directionality
-
-    Formula:
-      - upmove = high - high(-1)
-      - downmove = low(-1) - low
-      - +dm = upmove if upmove > downmove and upmove > 0 else 0
-      - -dm = downmove if downmove > upmove and downmove > 0 else 0
-      - +di = 100 * SmoothedAccum(+dm, period) / SmoothAccum(truerange, period)
-      - -di = 100 * SmoothedAccum(-dm, period) / SmoothAccum(truerange, period)
-      - dx = 100 * abs(+di - -di) / (+di + -di)
-      - adx = MovingAverage(dx, period)
-
-    The moving average used is the one originally defined by Wilder,
-    the SmoothedMovingAverage
-
-    See also:
-      - https://school.stockcharts.com/doku.php?id=technical_indicators:average_directional_index_adx
-      - https://en.wikipedia.org/wiki/Average_directional_movement_index
-
-    Note:
-      - The `_alt` parameter changes the formula to use the
-        SmoothedMovingAverage in place of `SmoothAccum` as is interpreted by
-        several alternative sources (which also effectively implies that
-        `SmoothAccum(truerange, period) = ATR(high, low, close, period)`
-    '''
-    alias = 'ADX', 'AverageDirectionalIndex', 'AVERAGEDIRECTIONALINDEX'
-    outputs = 'adx'
-
-    def __init__(self):
-        self.o.adx = self.p._ma(self.o.dx, period=self.p.period)
-
-
-class adxr(adx, outputs_override=True):
+class adxr(adx):
     '''
     Defined by J. Welles Wilder, Jr. in 1978 in his book *"New Concepts in
     Technical Trading Systems"*.

@@ -23,7 +23,6 @@ class cci(Indicator):
     See:
       - https://en.wikipedia.org/wiki/Commodity_channel_index
     '''
-
     group = 'momentum'
     alias = 'CCI', 'CommodityChannelIndex'
     inputs = 'high', 'low', 'close'

@@ -17,7 +17,6 @@ class avgprice(Indicator):
     See:
       - (None)
     '''
-
     group = 'price'
     alias = 'AvgPrice', 'AveragePrice', 'AVGPrice', 'AVGPRICE'
     inputs = 'open', 'high', 'low', 'close'
@@ -41,7 +40,6 @@ class typprice(Indicator):
     See:
       - https://en.wikipedia.org/wiki/Typical_price
     '''
-
     group = 'price'
     alias = 'typicalprice', 'TypicalPrice', 'TypPrice', 'TYPPRICE'
     inputs = 'high', 'low', 'close'
@@ -65,7 +63,6 @@ class wclprice(Indicator):
       - https://www.metastock.com/customer/resources/taaz/?p=124
       - http://www.ta-guru.com/Book/TechnicalAnalysis/TechnicalIndicators/WeightedClose.php5
     '''
-
     group = 'price'
     alias = 'WCLPrice', 'WeightedClosePrice', 'WCLPRICE', 'weightedcloseprice'
     inputs = 'high', 'low', 'close'
@@ -90,7 +87,6 @@ class medprice(Indicator, inputs_override=True):
     See:
       - https://www.metastock.com/customer/resources/taaz/?p=70
     '''
-
     group = 'price'
     alias = 'WCLPrice', 'WeightedClosePrice', 'WCLPRICE', 'weightedcloseprice'
     # inputs = {'high': 'close'}, 'low'  # map "high" in place of default close

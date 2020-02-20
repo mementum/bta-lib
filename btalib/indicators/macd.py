@@ -26,7 +26,7 @@ class macd(Indicator):
       - http://en.wikipedia.org/wiki/MACD
     '''
     group = 'momentum'
-    alias = 'MACD', 'MovingAverageConvergenceDivergence'
+    alias = 'MACD', 'MovingAverageConvergenceDivergence', 'MACDEXT', 'MACDFIX'
     outputs = 'macd', 'signal', 'histogram'
     params = (
         ('pfast', 12, 'Fast moving average period'),

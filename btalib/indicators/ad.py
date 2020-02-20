@@ -49,7 +49,7 @@ class adosc(ad):
       - https://www.metastock.com/customer/resources/taaz/?p=41
     '''
     alias = 'ADOSC', 'ChaikinADOSC', 'ChaikinOsc', 'ChaikinOscillator'
-    outputs = {'adosc': 'ad'}  # map output adosc to ad from base class
+    outputs = 'adosc'  # automapping output adosc to ad from base class
 
     params = (
         ('pfast', 3, 'Fast ema period'),

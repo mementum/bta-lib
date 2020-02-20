@@ -4,7 +4,7 @@
 # Copyright (C) 2020 Daniel Rodriguez
 # Use of this source code is governed by the MIT License
 ###############################################################################
-from . import Indicator, sma
+from . import Indicator
 
 
 class bop(Indicator):
@@ -22,7 +22,6 @@ class bop(Indicator):
       - https://www.interactivebrokers.com/en/software/tws/usersguidebook/technicalanalytics/balancePower.htm
       - https://www.marketvolume.com/technicalanalysis/balanceofpower.asp
     '''
-
     group = 'momentum'
     alias = 'BOP', 'BalanceOfPower'
     inputs = 'open', 'high', 'low', 'close'

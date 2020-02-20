@@ -33,7 +33,7 @@ class obv(Indicator):
     '''
     group = 'volume'
     alias = 'OBV', 'OnBalanceVolume'
-    inputs = 'close', 'volume'  # close was in base class, no issue repeating
+    inputs = 'close', 'volume'  # could have done inputs_extend = 'volume'
     outputs = 'obv'
     params = (
         ('_period', 1, 'Period for `close` comparison'),

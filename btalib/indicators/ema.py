@@ -4,8 +4,7 @@
 # Copyright (C) 2020 Daniel Rodriguez
 # Use of this source code is governed by the MIT License
 ###############################################################################
-from . import Indicator
-from . import SEED_AVG
+from . import Indicator, SEED_AVG
 
 
 # _exp_smoothing acts as a ase class for exponential smoothing averages (ema,

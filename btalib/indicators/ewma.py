@@ -21,7 +21,6 @@ class ewma(Indicator):
     The purpose of this, is to be able to use this in place of the real `ema`
     with parameters like `period` and `_seed` for compatibility.
     '''
-
     group = 'overlap'
     alias = 'EWMA'
     outputs = 'ewma'
