@@ -31,7 +31,7 @@ class beta(Indicator, inputs_override=True):
     outputs = 'beta'
     params = (
         ('period', 5, 'Period to consider'),
-        ('_prets', 1, 'Period to calculate the returns'),
+        ('_prets', 1, 'Lookback period to calculate the returns'),
     )
 
     def __init__(self):
@@ -43,7 +43,7 @@ class beta(Indicator, inputs_override=True):
         s_x = x.rolling(window=p).sum()
         s_y = y.rolling(window=p).sum()
 
-        s_xx = x.pow(2).rolling(window=p).sum()
+        s_xx = x.pow(2).rolling(window=p).sum()  # x * x == x.pow(2)
         s_xy = (x * y).rolling(window=p).sum()
 
         # s_x * s_x == s_x.pow(2)
