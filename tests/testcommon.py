@@ -11,12 +11,14 @@ import os.path
 import sys
 import traceback
 
+import numpy as np
 import pandas as pd
-import talib  # noqa: F401
+
+import talib
 
 # append module root directory to sys.path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import btalib  # noqa: E402 F401
+import btalib  # noqa: E402
 
 csv = '../data/2006-day-001.txt'
 df = pd.read_csv(
@@ -25,6 +27,38 @@ df = pd.read_csv(
 )
 
 RESULTS = {}
+
+
+def run_taindicator(name, testdata, inputs, btind, pargs):
+    # Now, determine the actual indicators. The name is the name from the
+    # bta-lib indicator. Find the corresponding ta indicator
+    # Either specified or capitalize the given name
+    taind_name = testdata.get('taind', name.upper())
+    try:
+        taind = getattr(talib, taind_name)
+    except AttributeError:
+        for taind_name in btind.alias:
+            try:
+                taind = getattr(talib, taind_name)
+            except AttributeError:
+                pass
+            else:
+                break
+        else:
+            logerror('[-] No ta-lib indicator found for: {}'.format(name))
+            return False
+
+    takwargs = testdata.get('takwargs', {})
+    if pargs.ta_overargs:
+        takwargs = eval('dict(' + pargs.ta_overargs + ')')
+    elif pargs.ta_kwargs:
+        takwargs.update(eval('dict(' + pargs.ta_kwargs + ')'))
+
+    touts = taind(*inputs, **takwargs)
+    if isinstance(touts, pd.Series):  # check if single output
+        touts = (touts,)  # consistent single-multiple result presentation
+
+    return touts
 
 
 def run_indicators(metatests, main=False):
@@ -160,33 +194,13 @@ def run_indicator(pargs, name, testdata, main=False):
 
     logging.info('[+] Periods Test Result : {} ({})'.format(eqperiods, name))
 
-    # Now, determine the actual indicators. The name is the name from the
-    # bta-lib indicator. Find the corresponding ta indicator
-    # Either specified or capitalize the given name
-    taind_name = testdata.get('taind', name.upper())
-    try:
-        taind = getattr(talib, taind_name)
-    except AttributeError:
-        for taind_name in btind.alias:
-            try:
-                taind = getattr(talib, taind_name)
-            except AttributeError:
-                pass
-            else:
-                break
-        else:
-            logerror('[-] No ta-lib indicator found for: {}'.format(name))
-            return False
-
-    takwargs = testdata.get('takwargs', {})
-    if pargs.ta_overargs:
-        takwargs = eval('dict(' + pargs.ta_overargs + ')')
-    elif pargs.ta_kwargs:
-        takwargs.update(eval('dict(' + pargs.ta_kwargs + ')'))
-
-    touts = taind(*inputs, **takwargs)
-    if isinstance(touts, pd.Series):  # check if single output
-        touts = (touts,)  # consistent single-multiple result presentation
+    if not pargs.standalone:
+        touts = run_taindicator(name, testdata, inputs, btind, pargs)
+    else:
+        # in standalone mode, fake the outputs from a ta-ind
+        touts = []
+        for output in btind.outputs:
+            touts.append(pd.Series(np.nan, index=df.index))
 
     # Result checking
     logseries = []
@@ -289,6 +303,9 @@ def parse_args(pargs, main=False):
 
     parser.add_argument('--ad-hoc', action='store_true',
                         help='Create ad-hoc test if not already defined')
+
+    parser.add_argument('--standalone', '-sta',  action='store_true',
+                        help='Run with no ta-lib indicator comparison')
 
     parser.add_argument('--list-names', action='store_true',
                         help='List all test names and exit')
