@@ -206,7 +206,7 @@ def run_indicator(pargs, name, testdata, main=False):
     logseries = []
     equal = True  # innocent until proven guilty
     for tseries, btout in zip(touts, btouts):
-        btseries = btout.series
+        btseries = btout._series
 
         # Rounding to x decimals
         decimals = pargs.decimals
