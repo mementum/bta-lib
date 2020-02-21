@@ -470,11 +470,11 @@ class Line(metaclass=MetaLine):
 
     @property
     def series(self):
-        return self._series.rename(self._name, inplace=True)
+        return self._series[self._minperiod:].rename(self._name, inplace=True)
 
     @property
     def index(self):
-        return self._series.index
+        return self._series[self._minperiod:].index
 
 
 # These hold the values for the attributes _minperiods/_minperiod for the
