@@ -4,7 +4,7 @@
 # Copyright (C) 2020 Daniel Rodriguez
 # Use of this source code is governed by the MIT License
 ###############################################################################
-from . import Indicator
+from . import Indicator, _SERIES
 
 import itertools
 
@@ -158,7 +158,7 @@ class maxindex(Indicator):
         self.o.maxindex = self.i0.rolling(window=self.p.period).apply(self._mi)
 
         if self._talib_:  # also resets minperiod to 1 as the talib result
-            self.o.maxindex = self.o.maxindex.series.fillna(0)
+            self.o.maxindex = _SERIES(self.o.maxindex).fillna(0)
 
     def _talib(self, kwdict):
         '''ta-lib returns 0 as index during the warm-up period and then returns the
@@ -190,7 +190,7 @@ class minindex(Indicator):
         self.o.minindex = self.i0.rolling(window=self.p.period).apply(self._mi)
 
         if self._talib_:  # also resets minperiod to 1 as the talib result
-            self.o.minindex = self.o.minindex.series.fillna(0)
+            self.o.minindex = _SERIES(self.o.minindex).fillna(0)
 
     def _talib(self, kwdict):
         '''ta-lib returns 0 as index during the warm-up period and then returns the
