@@ -9,8 +9,8 @@ from . import Indicator
 import numpy as np
 
 
-def _convert_to_radians(line, convert):
-    return np.radians(line._series) if convert else line._series
+def _to_radians(line, convert):
+    return line.apply(np.radians) if convert else line
 
 
 class _mathrad(Indicator):
@@ -20,7 +20,7 @@ class _mathrad(Indicator):
     )
 
     def __init__(self):
-        self.o[0] = self._func(_convert_to_radians(self.i0, self.p.degrees))
+        self.o[0]  = _to_radians(self.i0, self.p.degrees).apply(self._func)
 
 
 # Trigonometric math transforms
@@ -194,7 +194,7 @@ class ceil(Indicator):
     outputs = 'ceil'
 
     def __init__(self):
-        self.o.ceil = np.ceil(self.i0.series)
+        self.o.ceil = self.i0.apply(np.ceil)
 
 
 class exp(Indicator):
@@ -213,7 +213,7 @@ class exp(Indicator):
     outputs = 'exp'
 
     def __init__(self):
-        self.o.exp = np.exp(self.i0.series)
+        self.o.exp = self.i0.apply(np.exp)
 
 
 class floor(Indicator):
@@ -232,7 +232,7 @@ class floor(Indicator):
     outputs = 'floor'
 
     def __init__(self):
-        self.o.floor = np.floor(self.i0.series)
+        self.o.floor = self.i0.apply(np.floor)
 
 
 class ln(Indicator):
@@ -251,7 +251,7 @@ class ln(Indicator):
     outputs = 'ln'
 
     def __init__(self):
-        self.o.ln = np.log(self.i0.series)
+        self.o.ln = self.i0.apply(np.log)
 
 
 class log10(Indicator):
@@ -270,7 +270,7 @@ class log10(Indicator):
     outputs = 'log10'
 
     def __init__(self):
-        self.o.log10 = np.log10(self.i0.series)
+        self.o.log10 = self.i0.apply(np.log10)
 
 
 class sqrt(Indicator):
