@@ -6,7 +6,8 @@
 ###############################################################################
 __all__ = [
     'SEED_AVG', 'SEED_LAST', 'SEED_SUM',
-    '_INCPERIOD', '_DECPERIOD', '_MINIDX'
+    '_INCPERIOD', '_DECPERIOD', '_MINIDX',
+    '_SERIES',
 ]
 
 
@@ -50,3 +51,9 @@ def _MINIDX(x, p=0):
     possible.
     '''
     return x._minperiod - 1 + p
+
+
+def _SERIES(x):
+    '''Macro like function which makes clear that one is retrieving the actual
+    underlying series and not something a wrapped version'''
+    return x._series
