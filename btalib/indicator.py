@@ -65,8 +65,9 @@ class MetaIndicator(meta.linesholder.LinesHolder.__class__):
         meta.docs._generate(cls, bases, dct, **kwargs)
         meta.groups._generate(cls, bases, dct, **kwargs)
 
-        to_register = cls.__module__.split('.')[0] == __package__
-        if to_register and name != 'Indicator' and not name.startswith('_'):
+        modsplit = cls.__module__.split('.')
+        to_register = modsplit[0] == __package__ and len(modsplit) > 2
+        if to_register and not name.startswith('_'):
             _NAMES_IND[name] = cls
             _IND_NAMES[cls] = name
 
