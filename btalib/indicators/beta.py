@@ -47,9 +47,7 @@ class beta(Indicator):
         s_x = x.rolling(window=p).sum()
         s_y = y.rolling(window=p).sum()
 
-        s_xx = x.pow(2).rolling(window=p).sum()  # x * x == x.pow(2)
+        s_xx = x.pow(2).rolling(window=p).sum()
         s_xy = (x * y).rolling(window=p).sum()
 
-        # s_x * s_x == s_x.pow(2)
-        b = ((p * s_xy) - (s_x * s_y)) / ((p * s_xx) - s_x.pow(2))
-        self.o.beta = b
+        self.o.beta = (p * s_xy - s_x * s_y) / (p * s_xx - s_x.pow(2))
