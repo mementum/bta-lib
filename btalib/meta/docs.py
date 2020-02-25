@@ -59,8 +59,12 @@ def _generate(cls, bases, dct, **kwargs):
         for name, val in cls.params.items():
             if isinstance(val, str):
                 val = "'{}'".format(val)
-            elif isinstance(val, linesholder.LinesHolder):
-                val = val.__name__
+            else:
+                try:
+                    if issubclass(val, linesholder.LinesHolder):
+                        val = val.__name__
+                except TypeError:  # val is not a class
+                    pass  # skip ... let format handle it
 
             txt = ''
             txt += '\n  - {} (default: {})'.format(name, val)
