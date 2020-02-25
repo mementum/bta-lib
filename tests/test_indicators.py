@@ -60,7 +60,13 @@ metatests = dict(
     mad='cci',  # mean asbsolute deviation is tested by cci, not in ta-lib
     stddev=dict(minperiod=5, decimals=6, talib=True),
     var=dict(minperiod=5, decimals=7),
+
     beta=dict(minperiod=6, decimals=10, inputs=['high', 'low']),
+    linearreg=dict(minperiod=14, decimals=10, talib=True),
+    linearreg_angle=dict(minperiod=14, decimals=9),
+    linearreg_intercept=dict(minperiod=14, decimals=10, talib=True),
+    linearreg_slope=dict(minperiod=14, decimals=10),
+    tsf=dict(minperiod=14, decimals=9, talib=True),
 
     # Overlap
     sma=dict(minperiod=30),
