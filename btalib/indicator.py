@@ -182,5 +182,7 @@ class Indicator(meta.linesholder.LinesHolder, metaclass=MetaIndicator):
         # arg/kwargs to object.__init__ which would generate an error
         pass
 
+    _talib_ = False
+
     def _talib(self, *args, **kwargs):
         self._talib_ = True  # for subclasses to use if needed
