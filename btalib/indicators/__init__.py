@@ -42,6 +42,7 @@ from .midpoint import *  # noqa: F401 F403
 
 # Statistics
 from .beta import *  # noqa: F401 F403
+from .correl import *  # noqa: F401 F403
 from .linreg import *  # noqa: F401 F403
 from .madev import *  # noqa: F401 F403
 from .stddev import *  # noqa: F401 F403
