@@ -1,3 +1,23 @@
+## 0.9.4
+
+  - Indicators:
+    - `linearreg`, `linearreg_angle`, `linearreg_intercept`, `linearreg_slope`,
+      `tsf`
+  - Changed inputs_override/outputs_override to be the default behavior when
+    defining inputs in an indicator
+  - Added inputs_extend/outputs_extend to support a partial input definition
+    inheriting from the base
+  - Refactor all indicators using overrides to new ruling
+  - Add superclass _talib_ compat flag and refactor current _talib_ users to
+    consume it
+  - Add _SERIES macro to work with the underlying series
+  - Convert maxindex/minindex to work with _SERIES
+  - Convert all math indicators to "apply" instead of using series
+  - Make "series" and "index" properties return only the [_minperiod:] slice
+    and adapt test framework to change
+  - Refactor for logic of indicator auto-registration
+  - Use class name for parameterif the parameter is in the indicator hierarchy
+
 ## 0.9.3
 
   - Indicators:
