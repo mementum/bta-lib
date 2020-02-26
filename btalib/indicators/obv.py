@@ -4,7 +4,7 @@
 # Copyright (C) 2020 Daniel Rodriguez
 # Use of this source code is governed by the MIT License
 ###############################################################################
-from . import Indicator, _DECPERIOD, _MINIDX
+from . import Indicator, _DECPERIOD, _MPSETVAL
 
 import numpy as np
 
@@ -44,7 +44,8 @@ class obv(Indicator):
 
         if self._talib_:  # ## black voodoo to overcome ta-lib errors
             _DECPERIOD(close1)  # force period reduction to propagate use
-            close1[_MINIDX(close1)] = 1.0  # force use 1st value POSITIVE
+            # Force use of first valid value as positive volume (ta-lib rules)
+            _MPSETVAL(close1, 0, 1.0)  # set 1.0 at minperiod-relative index 0
 
         self.o.obv = (self.i.volume * close1.apply(np.sign)).cumsum()
 
