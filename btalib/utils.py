@@ -7,7 +7,8 @@
 __all__ = [
     'SEED_AVG', 'SEED_LAST', 'SEED_SUM',
     '_INCPERIOD', '_DECPERIOD', '_MINIDX',
-    '_SERIES',
+    '_SERIES', '_MPSERIES',
+    '_SETVAL', '_MPSETVAL',
 ]
 
 
@@ -57,3 +58,21 @@ def _SERIES(x):
     '''Macro like function which makes clear that one is retrieving the actual
     underlying series and not something a wrapped version'''
     return x._series
+
+
+def _MPSERIES(x):
+    '''Macro like function which makes clear that one is retrieving the actual
+    underlying series, sliced starting at the MINPERIOD of the series'''
+    return x._series[x._minperiod - 1:]
+
+
+def _SETVAL(x, idx, val):
+    '''Macro like function which makes clear that one is setting a value in the
+    underlying series'''
+    x._series[idx] = val
+
+
+def _MPSETVAL(x, idx, val):
+    '''Macro like function which makes clear that one is setting a value in the
+    underlying series'''
+    x._series[x._minperiod - 1 + idx] = val
