@@ -56,4 +56,4 @@ def _MINIDX(x, p=0):
 def _SERIES(x):
     '''Macro like function which makes clear that one is retrieving the actual
     underlying series and not something a wrapped version'''
-    return x._series
+    return x._series.rename(x._name, inplace=True)

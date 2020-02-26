@@ -416,8 +416,6 @@ class MetaLine(type):
                 self._series = pd.Series(val, index=index)
 
         self._name = name  # fix the name of the data series
-        if isinstance(self._series, pd.Series):
-            self._series.rename(name, inplace=True)
 
         self.__init__(*args, **kwargs)  # init instance
         return self  # return the instance
