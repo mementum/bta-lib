@@ -1,3 +1,20 @@
+## 0.9.5
+
+  - Indicators:
+    - `correl`
+  - Remove name setting because it may overwrite external inputs and change
+    macro-like extraction to fix name, adapting test framework
+  - Refactor crossover/up/down family, removing _type, simplifiyng formula and
+    adding a _strict parameter to switch betwen 2 bar crossover (strict) and a
+    crossover over multiple bars (non-strict)
+  - Macro-like additions: _MPSERIES, _SETVAL and _MPSETVAL to get series
+    relative to minperiod and set values (raw and relative to minperiod)
+  - Make "series" and "index" properties return only the raw underlying series
+    and index, to conform to public API to retrieve series
+  - Readapt test framework to series api re-change
+  - Remove old pandas macro module and replace with utils
+  - Refactor obv to use new _MPSETVAL macro-like function
+
 ## 0.9.4
 
   - Indicators:
