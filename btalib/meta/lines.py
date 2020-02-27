@@ -155,9 +155,9 @@ def standard_op(name, period_arg=None, overlap=0, sargs=False, skwargs=False):
 def reduction_op(name, sargs=False, *args, **kwargs):
     def real_reduction_op(self, *args, **kwargs):
         if sargs:
-            args = [getattr(x, '_series', x) for x in args]
+            minperiod, minidx, args, _ = self._minperiodize(*args)
 
-        red_op = getattr(self._series, name)
+        red_op = getattr(self._series[minidx:], name)
         return red_op(*args, **kwargs)
 
     linesops.install_cls(name=name, attr=real_reduction_op)
