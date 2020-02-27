@@ -155,7 +155,7 @@ _MULTIFUNCOPS = dict(
     # in a series: rolling(window=10).mean()
 
     # provide a set of oprations
-    expanding=dict(),
+    expanding=dict(parg='min_periods'),
     ewm=dict(),
     _ewm=dict(),
     rolling=dict(parg='window'),
