@@ -87,6 +87,14 @@ metatests = dict(
     midpoint=dict(minperiod=14),
     midprice=dict(minperiod=14),
 
+    mavp=dict(
+        minperiod=30,
+        decimals=10,
+        talib=True,
+        inputs=['close', 'high'],
+        inputop=lambda i0, i1: [i0, (i1 % 25).astype(int)],
+    ),
+
     # ## acumulation (also inside the overlap group)
     smacc='plus_dm',  # tested with the directoinal movement indicators
 
