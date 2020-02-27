@@ -70,7 +70,7 @@ _STDOPS = {
     # operate on existing values
     'abs': {}, '__abs__': {},
     'append': {'sargs': True},
-    'apply': {},
+    'apply': {'skwargs': True},
     'astype': {},
     'between': {'sargs': True},
     'bfill': {},
