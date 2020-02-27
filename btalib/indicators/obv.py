@@ -4,7 +4,7 @@
 # Copyright (C) 2020 Daniel Rodriguez
 # Use of this source code is governed by the MIT License
 ###############################################################################
-from . import Indicator, _DECPERIOD, _MPSETVAL
+from . import Indicator
 
 import numpy as np
 
