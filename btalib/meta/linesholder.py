@@ -60,7 +60,13 @@ class LinesHolder:
         if hasattr(self.outputs, attr):
             return getattr(self.outputs, attr)
 
-        return getattr(self.outputs[0], attr)
+        try:
+            return getattr(self.outputs[0], attr)
+        except AttributeError:
+            pass
+
+        # retrieval was impossible, signal real culprit
+        raise AttributeError(attr)
 
     def __contains__(self, item):
         return hasattr(self.outputs, item)
