@@ -286,11 +286,15 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
 
             self._multifunc = getattr(trailer, lsname)(*args, **kwargs)
 
-        def _mean_exp(self, alpha, beta):  # recurisive definition
+        def _mean_exp(self, alpha, beta=None):  # recurisive definition
             # alpha => new data, beta => old data (similar to 1-alpha)
+            if not beta:
+                beta = 1.0 - alpha
+
             def _sm_acc(x):
+                prev = x[0]
                 for i in range(1, len(x)):
-                    x[i] = beta * x[i - 1] + alpha * x[i]
+                    x[i] = prev = beta * prev + alpha * x[i]
 
                 return x
 
