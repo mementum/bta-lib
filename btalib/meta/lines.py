@@ -490,6 +490,37 @@ class Line(metaclass=MetaLine):
         self._minperiod += period - rolling
         return self
 
+    def _minperiodize(self, *args, raw=False, **kwargs):
+        # apply func, adding args and kwargs
+        minpers = [self._minperiod]
+        minpers.extend(getattr(x, '_minperiod', 1) for x in args)
+        minpers.extend(getattr(x, '_minperiod', 1) for x in kwargs.values())
+
+        minperiod = max(minpers)  # max of any series involved in op
+        minidx = minperiod - 1  # minperiod is 1-based, easier for location
+
+        nargs = []
+        for x in args:
+            x = getattr(x, '_series', x)
+            if isinstance(x, pd.Series):
+                x = x[minidx:]
+                if raw:
+                    x = x.to_numpy()
+
+            nargs.append(x)
+
+        nkwargs = {}
+        for k, x in kwargs.items():
+            x = getattr(x, '_series', x)
+            if isinstance(x, pd.Series):
+                x = x[minidx:]
+                if raw:
+                    x = x.to_numpy()
+
+            nkwargs[k] = x
+
+        return minperiod, minidx, nargs, nkwargs
+
 # These hold the values for the attributes _minperiods/_minperiod for the
 # instances, to avoid having them declared as attributes. Or else __setattr__
 # would set them as Line objects (or logic would be needed in __setattr__ to
