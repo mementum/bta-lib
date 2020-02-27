@@ -5,7 +5,7 @@
 # Use of this source code is governed by the MIT License
 ###############################################################################
 __all__ = [
-    'SEED_AVG', 'SEED_LAST', 'SEED_SUM',
+    'SEED_AVG', 'SEED_LAST', 'SEED_SUM', 'SEED_NONE',
     '_INCPERIOD', '_DECPERIOD', '_MINIDX',
     '_SERIES', '_MPSERIES',
     '_SETVAL', '_MPSETVAL',
@@ -15,6 +15,7 @@ __all__ = [
 SEED_AVG = 0
 SEED_LAST = 1
 SEED_SUM = 2
+SEED_NONE = 4
 
 
 def _INCPERIOD(x, p=1):
