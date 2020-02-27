@@ -135,16 +135,24 @@ def binary_op(name):
 
 def standard_op(name, period_arg=None, overlap=0, sargs=False, skwargs=False):
     def real_standard_op(self, *args, **kwargs):
-        target_method = getattr(self._series, name)
+        # Prepare a result filled with 'Nan'
+        result = pd.Series(np.nan, index=self._series.index)
 
+        # get the series capped to actual period to consider
+        a = args if sargs else tuple()
+        kw = kwargs if skwargs else {}
+        minperiod, minidx, a, kw = self._minperiodize(*a, **kw)
         if sargs:
-            args = [getattr(x, '_series', x) for x in args]
-
+            args = a
         if skwargs:
-            kwargs = {k: getattr(v, '_series', v) for k, v in kwargs.items()}
+            kwargs = kw
 
-        line = self._clone(target_method(*args, **kwargs))
-        if period_arg:
+        # get the operation from a view capped to the max minperiod
+        stdop = getattr(self._series[minidx:], name)
+        result[minidx:] = stdop(*args, **kwargs)  # execute and assign
+
+        line = self._clone(result, minperiod)  # create resulting line
+        if period_arg:  # consider if the operation increases the minperiod
             line._minperiod += kwargs.get(period_arg) - overlap
 
         return line
