@@ -133,7 +133,7 @@ def binary_op(name):
     linesops.install_cls(name=name, attr=real_binary_op)
 
 
-def standard_op(name, period_arg=None, sargs=False, skwargs=False):
+def standard_op(name, parg=None, sargs=False, skwargs=False):
     def real_standard_op(self, *args, **kwargs):
         # Prepare a result filled with 'Nan'
         result = pd.Series(np.nan, index=self._series.index)
@@ -152,8 +152,8 @@ def standard_op(name, period_arg=None, sargs=False, skwargs=False):
         result[minidx:] = stdop(*args, **kwargs)  # execute and assign
 
         line = self._clone(result, minperiod)  # create resulting line
-        if period_arg:  # consider if the operation increases the minperiod
-            line._minperiod += kwargs.get(period_arg)
+        if parg:  # consider if the operation increases the minperiod
+            line._minperiod += kwargs.get(parg)
 
         return line
 
@@ -240,7 +240,7 @@ def multifunc_op(name, parg=None, propertize=False):
                     # must be, period cannot be infered from alpha/halflife
                     self._pval = kwargs.get('span')  # alpha = 2 / (alpha + 1)
             else:
-                self._pval = kwargs.get(period_arg)
+                self._pval = kwargs.get(parg)
 
             # set alphaperiod which is needed in the future
             self._alpha_p = getattr(self._alpha_, '_minperiod', 1)

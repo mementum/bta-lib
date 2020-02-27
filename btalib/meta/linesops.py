@@ -63,9 +63,9 @@ _STDOPS = {
     # skwargs: True => **kwargs may contain other series (Line => Series)
 
     # change period
-    'diff': dict(period_arg='periods'),
-    'shift': dict(period_arg='periods'),
-    'pct_change': dict(period_arg='periods'),
+    'diff': dict(parg='periods'),
+    'shift': dict(parg='periods'),
+    'pct_change': dict(parg='periods'),
 
     # operate on existing values
     'abs': {}, '__abs__': {},
@@ -158,7 +158,7 @@ _MULTIFUNCOPS = dict(
     expanding=dict(),
     ewm=dict(),
     _ewm=dict(),
-    rolling=dict(period_arg='window'),
+    rolling=dict(parg='window'),
 
     # accessors
     iloc=dict(propertize=True),
