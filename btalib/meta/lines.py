@@ -163,7 +163,9 @@ def standard_op(name, period_arg=None, overlap=0, sargs=False, skwargs=False):
 def reduction_op(name, sargs=False, *args, **kwargs):
     def real_reduction_op(self, *args, **kwargs):
         if sargs:
-            minperiod, minidx, args, _ = self._minperiodize(*args)
+            _, minidx, args, _ = self._minperiodize(*args)
+        else:
+            minidx = self._minperiod - 1
 
         red_op = getattr(self._series[minidx:], name)
         return red_op(*args, **kwargs)
