@@ -133,7 +133,7 @@ def binary_op(name):
     linesops.install_cls(name=name, attr=real_binary_op)
 
 
-def standard_op(name, period_arg=None, overlap=0, sargs=False, skwargs=False):
+def standard_op(name, period_arg=None, sargs=False, skwargs=False):
     def real_standard_op(self, *args, **kwargs):
         # Prepare a result filled with 'Nan'
         result = pd.Series(np.nan, index=self._series.index)
@@ -153,7 +153,7 @@ def standard_op(name, period_arg=None, overlap=0, sargs=False, skwargs=False):
 
         line = self._clone(result, minperiod)  # create resulting line
         if period_arg:  # consider if the operation increases the minperiod
-            line._minperiod += kwargs.get(period_arg) - overlap
+            line._minperiod += kwargs.get(period_arg)
 
         return line
 
