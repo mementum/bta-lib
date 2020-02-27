@@ -521,6 +521,20 @@ class Line(metaclass=MetaLine):
 
         return minperiod, minidx, nargs, nkwargs
 
+    def _apply(self, func, *args, raw=False, **kwargs):
+        minperiod, minidx, a, kw = self._minperiodize(*args, raw=raw, **kwargs)
+
+        sarray = self._series[minidx:]
+        if raw:
+            sarray = sarray.to_numpy(copy=True)  # let caller modify the buffer
+
+        result = pd.Series(np.nan, index=self._series.index)
+        result[minidx:] = func(sarray, *a, **kw)
+
+        line = self._clone(result, minperiod)  # create resulting line
+        return line
+
+
 # These hold the values for the attributes _minperiods/_minperiod for the
 # instances, to avoid having them declared as attributes. Or else __setattr__
 # would set them as Line objects (or logic would be needed in __setattr__ to
