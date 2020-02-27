@@ -211,7 +211,7 @@ class dm(_dm):
         self.o.minusdm = self._mdm
 
 
-# NOTE: Usage of INCPERIDO ta-lib does something incredible, which can only
+# NOTE: Usage of INCPERIOD. ta-lib does something incredible, which can only
 # mean that +dm/-dm and +di/-di were written by different people.  The +dm/-dm
 # are calculated using the step-by-step worksheet approach seen in Wilder's
 # book, in which the seed uses 13 values after 14 days, because the 1st day
