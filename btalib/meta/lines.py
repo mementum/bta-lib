@@ -501,6 +501,11 @@ class Line(metaclass=MetaLine):
         self._minperiod += period - rolling
         return self
 
+    def _setval(self, index, val):
+        # return the line with the period increased by period
+        self._series[self._minperiod - 1 + index] = val
+        return self
+
     def _minperiodize(self, *args, raw=False, **kwargs):
         # apply func, adding args and kwargs
         minpers = [self._minperiod]
