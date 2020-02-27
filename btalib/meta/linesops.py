@@ -145,6 +145,7 @@ _REDOPS = {
     'skew': {},
     'std': {},
     'sum': {},
+    'unique': {},
 }
 
 
