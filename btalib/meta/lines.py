@@ -485,6 +485,10 @@ class Line(metaclass=MetaLine):
     def index(self):
         return self._series.index
 
+    def _period(self, period, rolling=False):
+        # return the line with the period increased by period
+        self._minperiod += period - rolling
+        return self
 
 # These hold the values for the attributes _minperiods/_minperiod for the
 # instances, to avoid having them declared as attributes. Or else __setattr__
