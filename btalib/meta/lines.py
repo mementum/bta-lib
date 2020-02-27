@@ -202,7 +202,7 @@ def reduction_op(name, sargs=False, *args, **kwargs):
 #   - p1 = p2 - period  # beginning of seed calculation
 
 
-def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
+def multifunc_op(name, parg=None, propertize=False):
 
     class _MultiFunc_Op:
         def __init__(self, line, *args, **kwargs):
@@ -347,7 +347,8 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
 
         def __getattr__(self, attr):
             if self._pval is not None and not self._is_seeded:
-                self._minperiod += self._pval - overlap - self._pearly
+                # window operation overlap with the 1st calc point ... -1
+                self._minperiod += self._pval - self._pearly - 1
 
                 # for a dynamic alpha, the period of the alpha can exceed minp
                 self._minperiod = max(self._minperiod, self._alpha_p)
