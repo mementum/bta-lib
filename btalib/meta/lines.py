@@ -243,7 +243,7 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
                 # collect special parameters
                 self._pearly = _pearly = kwargs.pop('_pearly', 0)
                 self._poffset = kwargs.pop('_poffset', 0)
-                self._seed = _seed = kwargs.pop('_seed', False)
+                self._seed = _seed = kwargs.pop('_seed', SEED_AVG)
 
                 # Determine where the actual calculation is offset to. _poffset
                 # is there to support the failure made by ta-lib when offseting
