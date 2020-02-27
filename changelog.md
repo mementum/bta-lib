@@ -1,3 +1,25 @@
+## 0.9.6
+
+  - Indicators:
+    - `mavp`
+  - Make scipy.signal an optional requirement with a run-time import and
+    default to use _mean_exp if not available
+  - Refactor _mean_exp to use prev local variable and let it take an empty beta
+    (1-alpha)
+  - Report right attribute which was not found in Linesholder
+  - Add _minperiodize method which scans and adapts hidden series in args,
+    kwargs to minperiod
+  - Add line method which allow a dot notation period increase
+  - Add generic _apply method to series which mimics hidden _apply in "ewm" but
+    with args and kwargs, supporting raw for ndarrays
+  - Refactor standard_op to use minperiodize and some renaming
+  - Refactor reduction operations to use minperiodize and consider only the
+    minperiod
+  - Use SEED_AVG (0) enum as default seed instead of non-obvious False
+  - Add SEED_NONE logic to multifunc window operations
+  - Add reduction operation "unique" and adjust minperiod of series hidden in
+    kwargs in apply
+
 ## 0.9.5
 
   - Indicators:
@@ -5,13 +27,13 @@
   - Remove name setting because it may overwrite external inputs and change
     macro-like extraction to fix name, adapting test framework
   - Refactor crossover/up/down family, removing _type, simplifiyng formula and
-    adding a _strict parameter to switch betwen 2 bar crossover (strict) and a
+    adding a _strict parameter to switch between 2 bar crossover (strict) and a
     crossover over multiple bars (non-strict)
   - Macro-like additions: _MPSERIES, _SETVAL and _MPSETVAL to get series
     relative to minperiod and set values (raw and relative to minperiod)
   - Make "series" and "index" properties return only the raw underlying series
     and index, to conform to public API to retrieve series
-  - Readapt test framework to series api re-change
+  - Re-adapt test framework to series macro-like API re-change
   - Remove old pandas macro module and replace with utils
   - Refactor obv to use new _MPSETVAL macro-like function
 
