@@ -4,16 +4,14 @@
 # Copyright (C) 2020 Daniel Rodriguez
 # Use of this source code is governed by the MIT License
 ###############################################################################
-import numpy as np
-import scipy.signal
-import pandas as pd
-
 from . import config
 from .metadata import metadata
 from . import linesholder
 from . import linesops
 from .. import SEED_AVG, SEED_LAST, SEED_SUM
 
+import numpy as np
+import pandas as pd
 
 __all__ = ['Line', 'Lines']
 
@@ -301,6 +299,11 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
             return self._apply(_sm_acc)  # trigger __getattr__ for _apply
 
         def _lfilter(self, alpha, beta=None):  # recurisive definition
+            try:
+                import scipy.signal
+            except ImportError:  # if not available use tight loop
+                return self._mean_exp(alpha, beta)
+
             # alpha => new data, beta => old data (similar to 1-alpha)
             if not beta:
                 beta = 1.0 - alpha
