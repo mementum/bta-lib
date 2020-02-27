@@ -79,6 +79,10 @@ _STDOPS = {
     'combine_first': {'sargs': True},  # other => potential binop
     'concat': {'sargs': True},
     'copy': {},
+    'cummax': {},
+    'cummin': {},
+    'cumprod': {},
+    'cumsum': {},
     'drop': {},
     'drop_duplicates': {},
     'dropna': {},
@@ -112,10 +116,6 @@ _REDOPS = {
     'corr': {'sargs': True},
     'count': {},
     'cov': {'sargs': True},
-    'cummax': {},
-    'cummin': {},
-    'cumprod': {},
-    'cumsum': {},
     'dot': {'sargs': True},  # other => potential binop
     'equals': {'sargs': True},  # other => potential binop
     'factorize': {},  # returns a tuple
@@ -130,7 +130,6 @@ _REDOPS = {
     'kurtosis': {},
     'last_valid_index': {},
     'mad': {},
-    'map': {'sargs': True},
     'max': {},
     'mean': {},
     'median': {},
