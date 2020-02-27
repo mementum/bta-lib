@@ -8,7 +8,7 @@ from . import config
 from .metadata import metadata
 from . import linesholder
 from . import linesops
-from .. import SEED_AVG, SEED_LAST, SEED_SUM
+from .. import SEED_AVG, SEED_LAST, SEED_SUM, SEED_NONE
 
 import numpy as np
 import pandas as pd
@@ -274,6 +274,8 @@ def multifunc_op(name, period_arg=None, overlap=1, propertize=False):
                     trailprefix[-1] = series[pidx]
                 elif _seed == SEED_SUM:
                     trailprefix[-1] = series[p1:p2].sum()
+                elif _seed == SEED_NONE:
+                    pass  # no seed wished ... do nothing
 
                 # complete trailer: prefix (seed at end) + series vals to calc
                 trailer = trailprefix.append(series[p2:])
