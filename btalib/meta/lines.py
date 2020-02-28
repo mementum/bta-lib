@@ -489,6 +489,10 @@ class Line(metaclass=MetaLine):
         return line
 
     @property
+    def mpseries(self):
+        return self._series[self._minperiod - 1:]
+
+    @property
     def series(self):
         return self._series.rename(self._name, inplace=True)
 
