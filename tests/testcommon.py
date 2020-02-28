@@ -163,7 +163,11 @@ def run_indicator(pargs, name, testdata, main=False):
     if 'inputop' in testdata:
         inputs = testdata['inputop'](*inputs)
 
-    tacompat = testdata.get('talib', False) or pargs.talib
+    tacompat = testdata.get('talib', False)
+    if tacompat:
+        tacompat = not pargs.no_talib
+    else:
+        tacompat = pargs.talib
 
     btkwargs = testdata.get('btkwargs', {})
     if tacompat:
@@ -318,6 +322,9 @@ def parse_args(pargs, main=False):
 
     parser.add_argument('--talib', '-talib', action='store_true',
                         help='Activate talib compatibility for the indicators')
+
+    parser.add_argument('--no-talib', '-no-talib', action='store_true',
+                        help='Disable talib compatibility for the indicators')
 
     parser.add_argument('--bt-kwargs', '-btk', default='', metavar='kwargs',
                         help='kwargs in key=value format (update)')
