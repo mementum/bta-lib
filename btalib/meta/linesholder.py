@@ -100,3 +100,7 @@ class LinesHolder:
             self._sf = SeriesFetcher(self.outputs)
 
         return self._sf
+
+    def _period(self, p):
+        self._minperiod += 1
+        return self
