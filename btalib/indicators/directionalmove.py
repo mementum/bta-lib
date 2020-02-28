@@ -4,8 +4,7 @@
 # Copyright (C) 2020 Daniel Rodriguez
 # Use of this source code is governed by the MIT License
 ###############################################################################
-from . import Indicator, smma, truerange
-from . import _INCPERIOD, SEED_SUM
+from . import Indicator, smma, truerange, SEED_SUM
 
 
 class smacc(Indicator):
@@ -252,7 +251,7 @@ class _di(_dm):
         tr = truerange(*self.i, _period=self.p._period)  # same inputs order
         trp = self._smoother(tr, **self._smoothargs)  # smoother/args from base
 
-        _INCPERIOD(trp, self._talib_)  # see comment above
+        trp._period(self._talib_)  # increase period by 1 for ta-lib compat
 
         if self._plus:
             self._pdi = 100.0 * self._pdm / trp
