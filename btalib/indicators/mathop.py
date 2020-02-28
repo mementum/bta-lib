@@ -4,7 +4,7 @@
 # Copyright (C) 2020 Daniel Rodriguez
 # Use of this source code is governed by the MIT License
 ###############################################################################
-from . import Indicator, _SERIES
+from . import Indicator
 
 import itertools
 
@@ -150,15 +150,19 @@ class maxindex(Indicator):
         ('_absidx', False, 'Return maxindex over the entire period'),
     )
 
-    def _mi(self, x):
+    def _argmax(self, x):
         return np.argmax(x) + (next(self._count) * self.p._absidx)
 
     def __init__(self):
-        self._count = itertools.count()
-        self.o.maxindex = self.i0.rolling(window=self.p.period).apply(self._mi)
+        i0rolling = self.i0.rolling(window=self.p.period)  # prep rolling win
 
-        if self._talib_:  # also resets minperiod to 1 as the talib result
-            self.o.maxindex = _SERIES(self.o.maxindex).fillna(0)
+        if not self.p._absidx:  # maxindex relative to window period
+            self.o.maxindex = i0rolling.apply(np.argmax)
+        else:
+            # maxindex is absolute with respect to all previous vals in array
+            self._count = itertools.count()  # help win rel-index => absolute
+            self.o.maxindex = i0rolling.apply(self._argmax)._series.fillna(0)
+            # using the raw _series resets period to 1, fillna fills as ta-lib
 
     def _talib(self, kwdict):
         '''ta-lib returns 0 as index during the warm-up period and then returns the
@@ -182,15 +186,19 @@ class minindex(Indicator):
         ('_absidx', False, 'Return maxindex over the entire period'),
     )
 
-    def _mi(self, x):
+    def _argmin(self, x):
         return np.argmin(x) + (next(self._count) * self.p._absidx)
 
     def __init__(self):
-        self._count = itertools.count()
-        self.o.minindex = self.i0.rolling(window=self.p.period).apply(self._mi)
+        i0rolling = self.i0.rolling(window=self.p.period)  # prep rolling win
 
-        if self._talib_:  # also resets minperiod to 1 as the talib result
-            self.o.minindex = _SERIES(self.o.minindex).fillna(0)
+        if not self.p._absidx:  # maxindex relative to window period
+            self.o.minindex = i0rolling.apply(np.argmin)
+        else:
+            # maxindex is absolute with respect to all previous vals in array
+            self._count = itertools.count()  # help win rel-index => absolute
+            self.o.minindex = i0rolling.apply(self._argmin)._series.fillna(0)
+            # using the raw _series resets period to 1, fillna fills as ta-lib
 
     def _talib(self, kwdict):
         '''ta-lib returns 0 as index during the warm-up period and then returns the
