@@ -224,7 +224,7 @@ class dm(_dm):
 # preiod changes but the calculation continues with the other values from the
 # original period - 1 (_pearly) calculation, which is then wrong, because the
 # period in `+dm/-dm` was kept untouched to respect the `+dm/-dm` calculations.
-# This can only be corrected by increasing the period (_INCPERIOD) by 1 if
+# This can only be corrected by increasing the period (_period) by 1 if
 # `ta-lib` compatibility is enabled, which discards the 1st value for
 # calculations by increasing the period
 
