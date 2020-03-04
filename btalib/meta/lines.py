@@ -500,9 +500,20 @@ class Line(metaclass=MetaLine):
     def index(self):
         return self._series.index
 
-    def _period(self, period, rolling=False):
+    def _period(self, period, rolling=False, val=None):
         # return the line with the period increased by period
-        self._minperiod += period - rolling
+        inc = period - rolling
+        if not inc:
+            return self
+
+        if val is not None:  # set entire changed period to val
+            idx0 = self._minperiod - 1
+            idx1 = idx0 + (inc or 1)  # maybe no period inc only setval
+            if idx1 < idx0:  # inc is negative ...
+                idx0, idx1 = idx1, idx0
+            self._series[idx0:idx1] = val
+
+        self._minperiod += inc
         return self
 
     def _setval(self, index, val):
