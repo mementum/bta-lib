@@ -11,12 +11,12 @@ from . import SEED_AVG
 class ewma(Indicator):
     '''
     This is **NOT** the `ema` or `ExponentialMovingAverage`. This is a wrap
-    around pandas.Series.ewm where `ewma` stands for `ExponentialWeigthedMeaan`
+    around pandas.Series.ewm where `ewma` stands for `ExponentialWeigthedMean`
     ... to which later a function like `mean` is applied
 
-    Applying `mean` doesn't make it the `ExponentialMovingAverage` because
-    `ewma` in `pandas.Series` or `pandas.DataFrames` does not support using a
-    seed like the first n periods of an `ewm` of `span=n`
+    Applying `mean` doesn't make it the `ExponentialMovingAverage` (aka `EMA`
+    or `ema`) because `ewma` in `pandas.Series` or `pandas.DataFrames` does not
+    support using a seed of the first n periods of an `ewm` of `span=n`
 
     The purpose of this, is to be able to use this in place of the real `ema`
     with parameters like `period` and `_seed` for compatibility.
