@@ -462,9 +462,12 @@ class Line(metaclass=MetaLine):
     for name, opargs in linesops._MULTIFUNCOPS.items():
         multifunc_op(name, **opargs)
 
-    def __call__(self, ago=0, val=None, *args, **kwargs):
+    def __call__(self, ago=0, val=np.nan):
         if ago:
             return self.shift(periods=-ago)
+
+        if ago is None:
+            val = None  # called as in (None, ...) ago wasn't meant
 
         if val is None:
             val = self._series.copy()
