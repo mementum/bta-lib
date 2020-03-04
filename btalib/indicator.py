@@ -199,3 +199,7 @@ class Indicator(meta.linesholder.LinesHolder, metaclass=MetaIndicator):
 
     def _talib(self, kwdict):
         self._talib_ = True  # for subclasses to use if needed
+
+    @classmethod
+    def _talib_class(cls, kwdict):
+        pass
