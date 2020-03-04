@@ -20,7 +20,7 @@ class _mathrad(Indicator):
     )
 
     def __init__(self):
-        self.o[0]  = _to_radians(self.i0, self.p.degrees).apply(self._func)
+        self.o[0] = _to_radians(self.i0, self.p.degrees).apply(self._func)
 
 
 # Trigonometric math transforms
