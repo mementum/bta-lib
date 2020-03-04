@@ -126,7 +126,8 @@ def binary_op(name):
 
         # Get the operation, exec and store
         binop = getattr(self._series[minidx:], name)  # get op from series
-        result[minidx:] = binop(other, *args, **kwargs)  # exec / store
+        result[minidx:] = r = binop(other, *args, **kwargs)  # exec / store
+        result = result.astype(r.dtype, copy=False)
 
         return self._clone(result, minperiod)  # return new obj with minperiod
 
@@ -149,7 +150,8 @@ def standard_op(name, parg=None, sargs=False, skwargs=False):
 
         # get the operation from a view capped to the max minperiod
         stdop = getattr(self._series[minidx:], name)
-        result[minidx:] = stdop(*args, **kwargs)  # execute and assign
+        result[minidx:] = r = stdop(*args, **kwargs)  # execute and assign
+        result = result.astype(r.dtype, copy=False)  # keep dtype intact
 
         line = self._clone(result, minperiod)  # create resulting line
         if parg:  # consider if the operation increases the minperiod
@@ -368,9 +370,8 @@ def multifunc_op(name, parg=None, propertize=False):
 
                     sargs.append(arg)
 
-                res = op(*sargs, **kwargs)  # run/store
-                result[self._minidx:] = res
-                return self._line._clone(result, self._minperiod)  # retval
+                result[self._minidx:] = r = op(*sargs, **kwargs)  # run/store
+                result = result.astype(r.dtype, copy=False)
 
             return call_op
 
