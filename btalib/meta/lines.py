@@ -129,7 +129,7 @@ def binary_op(name):
         result[minidx:] = r = binop(other, *args, **kwargs)  # exec / store
         result = result.astype(r.dtype, copy=False)
 
-        return self._clone(result, minperiod)  # return new obj with minperiod
+        return self._clone(result, period=minperiod)  # ret new obj w minperiod
 
     linesops.install_cls(name=name, attr=real_binary_op)
 
@@ -153,7 +153,7 @@ def standard_op(name, parg=None, sargs=False, skwargs=False):
         result[minidx:] = r = stdop(*args, **kwargs)  # execute and assign
         result = result.astype(r.dtype, copy=False)  # keep dtype intact
 
-        line = self._clone(result, minperiod)  # create resulting line
+        line = self._clone(result, period=minperiod)  # create resulting line
         if parg:  # consider if the operation increases the minperiod
             line._minperiod += kwargs.get(parg)
 
@@ -372,6 +372,7 @@ def multifunc_op(name, parg=None, propertize=False):
 
                 result[self._minidx:] = r = op(*sargs, **kwargs)  # run/store
                 result = result.astype(r.dtype, copy=False)
+                return self._line._clone(result, period=self._minperiod)
 
             return call_op
 
@@ -477,7 +478,7 @@ class Line(metaclass=MetaLine):
         if val is None:
             val = self._series.copy()
 
-        return self._clone(val, index=self._series.index, *args, **kwargs)
+        return self._clone(val, index=self._series.index)
 
     def __iter__(self):
         return iter(self._series)
@@ -572,7 +573,7 @@ class Line(metaclass=MetaLine):
         result = pd.Series(np.nan, index=self._series.index)
         result[minidx:] = func(sarray, *a, **kw)
 
-        line = self._clone(result, minperiod)  # create resulting line
+        line = self._clone(result, period=minperiod)  # create resulting line
         return line
 
 
