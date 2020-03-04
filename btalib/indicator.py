@@ -85,6 +85,27 @@ class MetaIndicator(meta.linesholder.LinesHolder.__class__):
         # be able to access the auto-magical attributes
         self = cls.__new__(cls, *args, *kwargs)  # create instance as usual
 
+        # Determine base classes for auto-calling
+        # Non-overridden functions will be filtered with list(dict.fromkeys),
+        # which removes duplicates and retains order
+        bases, bcls = [], cls
+        while(bcls != Indicator):
+            bcls = bases.append(bcls) or bcls.__bases__[0]  # append rets None
+
+        bases.append(bcls)  # append Indicator which defines neutral methods
+
+        # check if ta-lib compatibility is requestd
+        talibflag = kwargs.pop('_talib', False) or config.get_talib_compat()
+
+        # Check if ta-lib compatibility is requested. If so and the indicator
+        # defines a _talib function, give it the **ACTUAL** kwargs and use the
+        # modified version. Don't let a '_talib' parameter make it to the
+        # indicator (hence pop)
+        if talibflag:
+            talibclass = list(dict.fromkeys(b._talib_class for b in bases))
+            for b_ta in reversed(talibclass):
+                b_ta(kwargs)
+
         # Create and install the lines holding instance
         self.outputs = self.o = meta.outputs._from_class(cls)
         self.lines = self.l = self.outputs  # noqa: E741
@@ -111,20 +132,11 @@ class MetaIndicator(meta.linesholder.LinesHolder.__class__):
         self._minperiods = [_in._minperiod for _in in self.inputs]
         self._minperiod = max(self._minperiods)
 
-        # Determine base classes for auto-calling
-        # Non-overridden functions will be filtered with list(dict.fromkeys),
-        # which removes duplicates and retains order
-        bases, bcls = [], cls
-        while(bcls != Indicator):
-            bcls = bases.append(bcls) or bcls.__bases__[0]  # append rets None
-
-        bases.append(bcls)  # append Indicator which defines neutral methods
-
         # Check if ta-lib compatibility is requested. If so and the indicator
         # defines a _talib function, give it the **ACTUAL** kwargs and use the
         # modified version. Don't let a '_talib' parameter make it to the
         # indicator (hence pop)
-        if kwargs.pop('_talib', False) or config.get_talib_compat():
+        if talibflag:
             for b_ta in reversed(list(dict.fromkeys(b._talib for b in bases))):
                 b_ta(self, kwargs)
 
