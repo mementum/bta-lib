@@ -226,7 +226,10 @@ def multifunc_op(name, parg=None, propertize=False):
             if lsname == 'ewm':
                 if 'alpha' in kwargs:  # all bets are on 'alpha'
                     # period cannot be recovered, force the user to specify it
-                    self._pval = kwargs.pop('span')  # exception if not there
+                    # use a default value of 0 to indicate that the period of
+                    # the calling line has to be used even if alphas carry a
+                    # period. See below the alpha period check against offset
+                    self._pval = kwargs.pop('span', 0)
                     alpha = kwargs['alpha']  # it is there ...
                     if isinstance(alpha, (int, float)):
                         pass  # regular behavior
@@ -267,7 +270,9 @@ def multifunc_op(name, parg=None, propertize=False):
                 # makes a mistake an calculates that without taking that period
                 # into account if _seed is activated
 
-                if self._alpha_p > poffset:
+                # If no pval has been provided (span), don't take the alpha
+                # period, the period of the calling line will be used
+                if self._pval and self._alpha_p > poffset:
                     poffset += self._alpha_p - poffset - 1
 
                 p2 = self._minperiod - 1 + poffset - _pearly  # seed end calc
