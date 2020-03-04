@@ -1,3 +1,29 @@
+## 0.9.7
+
+  - Indicators:
+    - `mama`
+  - Refactoring internal param names, fixing reduction op and other cosmetics
+  - Refactor obv as a function of _period and _setval
+  - Re-locate cumXXX and map as standard ops and not as reduction ops
+  - Add `_talib_class` classmethod fo ta-lib compatibility actions needed
+    before the instance is created
+  - API call to regenerate inputs
+  - New SEED_ZERO, SEED_ZFILL for _ewm
+  - New behavior for `_ewm` in which if alpha is passed but no `span` is
+    present, the actual minimum period of the calling lines is applied
+  - Added calls `mask` and `where`
+  - Correct from 0.9.6 that the dtype of the series was lost, which caused
+    problems with wrapped calls which actually check the dtype for example for
+    "boolean" like mask and where
+  - Internal semantics improved for the `__call__` notation and line `clone`
+  - Fix reduction operation minimum period
+  - Remove unneeded overlap parameter for standard operations and rolling
+    functions
+  - Added `_setval` method to set a value/range from the minimum period
+  - Extended `_period` to be able to set a value in the period which is
+    added/removed
+  - Refactor `obv` and others to use `_period`
+
 ## 0.9.6
 
   - Indicators:
