@@ -82,10 +82,14 @@ metatests = dict(
     tema=dict(minperiod=88, decimals=10),
     trima=dict(minperiod=30, decimals=10),
     trix=dict(minperiod=89, decimals=12),
+
+    mama=dict(minperiod=33, decimals=9, talib=True, inputs=['close']),
+
     # ta-lib order top/mid/bot, swap outputs 0:1 to match
     bbands=dict(minperiod=5, decimals=6, talib=True, swapouts={0: 1}),
     midpoint=dict(minperiod=14),
     midprice=dict(minperiod=14),
+
 
     mavp=dict(
         minperiod=30,
