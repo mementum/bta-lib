@@ -44,7 +44,7 @@ class obv(Indicator):
 
         if self._talib_:  # ## black voodoo to overcome ta-lib errors
             # Force use of first valid value as positive volume (ta-lib rules)
-            close1._period(-1)._setval(0, 1.0)  # 1.0 at minper rel index 0
+            close1._period(-1, val=1.0)  # reduce minperiod, fill region with 1.0
 
         self.o.obv = (self.i.volume * close1.apply(np.sign)).cumsum()
 
