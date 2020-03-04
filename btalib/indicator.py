@@ -185,5 +185,5 @@ class Indicator(meta.linesholder.LinesHolder, metaclass=MetaIndicator):
 
     _talib_ = False
 
-    def _talib(self, *args, **kwargs):
+    def _talib(self, kwdict):
         self._talib_ = True  # for subclasses to use if needed
