@@ -180,6 +180,9 @@ class MetaIndicator(meta.linesholder.LinesHolder.__class__):
 
         return ret  # Return itself for now
 
+    def _regenerate_inputs(cls, inputs):
+        meta.inputs._generate(cls, cls.__bases__, {'inputs': inputs})
+
 
 class Indicator(meta.linesholder.LinesHolder, metaclass=MetaIndicator):
     # Base class for any indicator. The heavy lifting to ensure consistency is
