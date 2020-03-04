@@ -360,9 +360,10 @@ def multifunc_op(name, parg=None, propertize=False):
                 self._minperiod = max(self._minperiod, self._alpha_p)
 
             op = getattr(self._multifunc, attr)  # get real op/let exp propag
-            result = pd.Series(np.nan, index=self._series.index)  # prep
 
             def call_op(*args, **kwargs):  # actual op executor
+                result = pd.Series(np.nan, index=self._series.index)  # prep
+
                 sargs = []  # cov takes an "other" parameter for example
                 for arg in args:
                     if isinstance(arg, Line):
