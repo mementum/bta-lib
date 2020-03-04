@@ -98,6 +98,7 @@ _STDOPS = {
     'isna': {},
     'isnull': {},
     'nlargest': {},
+    'mask': {'sargs': True, 'skwargs': True},
     'notna': {},
     'notnull': {},
     'nsmallest': {},
@@ -106,6 +107,7 @@ _STDOPS = {
     'round': {},
     # 'update': {'sargs': True},
     'tail': {},
+    'where': {'sargs': True, 'skwargs': True},
 }
 
 _REDOPS = {
