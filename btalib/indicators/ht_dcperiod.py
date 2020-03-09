@@ -35,6 +35,7 @@ class ht_dcperiod(Indicator):
     LOOKBACK_TOTAL = 33
     LOOKBACK_SMOOTH = 4
     LOOKBACK_HT = 7
+    LOOKBACK_HT_SKIP = 0  # skip before applying ht
     LOOKBACK_SMOOTH_EXTRA = LOOKBACK_HT - LOOKBACK_SMOOTH
     LOOKBACK_REST = LOOKBACK_TOTAL - LOOKBACK_HT
 
@@ -53,31 +54,31 @@ class ht_dcperiod(Indicator):
         # _periodize - no auto period. Add non-count period, filled with nan
         self.o.dcperiod = dcperiod._period(self.LOOKBACK_REST, val=np.nan)
 
-    def _ht(self, x, aperiod1, i):
+    def _ht(self, x, adjperiod, i):
         ht0 = 0.0962*x[i] + 0.5769*x[i - 2] - 0.5769*x[i - 4] - 0.0962*x[i - 6]
-        return ht0 * aperiod1
+        return ht0 * adjperiod
 
     def _periodize(self, price, dcperiod):
         # period 7 needed in _periodize for hilbert transform
         # p0smooth has: 4 and needs additional 3 before applying  _periodize
         # actual "return" values to be used in __init__ for phase calculations
-
         LOOKBACK = self.LOOKBACK_HT
         LOOKIDX = LOOKBACK - 1
+        LOOKSTART = LOOKIDX + self.LOOKBACK_HT_SKIP
+
+        # circular buffers for ht calcs
         detrender = collections.deque([0.0] * LOOKBACK, maxlen=LOOKBACK)
         i1 = collections.deque([0.0] * LOOKBACK, maxlen=LOOKBACK)
         q1 = collections.deque([0.0] * LOOKBACK, maxlen=LOOKBACK)
 
         # the first LOOKBACK elements of the input are ignored in the ta-lib
         # calculations for the detrender. Nullify them.
-        price[0:LOOKIDX] = 0.0
+        price[0:LOOKSTART] = 0.0
 
         # Variables for the running calculations
-        i2, q2, re, im, period = 0.0, 0.0, 0.0, 0.0, 0.0
+        i2, q2, re, im, period, smoothperiod = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
 
-        dcperiod1 = 0.0
-
-        for i in range(LOOKIDX, len(price)):
+        for i in range(LOOKSTART, len(price)):
             adjperiod = 0.075*period + 0.54  # adj period_1 for ht transformx
 
             detrender.append(self._ht(price, adjperiod, i))
@@ -113,6 +114,8 @@ class ht_dcperiod(Indicator):
             period = min(period, 50)
             period = 0.2*period + 0.8*period1  # smooth
 
-            dcperiod[i] = dcperiod1 = 0.33*period + 0.67*dcperiod1
+            smoothperiod = 0.33*period + 0.67*smoothperiod
+
+            dcperiod[i] = smoothperiod
 
         return dcperiod
