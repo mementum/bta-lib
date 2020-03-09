@@ -43,6 +43,8 @@ def _from_args(cls, *args):
     clsinputs = getattr(cls, _CLSINAME[cls])  # Get input definitions
     linputs, largs = len(clsinputs), len(args)  # different logic with lengths
 
+    allowinputs = 0  # control at the end if inputs length has to be capped
+
     if largs >= linputs:
         argsinputs, args = args[:linputs], args[linputs:]  # split inputs/args
 
@@ -59,9 +61,27 @@ def _from_args(cls, *args):
         elif isinstance(arginput, linesholder.LinesHolder):
             inputargs = _from_arg_linesholder(arginput, clsinputs)
         else:
-            errors.MultiDimType()  # raise error, non-acceptable type
+            allowinputs = linputs = getattr(cls, 'allowinputs', 0)
+            if not linputs:
+                errors.MultiDimType()  # raise error, non-acceptable type
 
-    return _CLSINPUTS[cls](**inputargs), args  # return instance / rem. args
+            # reconstruct args
+            args = (arginput,) + args
+
+            # repeat as above for single inputs but with less inputs
+            # less inputs are allowed ... let's go fot it - split inputs/args
+            argsinputs, args = args[:linputs], args[linputs:]
+
+            # map inputs to expected input. Let constructor do conversions
+            inputargs = {clsinput: Input(arginput, clsinput)
+                         for arginput, clsinput in zip(argsinputs, clsinputs)}
+
+    # Create instance of inputs and adjust if needed
+    inpret = _CLSINPUTS[cls](**inputargs)  # return instance / rem. args
+    if allowinputs:
+        inpret.__slots__[:] = inpret.__slots__[:linputs]  # cap the inputs length
+
+    return inpret, args  # return the instance and remaining args
 
 
 def _from_arg_dataframe(arginput, clsinputs):
