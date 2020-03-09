@@ -102,6 +102,9 @@ metatests = dict(
     # ## acumulation (also inside the overlap group)
     smacc='plus_dm',  # tested with the directoinal movement indicators
 
+    # Cycle
+    ht_dcperiod=dict(minperiod=33, decimals=9, inputs=['close']),
+
     # Momentum
     apo=dict(minperiod=26, decimals=9, talib=True),
     aroon=dict(minperiod=15, decimals=13),
