@@ -84,6 +84,7 @@ metatests = dict(
     trix=dict(minperiod=89, decimals=12),
 
     mama=dict(minperiod=33, decimals=9, talib=True, inputs=['close']),
+    ht_trendline=dict(minperiod=64, decimals=9, inputs=['close']),
 
     # ta-lib order top/mid/bot, swap outputs 0:1 to match
     bbands=dict(minperiod=5, decimals=6, talib=True, swapouts={0: 1}),
