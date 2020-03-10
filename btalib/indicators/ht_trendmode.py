@@ -179,6 +179,9 @@ class ht_trendmode(Indicator):
 
             daysintrend += 1
 
+            if daysintrend < 0.5*smoothperiod:
+                trend = 0
+
             if smoothperiod:
                 phdiff = dcphase - dcphase1
                 sm360 = 360 / smoothperiod
@@ -186,7 +189,7 @@ class ht_trendmode(Indicator):
                     trend = 0
 
             if trendline:
-                if (price[i]/trendline - 1.0) >= 0.015:
+                if abs(price[i]/trendline - 1.0) >= 0.015:
                     trend = 1
 
             trendbuf[i] = trend
