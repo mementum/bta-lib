@@ -1,3 +1,13 @@
+## 0.9.8
+
+  - Indicators:
+    - `ht_dcperiod`, `ht_dcphase`, `ht_phasor`, `ht_sine`, `ht_trendline`,
+      `ht_trendmode`
+  - Allow indicators to declare numerically than less inputs than declared can
+    be accepted with `allowinputs=x`
+  - Refactor `mama` in terms of `ht_phasor`
+  - Add `_applymulti` primitive to allow an apply with multiple return results
+
 ## 0.9.7
 
   - Indicators:
