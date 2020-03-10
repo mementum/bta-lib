@@ -30,7 +30,6 @@ class sar(Indicator):
     inputs = 'high', 'low'
     outputs = 'sar'
     params = (
-        # ('period', 2, 'Period to consider before calculations'),
         ('af', 0.02, 'Acceleration Factor'),
         ('afmax', 0.20, 'Maximum Acceleration Factor'),
     )
