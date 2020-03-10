@@ -128,6 +128,7 @@ metatests = dict(
     rocr100=dict(minperiod=11, talib=True),
     rsi=dict(minperiod=15, decimals=11),
     sar=dict(minperiod=2),
+    sarext=dict(minperiod=2),
     stoch=dict(minperiods=[7, 9], decimals=11, talib=True),
     stochf=dict(minperiods=[5, 7], decimals=11, talib=True),
     stochrsi=dict(minperiods=[19, 21], decimals=9, talib=True),
