@@ -48,10 +48,10 @@ class ht_dcphase(Indicator):
         p0smooth._period(self.LOOKBACK_SMOOTH_EXTRA)
 
         dcbuffer = p0smooth(val=0.0)  # copy p0smooth index, fill with 0.0
-        dcperiod = p0smooth._apply(self._periodize, dcbuffer, raw=True)  # calc
+        dcphase = p0smooth._apply(self._periodize, dcbuffer, raw=True)  # calc
 
         # _periodize - no auto period. Add non-count period, filled with nan
-        self.o.dcphase = dcperiod._period(self.LOOKBACK_REST, val=np.nan)
+        self.o.dcphase = dcphase._period(self.LOOKBACK_REST, val=np.nan)
 
     def _ht(self, x, adjperiod, i):
         ht0 = 0.0962*x[i] + 0.5769*x[i - 2] - 0.5769*x[i - 4] - 0.0962*x[i - 6]
