@@ -105,6 +105,7 @@ metatests = dict(
 
     # Cycle
     ht_dcperiod=dict(minperiod=33, decimals=9, inputs=['close']),
+    ht_dcphase=dict(minperiod=64, decimals=9, inputs=['close']),
     ht_phasor=dict(minperiod=33, decimals=9, inputs=['close']),
 
     # Momentum

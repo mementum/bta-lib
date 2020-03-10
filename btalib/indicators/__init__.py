@@ -44,6 +44,7 @@ from .ht_trendline import *  # noqa: F401 F403
 
 # Cycle
 from .ht_dcperiod import *  # noqa: F401 F403
+from .ht_dcphase import *  # noqa: F401 F403
 from .ht_phasor import *  # noqa: F401 F403
 
 # ## overlap non-ma
