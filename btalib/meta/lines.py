@@ -579,8 +579,7 @@ class Line(metaclass=MetaLine):
         result = pd.Series(np.nan, index=self._series.index)
         result[minidx:] = func(sarray, *a, **kw)
 
-        line = self._clone(result, period=minperiod)  # create resulting line
-        return line
+        return self._clone(result, period=minperiod)  # create resulting line
 
 
 # These hold the values for the attributes _minperiods/_minperiod for the
