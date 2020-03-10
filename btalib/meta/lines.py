@@ -581,6 +581,22 @@ class Line(metaclass=MetaLine):
 
         return self._clone(result, period=minperiod)  # create resulting line
 
+    def _applymulti(self, func, *args, raw=False, **kwargs):
+        minperiod, minidx, a, kw = self._minperiodize(*args, raw=raw, **kwargs)
+
+        sarray = self._series[minidx:]
+        if raw:
+            sarray = sarray.to_numpy(copy=True)  # let caller modify the buffer
+
+        results = func(sarray, *a, **kw)
+        lines = []
+        for r in results:
+            result = pd.Series(np.nan, index=self._series.index)
+            result[minidx:] = r
+            lines.append(self._clone(result, period=minperiod))  # result/store
+
+        return lines
+
 
 # These hold the values for the attributes _minperiods/_minperiod for the
 # instances, to avoid having them declared as attributes. Or else __setattr__
