@@ -11,9 +11,7 @@ from math import atan, fsum
 
 import numpy as np
 
-
 RAD2DEG = 180.0 / (4.0 * atan(1))
-INVRAD2DEG = 360 / RAD2DEG
 
 
 class ht_trendline(Indicator):
@@ -53,7 +51,7 @@ class ht_trendline(Indicator):
         # p0smooth._period(3)  # to give a minimum lookup to ht transforms
 
         trendbuffer = p0smooth(val=0.0)  # copy p0smooth index, fill with 0.0
-        result = p0smooth._apply(self._periodize, p0, trendbuffer)  # cal
+        result = p0smooth._apply(self._periodize, p0, trendbuffer, raw=True)
 
         # _periodize - no auto period. Add non-count period, filled with nan
         self.o.trendline = result._period(self.LOOKBACK_REST, val=np.nan)
@@ -114,13 +112,13 @@ class ht_trendline(Indicator):
             re = 0.2*re0 + 0.8*re  # smooth
             im = 0.2*im0 + 0.8*im  # smooth
 
-            period_1 = period
-            period = INVRAD2DEG / atan(im / re) if re and im else period_1
-            period = min(period, period_1*1.5)
-            period = max(period, period_1*0.67)
+            period1 = period
+            period = 360 / (RAD2DEG*atan(im / re)) if re and im else period1
+            period = min(period, period1*1.5)
+            period = max(period, period1*0.67)
             period = max(period, 6)
             period = min(period, 50)
-            period = 0.2*period + 0.8*period_1  # smooth
+            period = 0.2*period + 0.8*period1  # smooth
 
             smoothperiod = 0.33*period + 0.67*smoothperiod
 

@@ -11,9 +11,7 @@ from math import atan
 
 import numpy as np
 
-
 RAD2DEG = 180.0 / (4.0 * atan(1))
-INVRAD2DEG = 360 / RAD2DEG
 
 
 class ht_dcperiod(Indicator):
@@ -49,7 +47,7 @@ class ht_dcperiod(Indicator):
         p0smooth._period(self.LOOKBACK_SMOOTH_EXTRA)
 
         dcbuffer = p0smooth(val=0.0)  # copy p0smooth index, fill with 0.0
-        dcperiod = p0smooth._apply(self._periodize, dcbuffer)  # calculate
+        dcperiod = p0smooth._apply(self._periodize, dcbuffer, raw=True)  # calc
 
         # _periodize - no auto period. Add non-count period, filled with nan
         self.o.dcperiod = dcperiod._period(self.LOOKBACK_REST, val=np.nan)
@@ -107,7 +105,7 @@ class ht_dcperiod(Indicator):
             im = 0.2*im0 + 0.8*im  # smooth
 
             period1 = period
-            period = INVRAD2DEG / atan(im / re) if re and im else period1
+            period = 360 / (RAD2DEG*atan(im / re)) if re and im else period1
             period = min(period, period1 * 1.5)
             period = max(period, period1 * 0.67)
             period = max(period, 6)
@@ -115,7 +113,6 @@ class ht_dcperiod(Indicator):
             period = 0.2*period + 0.8*period1  # smooth
 
             smoothperiod = 0.33*period + 0.67*smoothperiod
-
             dcperiod[i] = smoothperiod
 
         return dcperiod
