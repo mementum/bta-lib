@@ -531,11 +531,16 @@ class Line(metaclass=MetaLine):
         self._minperiod += inc
         return self
 
-    def _setval(self, i0, i1=0, val=np.nan):
+    def _setval(self, i0=0, i1=0, val=np.nan):
         # set a value relative to minperiod as start.
-        i0 = self._minperiod - 1 + i0
-        i1 = i0 + (i1 or 1)  # i1 rel to i0 or extend i0 by 1 for singl value
-        self._series[i0:i1] = val
+        if not i0 and not i1:
+            self._series[self._minperiod - 1:i1] = val
+        else:
+            i0 = self._minperiod - 1 + i0
+            if i1 >= 0:
+                i1 = i0 + (i1 or 1)  # i1 rel to i0 or extend i0 by 1 for singl value
+            self._series[i0:i1] = val
+
         return self
 
     def _minperiodize(self, *args, raw=False, **kwargs):
