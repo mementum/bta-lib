@@ -44,7 +44,10 @@ class mama(Indicator):
     LOOKBACK_REST = LOOKBACK_TOTAL - LOOKBACK_HT
 
     def __init__(self):
-        p0 = self.i0
+        # Choose p0, depending on passed number o inputs
+        p0 = (self.i.high + self.i.low) / 2.0 if len(self.i) > 1 else self.i0
+
+        # smooth p0
         p0smooth = (4.0*p0 + 3.0*p0(-1) + 2.0*p0(-2) + 1.0*p0(-3)) / 10.0
         # Add the needed lookback for HT, not yet offered by the smoothing
         p0smooth._period(self.LOOKBACK_SMOOTH_EXTRA)
