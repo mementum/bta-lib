@@ -1,3 +1,9 @@
+## 1.0.0
+  - Indicators:
+    - `sar`, `sarext`
+  - Added missing check conditions in `ht_trendmode`
+  - Improved auto-docstring generation
+
 ## 0.9.8
 
   - Indicators:
