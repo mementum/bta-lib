@@ -63,6 +63,7 @@ class adosc(ad):
         self.o.adosc = ma3 - ma10
 
     def _talib(self, kwdict):
-        '''Swith to `ewma` (i.e.: *exponential weighted moving mean* with no seed
-        instead of using a standard `ema` exponential moving average'''
+        '''Switch to `ewma` (i.e.: *exponential weighted moving mean* with no seed
+        instead of using a standard `ema` exponential moving average
+        '''
         kwdict.setdefault('_ma', ewma)
