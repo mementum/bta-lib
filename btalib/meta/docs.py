@@ -13,7 +13,7 @@ __all__ = []
 
 
 def wrap_indent(txt, ilevel=0, ichar='    ', width=78, cr=1):
-    ifill = (ilevel + 1) * ichar
+    ifill = ilevel * ichar
     wrapped_lines = []
     for line in txt.splitlines():
         wrapped = textwrap.wrap(
@@ -29,11 +29,18 @@ def wrap_indent(txt, ilevel=0, ichar='    ', width=78, cr=1):
     return '\n'*cr + '\n'.join(wrapped_lines)
 
 
+def process_docstring(d):
+    slines = d.split('\n')
+    slines2 = textwrap.dedent('\n'.join(slines[1:])).split('\n')
+    return '\n'.join([slines[0]] + slines2)
+
+
 def _generate(cls, bases, dct, **kwargs):
     # Get actual docstring
 
-    cls.__doc_orig__ = clsdoc = (cls.__doc__ or '').lstrip('\n').rstrip()
-    gendoc = clsdoc
+    cls.__doc_orig__ = clsdoc = (cls.__doc__ or '')
+
+    gendoc = process_docstring(clsdoc)
 
     if getattr(cls, 'alias', None):
         txt = '\n'
@@ -81,6 +88,6 @@ def _generate(cls, bases, dct, **kwargs):
         if tadoc:
             txt = 'TA-LIB (with compatibility flag "_talib=True"):'
             gendoc += wrap_indent(txt, cr=2)
-            gendoc += wrap_indent('  - ' + tadoc)
+            gendoc += '\n\n' + process_docstring(tadoc)
 
     cls.__doc__ = gendoc
