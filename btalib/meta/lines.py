@@ -607,8 +607,8 @@ class Line(metaclass=MetaLine):
 # instances, to avoid having them declared as attributes. Or else __setattr__
 # would set them as Line objects (or logic would be needed in __setattr__ to
 # avoid assigning an object not the real value
-metadata.minperiods = {}
-metadata.minperiod = {}
+metadata.register('minperiods', dict)
+metadata.register('minperiod', dict)
 
 
 class Lines:
