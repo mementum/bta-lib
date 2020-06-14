@@ -104,4 +104,4 @@ class crossover(_crossbase):
     _updown = 0
 
     def __init__(self):
-        self.o.crossover = self._cup - self._cdown
+        self.o.crossover = self._cup.astype(float) - self._cdown.astype(float)
