@@ -16,7 +16,7 @@ __all__ = [
 ]
 
 
-metadata.callstack = []  # keep indicators which are currently being executed
+metadata.register('callstack', list)  # keep indicators which are currently being executed
 
 
 _NAMES_IND = {}
