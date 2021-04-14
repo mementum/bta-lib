@@ -11,12 +11,12 @@ import setuptools
 # Some settings
 AUTHOR = 'Daniel Rodriguez'
 
-PACKAGENAME = 'btalib'
-PYPINAME = 'bta-lib'
+PACKAGENAME = 'btalib-reloaded'
+PYPINAME = 'bta-lib-reloaded'
 
 GITHUB_BASE = 'https://github.com'
-GITHUB_USER = 'mementum'
-GITHUB_NAME = 'bta-lib'
+GITHUB_USER = 'drhighliner'
+GITHUB_NAME = 'bta-lib-reloaded'
 
 LICENSE = 'MIT'
 
@@ -24,9 +24,9 @@ KEYWORDS = ['trading', 'development', 'backtesting', 'algotrading',
             'technical analysis']
 
 REQUIREMENTS = ['pandas']
-PYTHON_VERSION = '>=3.6'
+PYTHON_VERSION = '>=3.8'
 
-DESCRIPTION = 'bta-lib technical analysis library'
+DESCRIPTION = 'bta-lib-reloaded a fork of the original bta-lib'
 
 README = 'README.rst'
 VERSION_PY = 'version.py'
