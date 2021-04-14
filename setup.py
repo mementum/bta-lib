@@ -9,7 +9,7 @@ import os.path
 import setuptools
 
 # Some settings
-AUTHOR = 'Daniel Rodriguez'
+AUTHOR = 'bta-lib community'
 
 PACKAGENAME = 'btalib-reloaded'
 PYPINAME = 'bta-lib-reloaded'
@@ -23,7 +23,7 @@ LICENSE = 'MIT'
 KEYWORDS = ['trading', 'development', 'backtesting', 'algotrading',
             'technical analysis']
 
-REQUIREMENTS = ['pandas']
+REQUIREMENTS = ['pandas', 'numpy']
 PYTHON_VERSION = '>=3.8'
 
 DESCRIPTION = 'bta-lib-reloaded a fork of the original bta-lib'
