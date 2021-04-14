@@ -1,5 +1,7 @@
 ``bta-lib-reloaded`` - A ``fork`` based on the original *bta-lib*
 =============================================================
+.. image:: https://travis-ci.com/drhighliner/bta-lib-reloaded.svg?branch=master
+    :target: https://travis-ci.com/drhighliner/bta-lib-reloaded
 
 ``bta-lib`` is ``pandas`` based technical analysis library and part of the
 ``backtrader`` family.
