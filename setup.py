@@ -11,7 +11,7 @@ import setuptools
 # Some settings
 AUTHOR = 'Daniel Rodriguez'
 
-PACKAGENAME = 'btalib-reloaded-reloaded'
+PACKAGENAME = 'btalib-reloaded'
 PYPINAME = 'bta-lib-reloaded'
 
 GITHUB_BASE = 'https://github.com'
@@ -73,11 +73,10 @@ setuptools.setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 5 - Production/Stable',
+        'Development Status :: 3 - Alpha',
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
-        'Intended Audience :: Financial and Insurance Industry',
 
         # Indicate which Topics are covered by the package
         'Topic :: Software Development',
