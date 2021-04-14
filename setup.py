@@ -11,7 +11,7 @@ import setuptools
 # Some settings
 AUTHOR = 'Daniel Rodriguez'
 
-PACKAGENAME = 'btalib-reloaded'
+PACKAGENAME = 'btalib-reloaded-reloaded'
 PYPINAME = 'bta-lib-reloaded'
 
 GITHUB_BASE = 'https://github.com'
