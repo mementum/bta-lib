@@ -38,7 +38,7 @@ class kama(Indicator):
     exponentially weighted moving average uses a value which changes for each
     step of the calculation.
 
-    The standard seed is the simple moving average, use _seed=btalib.SEED_LAST
+    The standard seed is the simple moving average, use _seed=btalib-reloaded.SEED_LAST
     to apply the "last" known value of the input as the seed (for compatibility
     this can be simply `True` or `1`)
 

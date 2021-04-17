@@ -4,8 +4,15 @@
 # Copyright (C) 2020 Daniel Rodriguez
 # Use of this source code is governed by the MIT License
 ###############################################################################
-import threading
+import sys
 
-__all__ = ['metadata']
+__all__ = ['__version__', '__version_info__']
 
-metadata = threading.local()
+__version__ = '0.1'
+
+__version_info__ = tuple(int(x) for x in __version__.split('.'))
+
+
+_min_py_error = 'Python version >=3.8 is needed. The interpreter rerports {}'
+
+assert sys.version_info >= (3, 8), _min_py_error.format(sys.version)

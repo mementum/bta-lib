@@ -1,32 +1,22 @@
-``bta-lib`` - A ``pandas`` based *Technical Analysis Library*
+``bta-lib-reloaded`` - A ``fork`` based on the original *bta-lib*
 =============================================================
-
-.. image:: https://img.shields.io/pypi/v/bta-lib.svg
-   :alt: PyPi Version
-   :scale: 100%
-   :target: https://pypi.python.org/pypi/bta-lib/
-
-.. image:: https://img.shields.io/github/release/mementum/bta-lib.svg
-   :alt: Release
-   :scale: 100%
-   :target: https://github.com/mementum/bta-lib/releases/
+.. image:: https://travis-ci.com/drhighliner/bta-lib-reloaded.svg?branch=master
+    :target: https://travis-ci.com/drhighliner/bta-lib-reloaded
 
 ``bta-lib`` is ``pandas`` based technical analysis library and part of the
 ``backtrader`` family.
 
-Links
+Useful links:
 -----
-
-  - Main Page: https://btalib.backtrader.com/
+from the original bta-lib:
   - Documentation: https://btalib.backtrader.com/introduction/
-  - Community: https://community.backtrader.com/category/10/bta-lib
-  - GitHub Repo: https://github.com/mementum/bta-lib
+  - Original GitHub Repo: https://github.com/mementum/bta-lib
 
 Installation
 ------------
 
 Via ``pip``::
 
-  pip install bta-lib
+  pip install bta-lib-reloaded
 
-**Remember**: ``pandas`` is a requirement. Read the docs!!!
+**Remember**: ``pandas`` and ``numpy`` are requirements

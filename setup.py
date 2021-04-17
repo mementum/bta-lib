@@ -9,24 +9,24 @@ import os.path
 import setuptools
 
 # Some settings
-AUTHOR = 'Daniel Rodriguez'
+AUTHOR = 'bta-lib community'
 
-PACKAGENAME = 'btalib'
-PYPINAME = 'bta-lib'
+PACKAGENAME = 'btalib-reloaded'
+PYPINAME = 'bta-lib-reloaded'
 
 GITHUB_BASE = 'https://github.com'
-GITHUB_USER = 'mementum'
-GITHUB_NAME = 'bta-lib'
+GITHUB_USER = 'drhighliner'
+GITHUB_NAME = 'bta-lib-reloaded'
 
 LICENSE = 'MIT'
 
 KEYWORDS = ['trading', 'development', 'backtesting', 'algotrading',
             'technical analysis']
 
-REQUIREMENTS = ['pandas']
-PYTHON_VERSION = '>=3.6'
+REQUIREMENTS = ['pandas', 'numpy']
+PYTHON_VERSION = '>=3.8'
 
-DESCRIPTION = 'bta-lib technical analysis library'
+DESCRIPTION = 'bta-lib-reloaded a fork of the original bta-lib'
 
 README = 'README.rst'
 VERSION_PY = 'version.py'
@@ -73,11 +73,10 @@ setuptools.setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 5 - Production/Stable',
+        'Development Status :: 3 - Alpha',
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
-        'Intended Audience :: Financial and Insurance Industry',
 
         # Indicate which Topics are covered by the package
         'Topic :: Software Development',
