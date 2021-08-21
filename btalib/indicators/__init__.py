@@ -65,6 +65,7 @@ from .bbands import *  # noqa: F401 F403
 
 # Volatility
 from .atr import *  # noqa: F401 F403
+from .donchian import *
 
 # Momentum
 from .aroon import *  # noqa: F401 F403
